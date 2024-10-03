@@ -6,10 +6,10 @@ on:
       - master
   pull_request:
     branches:
-      - master
+      - '**'
 
 jobs:
-  build:
+  validate-build:
     runs-on: ubuntu-latest
 
     steps:
