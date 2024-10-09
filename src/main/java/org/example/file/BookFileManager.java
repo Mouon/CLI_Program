@@ -31,19 +31,21 @@ public class BookFileManager {
 
     /**
      * 이름으로 책 찾는 메서드
+     *
      * */
-    public Book loadBookByName(String bookName) {
+    public List<Book> loadBookListByName(String bookName) {
+        List<Book> bookList = new ArrayList<>();
         try {
             Scanner file = new Scanner(new File("src/main/resources/books.txt"));
             while (file.hasNext()) {
                 String str = file.nextLine();
                 String[] result = str.split("\t");
-                if(result[1].trim().equals(bookName)&&result[5].trim().equals("n")){
-                    return new Book(Long.parseLong(result[0].trim()), result[1].trim(), result[2].trim(),
-                            result[3].trim(),result[4].trim(),result[5].trim());
+                if(result[1].trim().equals(bookName)){
+                    bookList.add(new Book(Long.parseLong(result[0].trim()), result[1].trim(), result[2].trim(),
+                            result[3].trim(),result[4].trim(),result[5].trim()));
                 }
             }
-            return null;
+            return bookList;
         } catch (FileNotFoundException e) {
             System.out.println("해당 파일을 찾을 수 없습니다.");
             throw new RuntimeException();
