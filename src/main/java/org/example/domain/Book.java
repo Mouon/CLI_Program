@@ -17,6 +17,14 @@ public class Book {
         this.publishingYear = publishingYear;
         this.isCheckout = isCheckout;
     }
+    public Book(String bookName, String authorName,
+                String publishingHouse, String publishingYear, String isCheckout) {
+        this.bookName = bookName;
+        this.authorName = authorName;
+        this.publishingHouse = publishingHouse;
+        this.publishingYear = publishingYear;
+        this.isCheckout = isCheckout;
+    }
 
     public Long getBookId() {
         return bookId;

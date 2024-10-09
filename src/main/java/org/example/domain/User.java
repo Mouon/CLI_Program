@@ -1,13 +1,12 @@
 package org.example.domain;
 
 public class User {
-
-    private String userId;
     private String userType;
+    private String userId;
     private String password;
     private String userName;
 
-    public User(String userId, String userType, String password, String userName) {
+    public User(String userType, String userId, String password, String userName) {
         this.userId = userId;
         this.userType = userType;
         this.password = password;

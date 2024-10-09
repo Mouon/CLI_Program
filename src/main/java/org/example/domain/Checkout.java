@@ -2,15 +2,15 @@ package org.example.domain;
 
 import java.time.LocalDate;
 
-public class CheckOut {
+public class Checkout {
 
     private String userId;
-    private String bookId;
+    private Long bookId;
     private LocalDate checkoutDate;
     private LocalDate dueDate;
     private LocalDate returnDate;
 
-    public CheckOut(String userId, String bookId,
+    public Checkout(String userId, Long bookId,
                     LocalDate checkoutDate, LocalDate dueDate, LocalDate returnDate) {
         this.userId = userId;
         this.bookId = bookId;
@@ -27,11 +27,11 @@ public class CheckOut {
         this.userId = userId;
     }
 
-    public String getBookId() {
+    public Long getBookId() {
         return bookId;
     }
 
-    public void setBookId(String bookId) {
+    public void setBookId(Long bookId) {
         this.bookId = bookId;
     }
 
