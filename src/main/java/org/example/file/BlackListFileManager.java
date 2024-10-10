@@ -13,6 +13,9 @@ public class BlackListFileManager {
     public BlackListFileManager() {
     }
 
+    /**
+     * 전체 블랙리스트를 로드한다.
+     * */
     public List<BlackList> loadAllBlackList() {
         List<BlackList> blackLists = new ArrayList<>();
         try {
@@ -65,6 +68,9 @@ public class BlackListFileManager {
         }
     }
 
+    /**
+     * 블랙리스트를 삭제한다.
+     * */
     public void removeBlackList(BlackList removedBlackList){
         List<BlackList> blackLists = loadAllBlackList();
         boolean isUpdated = false;

@@ -17,6 +17,9 @@ public class CheckoutFileManager {
     public CheckoutFileManager() {
     }
 
+    /**
+     * 모든 체크아웃 리스트 업로드
+     * */
     public List<Checkout> loadCheckoutList() {
         List<Checkout> checkoutList = new ArrayList<>();
         try {
@@ -63,6 +66,9 @@ public class CheckoutFileManager {
         }
     }
 
+    /**
+     * 체크아웃 추가
+     * */
     public void addCheckout(Checkout checkout) {
         try {
             BufferedWriter writer = new BufferedWriter(new FileWriter(new File("src/main/resources/checkout.txt"), true));

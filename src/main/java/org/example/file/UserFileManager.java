@@ -11,6 +11,9 @@ public class UserFileManager {
     public UserFileManager() {
     }
 
+    /**
+     * 전체 유저를 로드한다.
+     * */
     public List<User> loadUserList() {
         List<User> userList = new ArrayList<>();
         try {

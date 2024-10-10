@@ -12,6 +12,9 @@ public class BookFileManager {
     public BookFileManager() {
     }
 
+    /**
+     * 전채 책 리스트를 로드한다.
+     * */
     public List<Book> loadBookList() {
         List<Book> bookList = new ArrayList<>();
         try {
@@ -96,7 +99,7 @@ public class BookFileManager {
     }
 
     /**
-     *
+     * 책 제거
      */
 
     public void removeBook(Book removedBook){
@@ -133,6 +136,9 @@ public class BookFileManager {
         }
     }
 
+    /**
+     * 책 정보를 업데이트함
+     * */
     public void updateBook(Book updatedBook) {
         List<Book> bookList = loadBookList();
         boolean isUpdated = false;
