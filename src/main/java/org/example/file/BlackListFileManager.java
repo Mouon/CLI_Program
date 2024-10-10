@@ -1,15 +1,18 @@
 package org.example.file;
 
 import org.example.domain.BlackList;
-import org.example.domain.Book;
 import org.example.domain.User;
 
 import java.io.*;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
 public class BlackListFileManager {
+    private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("yyyyMMdd");
+
     public BlackListFileManager() {
     }
 
@@ -23,7 +26,7 @@ public class BlackListFileManager {
             while (file.hasNext()) {
                 String str = file.nextLine();
                 String[] result = str.split("\t");
-                blackLists.add(new BlackList(result[0].trim(), Long.parseLong(result[1].trim())));
+                blackLists.add(new BlackList(result[0].trim(), LocalDate.parse(result[1].trim(),DATE_FORMATTER),LocalDate.parse(result[2].trim(),DATE_FORMATTER)));
             }
             return blackLists;
         } catch (FileNotFoundException e) {
@@ -33,7 +36,7 @@ public class BlackListFileManager {
     }
 
     /** @ 사용법 :
-     * blackListFileManager.loadBlackListByUserId("user1234").getOverDueDate()
+     * blackListFileManager.loadBlackListByUserId("user1234")
      * */
     public BlackList loadBlackListByUserId(String userId) {
         try {
@@ -42,10 +45,44 @@ public class BlackListFileManager {
                 String str = file.nextLine();
                 String[] result = str.split("\t");
                 if(result[0].trim().equals(userId)){
-                    return new BlackList(result[0].trim(), Long.parseLong(result[1].trim()));
+                    return new BlackList(result[0].trim(), LocalDate.parse(result[1].trim(),DATE_FORMATTER),LocalDate.parse(result[2].trim(),DATE_FORMATTER));
                 }
             }
             return null;
+        } catch (FileNotFoundException e) {
+            System.out.println("해당 파일을 찾을 수 없습니다.");
+            throw new RuntimeException();
+        }
+    }
+
+    /**
+     *   해당유저가 블랙리스트인지 boolean으로 반환
+     *
+     * @ 사용법 :
+     *         UserFileManager userFileManager = new UserFileManager();
+     *         BlackListFileManager blackListFileManager = new BlackListFileManager();
+     *         User user = userFileManager.loadUserById("hello123");
+     *         System.out.println(blackListFileManager.isBlackList(user, LocalDate.now()));
+     * */
+    public boolean isBlackList(User user, LocalDate localDate) {
+        try {
+            Scanner file = new Scanner(new File("src/main/resources/blacklist.txt"));
+            while (file.hasNext()) {
+                String str = file.nextLine();
+                String[] result = str.split("\t");
+                if(result[0].trim().equals(user.getUserId())){
+                    LocalDate startDate = LocalDate.parse(result[1].trim(), DATE_FORMATTER);
+                    LocalDate endDate = LocalDate.parse(result[2].trim(), DATE_FORMATTER);
+                    if ((localDate.isEqual(startDate) || localDate.isAfter(startDate))
+                            && (localDate.isEqual(endDate) || localDate.isBefore(endDate))) {
+                        return true;
+                    } else {
+                        System.out.println("로그인 날짜가 블랙리스트 기간에 포함되지 않습니다.");
+                        return false;
+                    }
+                }
+            }
+            return false;
         } catch (FileNotFoundException e) {
             System.out.println("해당 파일을 찾을 수 없습니다.");
             throw new RuntimeException();
@@ -56,8 +93,8 @@ public class BlackListFileManager {
         try {
             BufferedWriter writer = new BufferedWriter(new FileWriter(new File("src/main/resources/blacklist.txt"), true));
 
-            String userString = blackList.getUserId() + "\t" + blackList.getOverDueDate();
-            writer.write(userString);
+            String blackListString = blackList.getUserId() + "\t" + blackList.getStartDate()+ "\t" + blackList.getEndDate();
+            writer.write(blackListString);
             writer.newLine();
 
             writer.flush();
@@ -88,8 +125,8 @@ public class BlackListFileManager {
                 BufferedWriter writer = new BufferedWriter(new FileWriter(new File("src/main/resources/blacklist.txt")));
 
                 for (BlackList blackList : blackLists) {
-                    String userString = blackList.getUserId() + "\t" + blackList.getOverDueDate();
-                    writer.write(userString);
+                    String blackListString = blackList.getUserId() + "\t" + blackList.getStartDate()+ "\t" + blackList.getEndDate();
+                    writer.write(blackListString);
                     writer.newLine();
 
                     writer.flush();

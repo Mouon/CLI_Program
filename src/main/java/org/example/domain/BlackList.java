@@ -1,13 +1,17 @@
 package org.example.domain;
 
+import java.time.LocalDate;
+
 public class BlackList {
 
     private String userId;
-    private Long overDueDate;
+    private LocalDate startDate;
+    private LocalDate endDate;
 
-    public BlackList(String userId, Long overDueDate) {
+    public BlackList(String userId, LocalDate startDate, LocalDate endDate) {
         this.userId = userId;
-        this.overDueDate = overDueDate;
+        this.startDate = startDate;
+        this.endDate = endDate;
     }
 
     public String getUserId() {
@@ -18,11 +22,19 @@ public class BlackList {
         this.userId = userId;
     }
 
-    public Long getOverDueDate() {
-        return overDueDate;
+    public LocalDate getStartDate() {
+        return startDate;
     }
 
-    public void setOverDueDate(Long overDueDate) {
-        this.overDueDate = overDueDate;
+    public void setStartDate(LocalDate startDate) {
+        this.startDate = startDate;
+    }
+
+    public LocalDate getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(LocalDate endDate) {
+        this.endDate = endDate;
     }
 }
