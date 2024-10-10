@@ -26,7 +26,8 @@ public class BlackListFileManager {
             while (file.hasNext()) {
                 String str = file.nextLine();
                 String[] result = str.split("\t");
-                blackLists.add(new BlackList(result[0].trim(), LocalDate.parse(result[1].trim(),DATE_FORMATTER),LocalDate.parse(result[2].trim(),DATE_FORMATTER)));
+                blackLists.add(new BlackList(result[0].trim(), LocalDate.parse(result[1].trim(),DATE_FORMATTER)
+                        ,(result[2].trim().equals("null") ? null : LocalDate.parse(result[2].trim(),DATE_FORMATTER))));
             }
             return blackLists;
         } catch (FileNotFoundException e) {
@@ -45,7 +46,8 @@ public class BlackListFileManager {
                 String str = file.nextLine();
                 String[] result = str.split("\t");
                 if(result[0].trim().equals(userId)){
-                    return new BlackList(result[0].trim(), LocalDate.parse(result[1].trim(),DATE_FORMATTER),LocalDate.parse(result[2].trim(),DATE_FORMATTER));
+                    return new BlackList(result[0].trim(), LocalDate.parse(result[1].trim(),DATE_FORMATTER)
+                            ,(result[2].trim().equals("null") ? null : LocalDate.parse(result[2].trim(),DATE_FORMATTER)));
                 }
             }
             return null;
@@ -70,7 +72,7 @@ public class BlackListFileManager {
             while (file.hasNext()) {
                 String str = file.nextLine();
                 String[] result = str.split("\t");
-                if(result[0].trim().equals(user.getUserId())){
+                if(result[0].trim().equals(user.getUserId())&&result[2].trim().equals("null")){
                     LocalDate startDate = LocalDate.parse(result[1].trim(), DATE_FORMATTER);
                     LocalDate endDate = LocalDate.parse(result[2].trim(), DATE_FORMATTER);
                     if ((localDate.isEqual(startDate) || localDate.isAfter(startDate))
@@ -93,7 +95,9 @@ public class BlackListFileManager {
         try {
             BufferedWriter writer = new BufferedWriter(new FileWriter(new File("src/main/resources/blacklist.txt"), true));
 
-            String blackListString = blackList.getUserId() + "\t" + blackList.getStartDate()+ "\t" + blackList.getEndDate();
+            String blackListString = blackList.getUserId() + "\t"
+                    + blackList.getStartDate().format(DATE_FORMATTER)+ "\t"
+                    + (blackList.getEndDate() != null ? blackList.getEndDate().format(DATE_FORMATTER): "null");
             writer.write(blackListString);
             writer.newLine();
 
@@ -125,7 +129,9 @@ public class BlackListFileManager {
                 BufferedWriter writer = new BufferedWriter(new FileWriter(new File("src/main/resources/blacklist.txt")));
 
                 for (BlackList blackList : blackLists) {
-                    String blackListString = blackList.getUserId() + "\t" + blackList.getStartDate()+ "\t" + blackList.getEndDate();
+                    String blackListString = blackList.getUserId() + "\t"
+                            + blackList.getStartDate().format(DATE_FORMATTER)+ "\t"
+                            + (blackList.getEndDate().equals("null") ? blackList.getEndDate().format(DATE_FORMATTER): "null");
                     writer.write(blackListString);
                     writer.newLine();
 
