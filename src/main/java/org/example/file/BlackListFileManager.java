@@ -1,6 +1,7 @@
 package org.example.file;
 
 import org.example.domain.BlackList;
+import org.example.domain.Checkout;
 import org.example.domain.User;
 
 import java.io.*;
@@ -39,18 +40,19 @@ public class BlackListFileManager {
     /** @ 사용법 :
      * blackListFileManager.loadBlackListByUserId("user1234")
      * */
-    public BlackList loadBlackListByUserId(String userId) {
+    public List<BlackList> loadBlackListByUserId(String userId) {
         try {
+            List<BlackList> blackLists = new ArrayList<>();
             Scanner file = new Scanner(new File("src/main/resources/blacklist.txt"));
             while (file.hasNext()) {
                 String str = file.nextLine();
                 String[] result = str.split("\t");
                 if(result[0].trim().equals(userId)){
-                    return new BlackList(result[0].trim(), LocalDate.parse(result[1].trim(),DATE_FORMATTER)
-                            ,(result[2].trim().equals("null") ? null : LocalDate.parse(result[2].trim(),DATE_FORMATTER)));
+                    blackLists.add(new BlackList(result[0].trim(), LocalDate.parse(result[1].trim(),DATE_FORMATTER)
+                            ,(result[2].trim().equals("null") ? null : LocalDate.parse(result[2].trim(),DATE_FORMATTER))));
                 }
             }
-            return null;
+            return blackLists;
         } catch (FileNotFoundException e) {
             System.out.println("해당 파일을 찾을 수 없습니다.");
             throw new RuntimeException();
@@ -131,12 +133,10 @@ public class BlackListFileManager {
                 for (BlackList blackList : blackLists) {
                     String blackListString = blackList.getUserId() + "\t"
                             + blackList.getStartDate().format(DATE_FORMATTER)+ "\t"
-                            + (blackList.getEndDate().equals("null") ? blackList.getEndDate().format(DATE_FORMATTER): "null");
+                            + (blackList.getEndDate().equals("null") ? "null" : blackList.getEndDate().format(DATE_FORMATTER));
                     writer.write(blackListString);
                     writer.newLine();
 
-                    writer.flush();
-                    writer.close();
                 }
 
                 writer.flush();
@@ -147,6 +147,49 @@ public class BlackListFileManager {
             }
         } else {
             System.out.println("해당 블랙리스트를 찾을 수 없습니다.");
+        }
+    }
+
+
+    /**
+     * 체크아웃 업데이트
+     * @ 사용법 :
+     *         BlackListFileManager blackListFileManager = new BlackListFileManager();
+     *         BlackList blackList = blackListFileManager.loadBlackListByUserId("user1234");
+     *         blackList.setEndDate(LocalDate.now());
+     *         blackListFileManager.updateBlack(blackList);
+     *         System.out.println(blackList.getEndDate());
+     * */
+    public void updateBlack(BlackList updatedBlackList){
+        List<BlackList> blackLists = loadAllBlackList();
+        boolean isUpdated = false;
+
+        for (int i = 0; i < blackLists.size(); i++) {
+                blackLists.set(i, updatedBlackList);
+                isUpdated = true;
+                break;
+        }
+
+        if (isUpdated) {
+            try {
+                BufferedWriter writer = new BufferedWriter(new FileWriter(new File("src/main/resources/blacklist.txt")));
+
+                for (BlackList blackList : blackLists) {
+                    String blackListString = blackList.getUserId() + "\t"
+                            + blackList.getStartDate().format(DATE_FORMATTER)+ "\t"
+                            + (blackList.getEndDate().equals("null") ? "null" : blackList.getEndDate().format(DATE_FORMATTER));
+                    writer.write(blackListString);
+                    writer.newLine();
+                }
+
+                writer.flush();
+                writer.close();
+            } catch (IOException e) {
+                System.out.println("블랙리스트 정보 업데이트 중 오류가 발생했습니다.");
+                e.printStackTrace();
+            }
+        } else {
+            System.out.println("해당 파일을 찾을 수 없습니다.");
         }
     }
 }
