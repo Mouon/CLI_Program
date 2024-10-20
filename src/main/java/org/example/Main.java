@@ -3,7 +3,6 @@ package org.example;
 import org.example.controller.MainController;
 import org.example.dto.Model;
 import org.example.factory.MainFactory;
-import org.example.file.UserFileManager;
 
 /**
  * @ 프로그램의 시작점
@@ -14,6 +13,5 @@ public class Main {
         MainFactory mainFactory = new MainFactory();
         MainController mainController = mainFactory.mainController();
         mainController.init(new Model("/main", null)); // 초기화면으로 이동
-
     }
 }
