@@ -109,7 +109,6 @@ public class BookFileManager {
             writer.flush();
             writer.close();
         } catch (IOException e) {
-            System.out.println("도서 추가 중 오류가 발생했습니다.");
             e.printStackTrace();
         }
     }
@@ -145,7 +144,6 @@ public class BookFileManager {
                 writer.flush();
                 writer.close();
             } catch (IOException e) {
-                System.out.println("책 정보 업데이트 중 오류가 발생했습니다.");
                 e.printStackTrace();
             }
         } else {
@@ -184,11 +182,9 @@ public class BookFileManager {
                 writer.flush();
                 writer.close();
             } catch (IOException e) {
-                System.out.println("책 정보 업데이트 중 오류가 발생했습니다.");
                 e.printStackTrace();
             }
         } else {
-            System.out.println("해당 책 찾을 수 없습니다.");
         }
     }
 

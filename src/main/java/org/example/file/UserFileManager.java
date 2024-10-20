@@ -92,7 +92,6 @@ public class UserFileManager {
             writer.flush();
             writer.close();
         } catch (IOException e) {
-            System.out.println("유저 추가 중 오류가 발생했습니다.");
             e.printStackTrace();
         }
     }
@@ -132,7 +131,6 @@ public class UserFileManager {
                 writer.flush();
                 writer.close();
             } catch (IOException e) {
-                System.out.println("유저 정보 업데이트 중 오류가 발생했습니다.");
                 e.printStackTrace();
             }
         } else {
