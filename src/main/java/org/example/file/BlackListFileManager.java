@@ -11,6 +11,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+
+/**
+ * @class BlackListFileManager
+ * @description 블랙리스트 관련 파일 작업을 관리하는 클래스
+ *
+ * 이 클래스는 블랙리스트 데이터의 로드, 추가, 삭제, 업데이트 등의 기능을 제공합니다.
+ * 블랙리스트 정보는 파일 시스템에 저장되며, 이 클래스를 통해 관리됩니다.
+ */
 public class BlackListFileManager {
     private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("yyyyMMdd");
 
@@ -19,7 +27,9 @@ public class BlackListFileManager {
 
     /**
      * 전체 블랙리스트를 로드한다.
-     * */
+     *
+     * @return 모든 블랙리스트 항목을 포함하는 List
+     */
     public List<BlackList> loadAllBlackList() {
         List<BlackList> blackLists = new ArrayList<>();
         try {
@@ -37,9 +47,15 @@ public class BlackListFileManager {
         }
     }
 
-    /** @ 사용법 :
+    /**
+     * 특정 사용자 ID에 해당하는 블랙리스트를 로드한다.
+     *
+     * @param userId 조회할 사용자의 ID
+     * @return 해당 사용자의 블랙리스트 항목을 포함하는 List
+     *
+     * 사용 예:
      * blackListFileManager.loadBlackListByUserId("user1234")
-     * */
+     */
     public List<BlackList> loadBlackListByUserId(String userId) {
         try {
             List<BlackList> blackLists = new ArrayList<>();
@@ -60,14 +76,18 @@ public class BlackListFileManager {
     }
 
     /**
-     *   해당유저가 블랙리스트인지 boolean으로 반환
+     * 해당 사용자가 블랙리스트에 포함되어 있는지 확인한다.
      *
-     * @ 사용법 :
-     *         UserFileManager userFileManager = new UserFileManager();
-     *         BlackListFileManager blackListFileManager = new BlackListFileManager();
-     *         User user = userFileManager.loadUserById("hello123");
-     *         System.out.println(blackListFileManager.isBlackList(user, LocalDate.now()));
-     * */
+     * @param user 확인할 사용자 객체
+     * @param localDate 확인할 날짜
+     * @return 블랙리스트 포함 여부 (true: 포함, false: 미포함)
+     *
+     * 사용 예:
+     * UserFileManager userFileManager = new UserFileManager();
+     * BlackListFileManager blackListFileManager = new BlackListFileManager();
+     * User user = userFileManager.loadUserById("hello123");
+     * System.out.println(blackListFileManager.isBlackList(user, LocalDate.now()));
+     */
     public boolean isBlackList(User user, LocalDate localDate) {
         try {
             Scanner file = new Scanner(new File("src/main/resources/blacklist.txt"));
@@ -93,6 +113,12 @@ public class BlackListFileManager {
         }
     }
 
+    /**
+     * 새로운 블랙리스트 항목을 추가한다.
+     *
+     * @param blackList 추가할 BlackList 객체
+     */
+
     public void addBlackList(BlackList blackList) {
         try {
             BufferedWriter writer = new BufferedWriter(new FileWriter(new File("src/main/resources/blacklist.txt"), true));
@@ -112,8 +138,10 @@ public class BlackListFileManager {
     }
 
     /**
-     * 블랙리스트를 삭제한다.
-     * */
+     * 블랙리스트 항목을 삭제한다.
+     *
+     * @param removedBlackList 삭제할 BlackList 객체
+     */
     public void removeBlackList(BlackList removedBlackList){
         List<BlackList> blackLists = loadAllBlackList();
         boolean isUpdated = false;
@@ -152,14 +180,17 @@ public class BlackListFileManager {
 
 
     /**
-     * 체크아웃 업데이트
-     * @ 사용법 :
-     *         BlackListFileManager blackListFileManager = new BlackListFileManager();
-     *         BlackList blackList = blackListFileManager.loadBlackListByUserId("user1234");
-     *         blackList.setEndDate(LocalDate.now());
-     *         blackListFileManager.updateBlack(blackList);
-     *         System.out.println(blackList.getEndDate());
-     * */
+     * 블랙리스트 항목을 업데이트한다.
+     *
+     * @param updatedBlackList 업데이트할 BlackList 객체
+     *
+     * 사용 예:
+     * BlackListFileManager blackListFileManager = new BlackListFileManager();
+     * BlackList blackList = blackListFileManager.loadBlackListByUserId("user1234");
+     * blackList.setEndDate(LocalDate.now());
+     * blackListFileManager.updateBlack(blackList);
+     * System.out.println(blackList.getEndDate());
+     */
     public void updateBlack(BlackList updatedBlackList){
         List<BlackList> blackLists = loadAllBlackList();
         boolean isUpdated = false;
