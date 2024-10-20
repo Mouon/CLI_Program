@@ -101,7 +101,6 @@ public class BlackListFileManager {
                             && (localDate.isEqual(endDate) || localDate.isBefore(endDate))) {
                         return true;
                     } else {
-                        System.out.println("로그인 날짜가 블랙리스트 기간에 포함되지 않습니다.");
                         return false;
                     }
                 }
@@ -170,11 +169,9 @@ public class BlackListFileManager {
                 writer.flush();
                 writer.close();
             } catch (IOException e) {
-                System.out.println("블랙리스트 삭제 중 오류가 발생했습니다.");
                 e.printStackTrace();
             }
         } else {
-            System.out.println("해당 블랙리스트를 찾을 수 없습니다.");
         }
     }
 
@@ -216,7 +213,6 @@ public class BlackListFileManager {
                 writer.flush();
                 writer.close();
             } catch (IOException e) {
-                System.out.println("블랙리스트 정보 업데이트 중 오류가 발생했습니다.");
                 e.printStackTrace();
             }
         } else {

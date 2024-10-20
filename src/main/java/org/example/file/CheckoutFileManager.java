@@ -171,7 +171,6 @@ public class CheckoutFileManager {
                 writer.flush();
                 writer.close();
             } catch (IOException e) {
-                System.out.println("체크아웃 정보 업데이트 중 오류가 발생했습니다.");
                 e.printStackTrace();
             }
         } else {
