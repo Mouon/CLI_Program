@@ -2,7 +2,7 @@ package org.example.view;
 
 import org.example.domain.User;
 import org.example.dto.Model;
-import org.example.service.LoginService;
+import org.example.service.RegisterService;
 import org.example.service.validater.ValidationService;
 
 import java.util.Scanner;
@@ -10,11 +10,11 @@ import java.util.Scanner;
 public class HostRegisterView implements CustomView{
 
     private ValidationService validationService;
-    private LoginService loginService;
+    private RegisterService registerService;
 
-    public HostRegisterView(ValidationService validationService, LoginService loginService) {
+    public HostRegisterView(ValidationService validationService, RegisterService registerService) {
         this.validationService = validationService;
-        this.loginService = loginService;
+        this.registerService = registerService;
     }
 
     @Override
@@ -30,7 +30,7 @@ public class HostRegisterView implements CustomView{
             id = scan.nextLine();
         }
         //아이디에 중복되는 값이 있는지 확인
-        if (loginService.checkIdAlreadyExist(id)) {
+        if (registerService.UseridExists(id)) {
             System.out.println("이미 존재하는 아이디입니다.");
             System.out.print("아이디 >>>");
             id = scan.nextLine();
@@ -52,7 +52,7 @@ public class HostRegisterView implements CustomView{
         }
 
         User user = new User("관리자", id, password, name);
-        loginService.registerNewUser(user);
+        registerService.hostRegister(user);
         System.out.println("====== 회원가입 성공 ======");
         return new Model("/main", null); //초기화면으로 돌아감
     }

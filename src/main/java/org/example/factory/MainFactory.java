@@ -1,6 +1,5 @@
 package org.example.factory;
 
-import org.example.Main;
 import org.example.controller.CustomController;
 import org.example.controller.HomeController;
 import org.example.controller.MainController;
@@ -9,7 +8,7 @@ import org.example.file.BlackListFileManager;
 import org.example.file.BookFileManager;
 import org.example.file.CheckoutFileManager;
 import org.example.file.UserFileManager;
-import org.example.service.LoginService;
+import org.example.service.RegisterService;
 import org.example.service.validater.ValidationService;
 import org.example.view.*;
 
@@ -95,8 +94,8 @@ public class MainFactory {
         return new ValidationService();
     }
 
-    public LoginService loginService(){
-        return new LoginService(userFileManager());
+    public RegisterService registerService(){
+        return new RegisterService(userFileManager());
     }
 
 
@@ -112,10 +111,10 @@ public class MainFactory {
     }
 
     public UserRegisterView userRegisterView(){
-        return new UserRegisterView(validationService(),loginService());
+        return new UserRegisterView(validationService(),registerService());
     }
     public HostRegisterView hostRegisterView(){
-        return new HostRegisterView(validationService(),loginService());
+        return new HostRegisterView(validationService(),registerService());
     }
 
     /**
