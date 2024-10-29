@@ -9,6 +9,7 @@ public class UserLoginView implements CustomView{
     public Model begin(Model model) {
         Scanner scan = new Scanner(System.in);
         System.out.print();
+
     }
 
     @Override
