@@ -1,13 +1,10 @@
 package org.example.view;
 
-import jdk.jshell.Snippet;
 import org.example.dto.Model;
 
-import java.time.LocalDate;
-import java.util.Locale;
 import java.util.Scanner;
 
-public class UserDateView implements CustomView{
+public class HostDateView implements CustomView{
     @Override
     public Model begin(Model model) {
         Scanner scan = new Scanner(System.in);
@@ -16,7 +13,7 @@ public class UserDateView implements CustomView{
             System.out.print(">>>");
             String input = scan.nextLine();
             if(){
-                return new Model("/login/user", input);
+                return new Model("/login/host", input);
             }else{
                 System.out.println("올바르지 않은 날짜 형식 입니다.");
             }
@@ -25,6 +22,6 @@ public class UserDateView implements CustomView{
 
     @Override
     public String getUri() {
-        return "/login/userdate";
+        return "/login/hostdate";
     }
 }

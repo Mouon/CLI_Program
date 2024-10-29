@@ -17,7 +17,6 @@ public class ValidationService {
      * @return 규칙에 부합하면 해당 숫자(Integer), 않으면 NULL
      * */
     public Integer numberInputValidation(String input){
-
         try {
             input=input.trim();
             String[] str = input.split(" ");
