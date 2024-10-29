@@ -4,6 +4,10 @@ import org.example.Main;
 import org.example.controller.CustomController;
 import org.example.controller.HomeController;
 import org.example.controller.MainController;
+import org.example.file.BlackListFileManager;
+import org.example.file.BookFileManager;
+import org.example.file.CheckoutFileManager;
+import org.example.file.UserFileManager;
 import org.example.service.validater.ValidationService;
 import org.example.view.CustomView;
 import org.example.view.HomeView;
@@ -90,4 +94,46 @@ public class MainFactory {
     public HomeView homeView() {
         return new HomeView(validationService());
     }
+
+    /**
+     * ====== FileManager ======
+     */
+
+    /**
+     * @description UserFileManager 인스턴스를 생성하고 반환합니다.
+     *
+     * @return UserFileManager 인스턴스
+     */
+    public UserFileManager userFileManager(){
+        return new UserFileManager();
+    }
+
+    /**
+     * @description CheckoutFileManager 인스턴스를 생성하고 반환합니다.
+     *
+     * @return CheckoutFileManager 인스턴스
+     */
+    public CheckoutFileManager checkoutFileManager(){
+        return new CheckoutFileManager();
+    }
+
+    /**
+     * @description BookFileManager 인스턴스를 생성하고 반환합니다.
+     *
+     * @return BookFileManager 인스턴스
+     */
+    public BookFileManager bookFileManager(){
+        return new BookFileManager();
+    }
+
+    /**
+     * @description BlackListFileManager 인스턴스를 생성하고 반환합니다.
+     *
+     * @return BlackListFileManager 인스턴스
+     */
+    public BlackListFileManager blackListFileManager(){
+        return new BlackListFileManager();
+    }
+
+
 }
