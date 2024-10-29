@@ -1,25 +1,26 @@
 package org.example.dto;
 
-import java.lang.reflect.Member;
+import org.example.domain.User;
+
 import java.time.LocalDate;
 
 public class LoginMember {
-    private static Member member;
-    private static LocalDate time;
+    private static User user;
+    private static LocalDate loginTime;
 
-    public static Member getInstance() {
-        if (member == null) {
+    public static User getInstance() {
+        if (user == null) {
             throw new IllegalStateException("Member not registered");
         }
-        return member;
+        return user;
     }
 
-    public static LocalDate getTime() {
-        return time;
+    public static LocalDate getLoginTime() {
+        return loginTime;
     }
 
-    public static void setMember(Member memberIn, LocalDate timeIn) {
-        member = memberIn;
-        time = timeIn;
+    public static void setUser(User userIn, LocalDate timeIn) {
+        user = userIn;
+        loginTime = timeIn;
     }
 }

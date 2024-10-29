@@ -4,6 +4,7 @@ import org.example.Main;
 import org.example.controller.CustomController;
 import org.example.controller.HomeController;
 import org.example.controller.MainController;
+import org.example.service.validater.ValidationService;
 import org.example.view.CustomView;
 import org.example.view.HomeView;
 import java.util.ArrayList;
@@ -71,6 +72,13 @@ public class MainFactory {
     }
 
     /**
+     * ===== SERVICE =====
+     */
+    public ValidationService validationService(){
+        return new ValidationService();
+    }
+
+    /**
      * ====== VIEWS ======
      */
 
@@ -80,6 +88,6 @@ public class MainFactory {
      * @return HomeView 인스턴스
      */
     public HomeView homeView() {
-        return new HomeView();
+        return new HomeView(validationService());
     }
 }
