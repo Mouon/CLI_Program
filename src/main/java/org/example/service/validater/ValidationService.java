@@ -117,4 +117,32 @@ public class ValidationService {
         }
     }
 
+    /**
+     * @class ValidationService
+     * @description 메뉴 입력 규칙
+     * @return_1 x관련 입력일때 : X(대문자),
+     * @return_2 나머지 정상 입력 : 입력값(String),
+     * @return_2 입력이 잘못되었을때 : false(String)
+     */
+    public String menuInputValidation(String input){
+        try {
+            input=input.trim();
+            if (input.equals("x")||input.equals("X")) {
+                return input.toUpperCase();
+            }
+            else{
+                String[] str = input.split(" ");
+                if(str.length>1){
+                    return "false";
+                }
+                if(str[0].startsWith("00")){
+                    return "false";
+                }
+                return String.valueOf(Integer.parseInt(str[0]));
+            }
+        }catch (Exception e){
+            return "false";
+        }
+    }
+
 }
