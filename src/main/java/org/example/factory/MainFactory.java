@@ -1,9 +1,6 @@
 package org.example.factory;
 
-import org.example.controller.CustomController;
-import org.example.controller.HomeController;
-import org.example.controller.MainController;
-import org.example.controller.RegisterController;
+import org.example.controller.*;
 import org.example.file.BlackListFileManager;
 import org.example.file.BookFileManager;
 import org.example.file.CheckoutFileManager;
@@ -42,6 +39,7 @@ public class MainFactory {
         List<CustomController> controllers = new ArrayList<>();
         controllers.add(HomeController());
         controllers.add(registerController());
+        controllers.add(loginController());
         return controllers;
     }
 
@@ -60,6 +58,9 @@ public class MainFactory {
         return new RegisterController(RegisterList());
     }
 
+    public LoginController loginController(){
+        return new LoginController(LoginList());
+    }
     /**
      * ====== VIEW -> LIST ======
      */
@@ -87,6 +88,17 @@ public class MainFactory {
         return registerViewArray;
     }
 
+    public List<CustomView> LoginList(){
+        List<CustomView> loginViewArray = new ArrayList<>();
+        // view 추가 시작
+        loginViewArray.add(registerView());
+        loginViewArray.add(userRegisterView());
+        loginViewArray.add(hostRegisterView());
+        // view 추가 종료
+
+        return loginViewArray;
+    }
+
     /**
      * ===== SERVICE =====
      */
@@ -98,6 +110,10 @@ public class MainFactory {
         return new RegisterService(userFileManager());
     }
 
+    public LoginService loginService(){
+        return new LoginService(userFileManager());
+    }
+
 
     /**
      * ====== VIEWS ======
@@ -105,17 +121,34 @@ public class MainFactory {
     public HomeView homeView() {
         return new HomeView(validationService());
     }
-
+    // 회원가입 관련 뷰 모음
     public RegisterView registerView(){
         return new RegisterView(validationService());
     }
-
     public UserRegisterView userRegisterView(){
         return new UserRegisterView(validationService(),registerService());
     }
     public HostRegisterView hostRegisterView(){
         return new HostRegisterView(validationService(),registerService());
     }
+
+    // 로그인 관련 뷰 모음
+    public MemberLoginView memberLoginView(){
+        return new MemberLoginView(validationService());
+    }
+    public UserDateView userDateView(){
+        return new UserDateView(validationService());
+    }
+    public HostDateView hostDateView(){
+        return new HostDateView(validationService());
+    }
+    public UserLoginView userLoginView(){
+        return new UserLoginView(validationService(), loginService());
+    }
+    public HostLoginView hostLoginView(){
+        return new HostLoginView(validationService(), loginService());
+    }
+
 
     /**
      * ====== FileManager ======

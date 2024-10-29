@@ -1,22 +1,32 @@
 package org.example.view;
 
-import jdk.jshell.Snippet;
 import org.example.dto.Model;
+import org.example.service.validater.ValidationService;
 
 import java.time.LocalDate;
-import java.util.Locale;
 import java.util.Scanner;
 
 public class UserDateView implements CustomView{
+    public ValidationService validationService;
+
+    public UserDateView(ValidationService validationService) {
+        this.validationService = validationService;
+    }
+
     @Override
     public Model begin(Model model) {
         Scanner scan = new Scanner(System.in);
         System.out.println("날짜를 입력하세요.\n(뒤로 가려면 x를 입력하세요.)");
         while(true){
             System.out.print(">>>");
-            String input = scan.nextLine();
-            if(){
-                return new Model("/login/user", input);
+            String input = scan.nextLine().trim();
+            if(input.equals("X") || input.equals("x")){
+                return new Model("/login", null); // 뒤로 가기 들어오면 뒤로가기
+            }
+
+            LocalDate inputDate = validationService.dateInputValidation(input);
+            if(inputDate != null){
+                return new Model("/login/user", inputDate);
             }else{
                 System.out.println("올바르지 않은 날짜 형식 입니다.");
             }
