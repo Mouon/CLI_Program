@@ -34,10 +34,10 @@ public class RegisterView implements CustomView{
             switch (choice){
                 case "1":
                     System.out.println("==== 사용자 회원가입 ====");
-                    return new Model("/login/register/user",null);
+                    return new Model("/register/user",null);
                 case "2":
                     System.out.println("==== 관리자 회원가입 ====");
-                    return new Model("login/register/host",null);
+                    return new Model("/register/host",null);
                 default:
                     System.out.println("올바르지 않은 입력입니다.");
             }

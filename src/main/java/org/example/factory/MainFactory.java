@@ -4,13 +4,15 @@ import org.example.Main;
 import org.example.controller.CustomController;
 import org.example.controller.HomeController;
 import org.example.controller.MainController;
+import org.example.controller.RegisterController;
 import org.example.file.BlackListFileManager;
 import org.example.file.BookFileManager;
 import org.example.file.CheckoutFileManager;
 import org.example.file.UserFileManager;
+import org.example.service.LoginService;
 import org.example.service.validater.ValidationService;
-import org.example.view.CustomView;
-import org.example.view.HomeView;
+import org.example.view.*;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,7 +29,6 @@ public class MainFactory {
 
     /**
      * 메인 컨트롤러를 생성하고 반환합니다.
-     *
      * @return MainController 인스턴스
      */
     public MainController mainController() {
@@ -36,12 +37,12 @@ public class MainFactory {
 
     /**
      * 모든 커스텀 컨트롤러의 리스트를 생성하고 반환합니다.
-     *
      * @return CustomController 객체들의 List
      */
     public List<CustomController> controllerList() {
         List<CustomController> controllers = new ArrayList<>();
         controllers.add(HomeController());
+        controllers.add(registerController());
         return controllers;
     }
 
@@ -51,11 +52,13 @@ public class MainFactory {
 
     /**
      * HomeController 인스턴스를 생성하고 반환합니다.
-     *
      * @return HomeController 인스턴스
      */
     public HomeController HomeController() {
         return new HomeController(HomeViewList());
+    }
+    public RegisterController registerController() {
+        return new RegisterController(RegisterList());
     }
 
     /**
@@ -64,7 +67,6 @@ public class MainFactory {
 
     /**
      * Home 관련 뷰들의 리스트를 생성하고 반환합니다.
-     *
      * @return CustomView 객체들의 List
      */
     public List<CustomView> HomeViewList() {
@@ -75,6 +77,17 @@ public class MainFactory {
         return HomeViewArray;
     }
 
+    public List<CustomView> RegisterList(){
+        List<CustomView> registerViewArray = new ArrayList<>();
+        // view 추가 시작
+        registerViewArray.add(registerView());
+        registerViewArray.add(userRegisterView());
+        registerViewArray.add(hostRegisterView());
+        // view 추가 종료
+
+        return registerViewArray;
+    }
+
     /**
      * ===== SERVICE =====
      */
@@ -82,17 +95,27 @@ public class MainFactory {
         return new ValidationService();
     }
 
+    public LoginService loginService(){
+        return new LoginService(userFileManager());
+    }
+
+
     /**
      * ====== VIEWS ======
      */
-
-    /**
-     * HomeView 인스턴스를 생성하고 반환합니다.
-     *
-     * @return HomeView 인스턴스
-     */
     public HomeView homeView() {
         return new HomeView(validationService());
+    }
+
+    public RegisterView registerView(){
+        return new RegisterView(validationService());
+    }
+
+    public UserRegisterView userRegisterView(){
+        return new UserRegisterView(validationService(),loginService());
+    }
+    public HostRegisterView hostRegisterView(){
+        return new HostRegisterView(validationService(),loginService());
     }
 
     /**
@@ -101,7 +124,6 @@ public class MainFactory {
 
     /**
      * @description UserFileManager 인스턴스를 생성하고 반환합니다.
-     *
      * @return UserFileManager 인스턴스
      */
     public UserFileManager userFileManager(){
@@ -110,7 +132,6 @@ public class MainFactory {
 
     /**
      * @description CheckoutFileManager 인스턴스를 생성하고 반환합니다.
-     *
      * @return CheckoutFileManager 인스턴스
      */
     public CheckoutFileManager checkoutFileManager(){
@@ -119,7 +140,6 @@ public class MainFactory {
 
     /**
      * @description BookFileManager 인스턴스를 생성하고 반환합니다.
-     *
      * @return BookFileManager 인스턴스
      */
     public BookFileManager bookFileManager(){
@@ -128,7 +148,6 @@ public class MainFactory {
 
     /**
      * @description BlackListFileManager 인스턴스를 생성하고 반환합니다.
-     *
      * @return BlackListFileManager 인스턴스
      */
     public BlackListFileManager blackListFileManager(){
