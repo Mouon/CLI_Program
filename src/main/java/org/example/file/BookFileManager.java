@@ -32,7 +32,7 @@ public class BookFileManager {
                 String str = file.nextLine();
                 String[] result = str.split("\t");
                 bookList.add(new Book(Long.parseLong(result[0].trim()), result[1].trim(), result[2].trim(),
-                        result[3].trim(),result[4].trim(),result[5].trim()));
+                        result[3].trim(),result[4].trim(),result[5].trim(),result[6].trim()));
             }
             return bookList;
         } catch (FileNotFoundException e) {
@@ -56,7 +56,7 @@ public class BookFileManager {
                 String[] result = str.split("\t");
                 if(result[1].trim().equals(bookName)){
                     bookList.add(new Book(Long.parseLong(result[0].trim()), result[1].trim(), result[2].trim(),
-                            result[3].trim(),result[4].trim(),result[5].trim()));
+                            result[3].trim(),result[4].trim(),result[5].trim(),result[6].trim()));
                 }
             }
             return bookList;
@@ -80,7 +80,7 @@ public class BookFileManager {
                 String[] result = str.split("\t");
                 if(Long.parseLong(result[0].trim())==bookId){
                     return new Book(Long.parseLong(result[0].trim()), result[1].trim(), result[2].trim(),
-                            result[3].trim(),result[4].trim(),result[5].trim());
+                            result[3].trim(),result[4].trim(),result[5].trim(),result[6].trim());
                 }
             }
             return null;
@@ -101,7 +101,8 @@ public class BookFileManager {
             BufferedWriter writer = new BufferedWriter(new FileWriter(new File("src/main/resources/books.txt"), true));
 
             String bookString =  bookId + "\t" + book.getBookName() + "\t" + book.getAuthorName() + "\t"
-                    + book.getPublishingHouse()+"\t" + book.getPublishingYear()+"\t" + book.getIsCheckout();
+                    + book.getPublishingHouse()+"\t" + book.getPublishingYear()+"\t" + book.getIsCheckout() +
+                    "\t" + book.getISBN();
 
             writer.write(bookString);
             writer.newLine();
@@ -136,7 +137,8 @@ public class BookFileManager {
 
                 for (Book book : bookList) {
                     String bookString =  book.getBookId() + "\t" + book.getBookName() + "\t" + book.getAuthorName() + "\t"
-                            + book.getPublishingHouse()+"\t" + book.getPublishingYear()+"\t" + book.getIsCheckout();
+                            + book.getPublishingHouse()+"\t" + book.getPublishingYear()+"\t" + book.getIsCheckout() +
+                            "\t" + book.getISBN();
                     writer.write(bookString);
                     writer.newLine();
                 }
@@ -174,7 +176,8 @@ public class BookFileManager {
 
                 for (Book book : bookList) {
                     String bookString =  book.getBookId() + "\t" + book.getBookName() + "\t" + book.getAuthorName() + "\t"
-                            + book.getPublishingHouse()+"\t" + book.getPublishingYear()+"\t" + book.getIsCheckout();
+                            + book.getPublishingHouse()+"\t" + book.getPublishingYear()+"\t" + book.getIsCheckout() +
+                            "\t" + book.getISBN();
                     writer.write(bookString);
                     writer.newLine();
                 }

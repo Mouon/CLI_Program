@@ -7,23 +7,27 @@ public class Book {
     private String publishingHouse;
     private String publishingYear;
     private String isCheckout;
+    private String ISBN;
 
     public Book(Long bookId, String bookName, String authorName,
-                String publishingHouse, String publishingYear, String isCheckout) {
+                String publishingHouse, String publishingYear, String isCheckout,String ISBN) {
         this.bookId = bookId;
         this.bookName = bookName;
         this.authorName = authorName;
         this.publishingHouse = publishingHouse;
         this.publishingYear = publishingYear;
         this.isCheckout = isCheckout;
+        this.ISBN=ISBN;
     }
+
     public Book(String bookName, String authorName,
-                String publishingHouse, String publishingYear, String isCheckout) {
+                String publishingHouse, String publishingYear, String isCheckout, String ISBN) {
         this.bookName = bookName;
         this.authorName = authorName;
         this.publishingHouse = publishingHouse;
         this.publishingYear = publishingYear;
         this.isCheckout = isCheckout;
+        this.ISBN=ISBN;
     }
 
     public Long getBookId() {
@@ -72,5 +76,12 @@ public class Book {
 
     public void setIsCheckout(String isCheckout) {
         this.isCheckout = isCheckout;
+    }
+    public String getISBN() {
+        return ISBN;
+    }
+
+    public void setISBN(String ISBN) {
+        this.ISBN = ISBN;
     }
 }
