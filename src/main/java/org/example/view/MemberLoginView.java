@@ -23,7 +23,7 @@ public class MemberLoginView implements CustomView{
                 "(뒤로 가려면 x 를 입력하세요.)");
         while(true){
             System.out.print(">>>");
-            String choice = String.valueOf(validationService.numberInputValidation(input));
+            String choice = validationService.menuInputValidation(input);
             switch (choice){
                 case "1":
                     System.out.println("====== 사용자 로그인 ======");
@@ -31,8 +31,8 @@ public class MemberLoginView implements CustomView{
                 case "2":
                     System.out.println("====== 관리자 로그인 ======");
                     return new Model("/login/hostdate",null);
-                case "null":
-                    System.out.println("올바르지 않은 입력입니다.");
+                case "X":
+                    return new Model("/main", null);
                 default:
                     System.out.println("올바르지 않은 입력입니다.");
             }
