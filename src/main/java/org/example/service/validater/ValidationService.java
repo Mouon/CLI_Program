@@ -17,7 +17,6 @@ public class ValidationService {
      * @return 규칙에 부합하면 해당 숫자(Integer), 않으면 NULL
      * */
     public Integer numberInputValidation(String input){
-
         try {
             input=input.trim();
             String[] str = input.split(" ");
@@ -115,6 +114,85 @@ public class ValidationService {
             }
         }catch (Exception e){
             return "false";
+        }
+    }
+
+    /**
+     * @class ValidationService
+     * @description 메뉴 입력 규칙
+     * @return_1 x관련 입력일때 : X(대문자),
+     * @return_2 나머지 정상 입력 : 입력값(String),
+     * @return_2 입력이 잘못되었을때 : false(String)
+     */
+    public String menuInputValidation(String input){
+        try {
+            input=input.trim();
+            if (input.equals("x")||input.equals("X")) {
+                return input.toUpperCase();
+            }
+            else{
+                String[] str = input.split(" ");
+                if(str.length>1){
+                    return "false";
+                }
+                if(str[0].startsWith("00")){
+                    return "false";
+                }
+                return String.valueOf(Integer.parseInt(str[0]));
+            }
+        }catch (Exception e){
+            return "false";
+        }
+    }
+
+    /**
+     * 사용자 이름 입력규칙
+     */
+    public boolean nameValidation(String input){
+        input = input.trim();
+        // 중간 공백 체크
+        if (input.contains(" ")) {
+            return false;
+        }
+        if (!input.matches("^[가-힣]+$")) {
+            return false; // 한글이 아닌게 있는지 확인
+        }
+        return true;
+    }
+
+    /**
+     * 저자명 입력 규칙
+     */
+    public String authorInputValidation(String input){
+        input = input.trim().replaceAll("\\s+", " "); // 앞뒤 공백 제거 + 연속된 공백을 하나의 공백으로 변환
+        String asciiPattern = "^[\\x20-\\x7E]+$"; // 영문, 숫자, 특수기호 허용
+        if (!input.matches(asciiPattern)) {
+            return "false"; // 입력규칙에 맞지 않은 경우
+        }
+        return input;
+    }
+
+    /**
+     * 출판사명 입력 규칙
+     */
+    public String publisherInputValidation(String input){
+        input = input.trim().replaceAll("\\s+", " "); // 앞뒤 공백 제거 + 연속된 공백을 하나의 공백으로 변환
+        String asciiPattern = "^[\\x20-\\x7E]+$"; // 영문, 숫자, 특수기호 허용
+        if (!input.matches(asciiPattern) || input.equals("x") || input.equals("X")) {
+            return "false"; // 입력규칙에 맞지 않거나, x 류의 글자가 들어온 경우 false 반환
+        }
+        return input;
+    }
+
+    /**
+     * 책 제목 입력 규칙
+     */
+    public String BookNameValidation(String input){
+        input = input.trim().replaceAll("\\s+", " "); // 앞뒤 공백 제거 + 연속된 공백을 하나의 공백으로 변환
+        if(input.equals("x") || input.equals("X")){
+            return "false";
+        }else{
+            return input;
         }
     }
 
