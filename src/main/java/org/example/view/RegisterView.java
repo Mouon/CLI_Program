@@ -39,11 +39,10 @@ public class RegisterView implements CustomView{
                     System.out.println("==== 관리자 회원가입 ====");
                     return new Model("/register/host",null);
                 case "X":
-                    return new Model("/register", null);
+                    return new Model("/main", null);
                 default:
                     System.out.println("올바르지 않은 입력입니다.");
             }
-            return null;
         }
     }
 

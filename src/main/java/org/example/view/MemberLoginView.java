@@ -16,13 +16,13 @@ public class MemberLoginView implements CustomView{
     @Override
     public Model begin(Model model) {
         Scanner scan = new Scanner(System.in);
-        String input = scan.nextLine();
         System.out.println("====== 로그인 ======\n" +
                 "1. 사용자 로그인\n" +
                 "2. 관리자 로그인\n" +
                 "(뒤로 가려면 x 를 입력하세요.)");
         while(true){
             System.out.print(">>>");
+            String input = scan.nextLine();
             String choice = validationService.menuInputValidation(input);
             switch (choice){
                 case "1":
