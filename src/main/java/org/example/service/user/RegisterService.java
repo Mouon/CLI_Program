@@ -1,4 +1,4 @@
-package org.example.service;
+package org.example.service.user;
 
 import org.example.domain.User;
 import org.example.file.UserFileManager;

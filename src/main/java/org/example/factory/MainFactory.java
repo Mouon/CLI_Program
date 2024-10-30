@@ -5,7 +5,8 @@ import org.example.file.BlackListFileManager;
 import org.example.file.BookFileManager;
 import org.example.file.CheckoutFileManager;
 import org.example.file.UserFileManager;
-import org.example.service.RegisterService;
+import org.example.service.user.LoginService;
+import org.example.service.user.RegisterService;
 import org.example.service.validater.ValidationService;
 import org.example.view.*;
 
@@ -91,9 +92,11 @@ public class MainFactory {
     public List<CustomView> LoginList(){
         List<CustomView> loginViewArray = new ArrayList<>();
         // view 추가 시작
-        loginViewArray.add(registerView());
-        loginViewArray.add(userRegisterView());
-        loginViewArray.add(hostRegisterView());
+        loginViewArray.add(memberLoginView());
+        loginViewArray.add(userDateView());
+        loginViewArray.add(hostDateView());
+        loginViewArray.add(userLoginView());
+        loginViewArray.add(hostLoginView());
         // view 추가 종료
 
         return loginViewArray;

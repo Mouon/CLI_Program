@@ -24,7 +24,7 @@ public class RegisterView implements CustomView{
         while(true){
             System.out.print(">>>");
             String input = scan.nextLine();
-            String choice = String.valueOf(validationService.numberInputValidation(input));
+            String choice = validationService.menuInputValidation(input);
 
             if(choice==null){
                 System.out.println("올바르지 않은 입력입니다.");
@@ -38,6 +38,8 @@ public class RegisterView implements CustomView{
                 case "2":
                     System.out.println("==== 관리자 회원가입 ====");
                     return new Model("/register/host",null);
+                case "X":
+                    return new Model("/register", null);
                 default:
                     System.out.println("올바르지 않은 입력입니다.");
             }

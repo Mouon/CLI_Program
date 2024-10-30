@@ -2,7 +2,7 @@ package org.example.view;
 
 import org.example.domain.User;
 import org.example.dto.Model;
-import org.example.service.RegisterService;
+import org.example.service.user.RegisterService;
 import org.example.service.validater.ValidationService;
 
 import java.util.Scanner;
