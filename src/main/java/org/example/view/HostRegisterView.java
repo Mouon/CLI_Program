@@ -23,32 +23,32 @@ public class HostRegisterView implements CustomView{
         String id, password, name;
 
         System.out.print("아이디 >>>");
-        id = scan.nextLine();
+        id = scan.nextLine().trim();
         while (!validationService.idInputValidation(id)) {
             System.out.println("올바르지 않은 입력입니다.");
             System.out.print("아이디 >>>");
-            id = scan.nextLine();
+            id = scan.nextLine().trim();
         }
         //아이디에 중복되는 값이 있는지 확인
         if (registerService.UseridExists(id)) {
             System.out.println("이미 존재하는 아이디입니다.");
             System.out.print("아이디 >>>");
-            id = scan.nextLine();
+            id = scan.nextLine().trim();
         }
 
         System.out.print("비밀번호 >>>");
-        password = scan.nextLine();
+        password = scan.nextLine().trim();
         while (!validationService.pwInputValidation(password)) {
             System.out.println("올바르지 않은 입력입니다.");
             System.out.print("비밀번호 >>>");
-            password = scan.nextLine();
+            password = scan.nextLine().trim();
         }
         System.out.print("이름 >>>");
-        name = scan.nextLine();
+        name = scan.nextLine().trim();
         while (!validationService.nameValidation(name)) {
             System.out.println("올바르지 않은 입력입니다.");
             System.out.print("이름 >>>");
-            name = scan.nextLine();
+            name = scan.nextLine().trim();
         }
 
         User user = new User("관리자", id, password, name);

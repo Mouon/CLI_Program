@@ -28,19 +28,19 @@ public class HostLoginView implements CustomView{
 
         while(true){
             System.out.print("아이디 >>>");
-            id = scan.nextLine();
+            id = scan.nextLine().trim();
             while (!validationService.idInputValidation(id)) {
                 System.out.println("올바르지 않은 형식입니다.");
                 System.out.print("아이디 >>>");
-                id = scan.nextLine();
+                id = scan.nextLine().trim();
             }
 
             System.out.print("비밀번호 >>>");
-            password = scan.nextLine();
+            password = scan.nextLine().trim();
             while (!validationService.pwInputValidation(password)) {
                 System.out.println("올바르지 않은 형식입니다.");
                 System.out.print("비밀번호 >>>");
-                password = scan.nextLine();
+                password = scan.nextLine().trim();
             }
 
             if(!loginService.userExists(id,password)){

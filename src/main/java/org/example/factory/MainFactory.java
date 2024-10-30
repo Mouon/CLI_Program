@@ -41,6 +41,7 @@ public class MainFactory {
         controllers.add(HomeController());
         controllers.add(registerController());
         controllers.add(loginController());
+        controllers.add(userController());
         return controllers;
     }
 
@@ -58,9 +59,11 @@ public class MainFactory {
     public RegisterController registerController() {
         return new RegisterController(RegisterList());
     }
-
     public LoginController loginController(){
         return new LoginController(LoginList());
+    }
+    public UserController userController(){
+        return new UserController(UserList());
     }
     /**
      * ====== VIEW -> LIST ======
@@ -100,6 +103,15 @@ public class MainFactory {
         // view 추가 종료
 
         return loginViewArray;
+    }
+
+    public List<CustomView> UserList(){
+        List<CustomView> userViewArray = new ArrayList<>();
+        // view 추가 시작
+        userViewArray.add(userMenuView());
+        // view 추가 종료
+
+        return userViewArray;
     }
 
     /**
@@ -150,6 +162,11 @@ public class MainFactory {
     }
     public HostLoginView hostLoginView(){
         return new HostLoginView(validationService(), loginService());
+    }
+
+    //유저 메뉴 관련 뷰
+    public UserMenuView userMenuView(){
+        return new UserMenuView(); // 여기에 무언가가 필요하다면 추가되어야함
     }
 
 
