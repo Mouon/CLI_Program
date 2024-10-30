@@ -1,6 +1,5 @@
 package org.example.view;
 
-import jdk.jshell.execution.LoaderDelegate;
 import org.example.domain.User;
 import org.example.dto.LoginMember;
 import org.example.dto.Model;
@@ -26,7 +25,7 @@ public class UserLoginView implements CustomView{
         Scanner scan = new Scanner(System.in);
         String id, password;
         LocalDate date = loginService.parseDate(str);
-        System.out.println("메인화면으로 가려면 x 를 눌러주세요.");
+        System.out.println("뒤로 가려면 x 를 입력하세요.");
 
         while(true){
             System.out.print("아이디 >>>");

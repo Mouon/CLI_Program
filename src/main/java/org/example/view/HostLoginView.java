@@ -21,14 +21,18 @@ public class HostLoginView implements CustomView{
 
     @Override
     public Model begin(Model model) {
-        String str=(String)model.getAttribute();
+        String str = model.getAttribute().toString();
         Scanner scan = new Scanner(System.in);
         String id, password;
         LocalDate date = loginService.parseDate(str);
+        System.out.println("뒤로 가려면 x 를 입력하세요.");
 
         while(true){
             System.out.print("아이디 >>>");
             id = scan.nextLine().trim();
+            if(id.equals("X")||id.equals("x")){
+                return new Model("/main", null);
+            }
             while (!validationService.idInputValidation(id)) {
                 System.out.println("올바르지 않은 형식입니다.");
                 System.out.print("아이디 >>>");
@@ -37,6 +41,9 @@ public class HostLoginView implements CustomView{
 
             System.out.print("비밀번호 >>>");
             password = scan.nextLine().trim();
+            if(password.equals("X")||password.equals("x")){
+                return new Model("/main", null);
+            }
             while (!validationService.pwInputValidation(password)) {
                 System.out.println("올바르지 않은 형식입니다.");
                 System.out.print("비밀번호 >>>");
