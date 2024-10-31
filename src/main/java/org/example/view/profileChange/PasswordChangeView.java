@@ -34,7 +34,7 @@ public class PasswordChangeView implements CustomView {
                 return new Model("/user/mypage",null);
             }
             //기존 비밀번호와 입력한 값이 일치하는지 확인
-            if(LoginMember.getInstance().getPassword().equals(stringValidationResult)){
+            if(LoginMember.getInstance().getPassword().equals(input)){
                 String newPwInput;
                 String confirmPwInput;
                 while(true){
@@ -50,7 +50,6 @@ public class PasswordChangeView implements CustomView {
                         break;
                     }
                     if(pwValidationResult2){
-                        newPwInput = stringValidationResult2;
                         while(true){
                             System.out.println("새로운 비밀번호를 다시 한번 입력하세요.");
                             System.out.println("(뒤로 가려면 x키를 입력하세요)");
@@ -64,7 +63,6 @@ public class PasswordChangeView implements CustomView {
                                 break;
                             }
                             if(pwValidationResult3){
-                                confirmPwInput = stringValidationResult3;
                                 if(confirmPwInput.equals(newPwInput)){
                                     //비밀번호 재설정
                                     profileChangeService.changePassword(confirmPwInput);
@@ -79,6 +77,8 @@ public class PasswordChangeView implements CustomView {
                                 }else{
                                     System.out.println("2단계 비밀번호와 일치하지 않습니다.");
                                 }
+                            }else{
+                                System.out.println("올바르지 않은 입력입니다.");
                             }
                         }
                     }else{
@@ -87,17 +87,13 @@ public class PasswordChangeView implements CustomView {
                 }
             }else{
                 //1단계 입력 오류처리
-                if(pwValidationResult){
-                    System.out.println("기존 비밀번호와 일치하지 않습니다.");
-                }else{
-                    System.out.println("올바르지 않은 입력입니다.");
-                }
+                System.out.println("기존 비밀번호와 일치하지 않습니다.");
             }
         }
     }
 
     @Override
     public String getUri() {
-        return "profilechange/passwordchange";
+        return "/profilechange/passwordchange";
     }
 }

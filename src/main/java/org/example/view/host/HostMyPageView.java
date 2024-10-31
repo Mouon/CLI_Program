@@ -22,7 +22,7 @@ public class HostMyPageView implements CustomView {
         System.out.println("아이디 : "+LoginMember.getInstance().getUserId());
         System.out.println("==================");
         System.out.println("1. 비밀번호 수정");
-        System.out.println("뒤로 돌아가려면 x키를 입력하세요. ");
+        System.out.println("(뒤로 돌아가려면 x키를 입력하세요.)");
 
         while(true){
             System.out.print(">>> ");

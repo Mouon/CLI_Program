@@ -1,15 +1,16 @@
 package org.example.factory;
 
-import org.example.Main;
 import org.example.controller.CustomController;
 import org.example.controller.HomeController;
 import org.example.controller.MainController;
+import org.example.service.CheckoutService;
 import org.example.service.ProfileChangeService;
 import org.example.view.CustomView;
 import org.example.view.HomeView;
 import org.example.view.host.HostMyPageView;
 import org.example.view.login.LogoutView;
 import org.example.view.profileChange.PasswordChangeView;
+import org.example.view.user.UserCheckoutView;
 import org.example.view.user.UserMyPageView;
 import org.example.controller.*;
 import org.example.file.BlackListFileManager;
@@ -130,6 +131,7 @@ public class MainFactory {
         // view 추가 시작
         userViewArray.add(userMenuView());
         userViewArray.add(userMyPageView());
+        userViewArray.add(userCheckoutView());
         // view 추가 종료
 
         return userViewArray;
@@ -172,6 +174,10 @@ public class MainFactory {
         return new ProfileChangeService(userFileManager());
     }
 
+    public CheckoutService checkoutService(){
+        return new CheckoutService(userFileManager(),checkoutFileManager(),bookFileManager());
+    }
+
 
     /**
      * ====== VIEWS ======
@@ -212,15 +218,18 @@ public class MainFactory {
 
     //유저 메뉴 관련 뷰
     public UserMenuView userMenuView(){
-        return new UserMenuView(); // 여기에 무언가가 필요하다면 추가되어야함
+        return new UserMenuView(validationService()); // 여기에 무언가가 필요하다면 추가되어야함
     }
     public UserMyPageView userMyPageView() {
         return new UserMyPageView(validationService()); //이후에 필요하면 parameter 추가
     }
+    public UserCheckoutView userCheckoutView(){
+        return new UserCheckoutView(validationService(),checkoutService());
+    }
 
     //호스트 메뉴 관련 뷰
     public HostMenuView hostMenuView(){
-        return new HostMenuView(); // 여기에 무언가가 필요하다면 추가되어야함
+        return new HostMenuView(validationService()); // 여기에 무언가가 필요하다면 추가되어야함
     }
     public HostMyPageView hostMyPageView() {
         return new HostMyPageView(validationService());//이후에 필요하면 parameter 추가
