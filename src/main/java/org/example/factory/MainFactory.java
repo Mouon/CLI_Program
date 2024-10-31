@@ -6,6 +6,10 @@ import org.example.controller.HomeController;
 import org.example.controller.MainController;
 import org.example.view.CustomView;
 import org.example.view.HomeView;
+import org.example.view.host.HostMyPageView;
+import org.example.view.login.LogoutView;
+import org.example.view.user.UserMyPageView;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -73,6 +77,11 @@ public class MainFactory {
     /**
      * ====== VIEWS ======
      */
+    public UserMyPageView userMyPageView() { return new UserMyPageView(); }
+
+    public HostMyPageView hostMyPageView() { return new HostMyPageView(); }
+
+    public LogoutView logoutView() { return new LogoutView(); }
 
     /**
      * HomeView 인스턴스를 생성하고 반환합니다.

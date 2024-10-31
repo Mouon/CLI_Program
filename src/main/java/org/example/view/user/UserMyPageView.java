@@ -29,7 +29,7 @@ public class UserMyPageView implements CustomView {
                 return new Model("/personalinfo/passwordchange",null);
             } else if(mode == 2){
                 return new Model("/user/mypage/checkouthistory",null);
-            } else if(input == "x"){//이후에 validation 관련해서 수정할 예정
+            } else if(input.equals("x")){//이후에 validation 관련해서 수정할 예정
                 break;
             } else{
                 System.out.println("올바르지 않은 입력입니다.");
