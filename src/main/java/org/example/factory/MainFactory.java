@@ -1,5 +1,17 @@
 package org.example.factory;
 
+import org.example.controller.CustomController;
+import org.example.controller.HomeController;
+import org.example.controller.MainController;
+import org.example.service.CheckoutService;
+import org.example.service.ProfileChangeService;
+import org.example.view.CustomView;
+import org.example.view.HomeView;
+import org.example.view.host.HostMyPageView;
+import org.example.view.login.LogoutView;
+import org.example.view.profileChange.PasswordChangeView;
+import org.example.view.user.UserCheckoutView;
+import org.example.view.user.UserMyPageView;
 import org.example.controller.*;
 import org.example.file.BlackListFileManager;
 import org.example.file.BookFileManager;
@@ -43,6 +55,7 @@ public class MainFactory {
         controllers.add(loginController());
         controllers.add(userController());
         controllers.add(hostController());
+        controllers.add(profileChangeController());
         return controllers;
     }
 
@@ -68,6 +81,9 @@ public class MainFactory {
     }
     public HostController hostController(){
         return new HostController(HostList());
+    }
+    public ProfileChangeController profileChangeController(){
+        return new ProfileChangeController(ProfileChangeList());
     }
     /**
      * ====== VIEW -> LIST ======
@@ -104,6 +120,7 @@ public class MainFactory {
         loginViewArray.add(hostDateView());
         loginViewArray.add(userLoginView());
         loginViewArray.add(hostLoginView());
+        loginViewArray.add(logoutView());
         // view 추가 종료
 
         return loginViewArray;
@@ -113,6 +130,8 @@ public class MainFactory {
         List<CustomView> userViewArray = new ArrayList<>();
         // view 추가 시작
         userViewArray.add(userMenuView());
+        userViewArray.add(userMyPageView());
+        userViewArray.add(userCheckoutView());
         // view 추가 종료
 
         return userViewArray;
@@ -121,9 +140,19 @@ public class MainFactory {
         List<CustomView> hostViewArray = new ArrayList<>();
         // view 추가 시작
         hostViewArray.add(hostMenuView());
+        hostViewArray.add(hostMyPageView());
         // view 추가 종료
 
         return hostViewArray;
+    }
+
+    public List<CustomView> ProfileChangeList(){
+        List<CustomView> profileChangeViewArray = new ArrayList<>();
+        //view 추가 시작
+        profileChangeViewArray.add(passwordChangeView());
+        //view 추가 종료
+
+        return profileChangeViewArray;
     }
 
     /**
@@ -139,6 +168,14 @@ public class MainFactory {
 
     public LoginService loginService(){
         return new LoginService(userFileManager());
+    }
+
+    public ProfileChangeService profileChangeService(){
+        return new ProfileChangeService(userFileManager());
+    }
+
+    public CheckoutService checkoutService(){
+        return new CheckoutService(userFileManager(),checkoutFileManager(),bookFileManager());
     }
 
 
@@ -176,16 +213,33 @@ public class MainFactory {
         return new HostLoginView(validationService(), loginService());
     }
 
+    //로그아웃 관련 뷰
+    public LogoutView logoutView() { return new LogoutView(); }
+
     //유저 메뉴 관련 뷰
     public UserMenuView userMenuView(){
-        return new UserMenuView(); // 여기에 무언가가 필요하다면 추가되어야함
+        return new UserMenuView(validationService()); // 여기에 무언가가 필요하다면 추가되어야함
     }
-
+    public UserMyPageView userMyPageView() {
+        return new UserMyPageView(validationService()); //이후에 필요하면 parameter 추가
+    }
+    public UserCheckoutView userCheckoutView(){
+        return new UserCheckoutView(validationService(),checkoutService());
+    }
 
     //호스트 메뉴 관련 뷰
     public HostMenuView hostMenuView(){
-        return new HostMenuView(); // 여기에 무언가가 필요하다면 추가되어야함
+        return new HostMenuView(validationService()); // 여기에 무언가가 필요하다면 추가되어야함
     }
+    public HostMyPageView hostMyPageView() {
+        return new HostMyPageView(validationService());//이후에 필요하면 parameter 추가
+    }
+    
+    //프로필 정보 변경 관련 뷰
+    public PasswordChangeView passwordChangeView(){
+        return new PasswordChangeView(validationService(), profileChangeService());
+    }
+
 
     /**
      * ====== FileManager ======
