@@ -113,6 +113,7 @@ public class MainFactory {
         loginViewArray.add(hostDateView());
         loginViewArray.add(userLoginView());
         loginViewArray.add(hostLoginView());
+        loginViewArray.add(logoutView());
         // view 추가 종료
 
         return loginViewArray;
@@ -122,6 +123,7 @@ public class MainFactory {
         List<CustomView> userViewArray = new ArrayList<>();
         // view 추가 시작
         userViewArray.add(userMenuView());
+        userViewArray.add(userMyPageView());
         // view 추가 종료
 
         return userViewArray;
@@ -130,6 +132,7 @@ public class MainFactory {
         List<CustomView> hostViewArray = new ArrayList<>();
         // view 추가 시작
         hostViewArray.add(hostMenuView());
+        hostViewArray.add(hostMyPageView());
         // view 추가 종료
 
         return hostViewArray;
@@ -154,12 +157,6 @@ public class MainFactory {
     /**
      * ====== VIEWS ======
      */
-    public UserMyPageView userMyPageView() { return new UserMyPageView(); }
-
-    public HostMyPageView hostMyPageView() { return new HostMyPageView(); }
-
-    public LogoutView logoutView() { return new LogoutView(); }
-
     public HomeView homeView() {
         return new HomeView(validationService());
     }
@@ -191,16 +188,25 @@ public class MainFactory {
         return new HostLoginView(validationService(), loginService());
     }
 
+    //로그아웃 관련 뷰
+    public LogoutView logoutView() { return new LogoutView(); }
+
     //유저 메뉴 관련 뷰
     public UserMenuView userMenuView(){
         return new UserMenuView(); // 여기에 무언가가 필요하다면 추가되어야함
     }
-
+    public UserMyPageView userMyPageView() {
+        return new UserMyPageView(validationService()); //이후에 필요하면 parameter 추가
+    }
 
     //호스트 메뉴 관련 뷰
     public HostMenuView hostMenuView(){
         return new HostMenuView(); // 여기에 무언가가 필요하다면 추가되어야함
     }
+    public HostMyPageView hostMyPageView() {
+        return new HostMyPageView(validationService());//이후에 필요하면 parameter 추가
+    }
+
 
     /**
      * ====== FileManager ======
