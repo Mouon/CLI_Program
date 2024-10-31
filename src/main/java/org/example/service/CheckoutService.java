@@ -43,8 +43,8 @@ public class CheckoutService {
                 //출력할 string의 도서 정보, 대출일, 반납예정일 부분
                 checkoutString += checkedoutBook.getBookName()+" / "
                         +checkedoutBook.getAuthorName()+" / "
-                        +checkout.getCheckoutDate()+" / "
-                        +checkout.getDueDate()+" / ";
+                        +checkout.getCheckoutDate().format(formatter)+" / "
+                        +checkout.getDueDate().format(formatter)+" / ";
 
                 //아직 대출중인 도서의 경우 (반납일이 null이거나 로그인 날짜보다 이후)
                 if(checkout.getReturnDate()==null || checkout.getReturnDate().isAfter(loginDate) ){
