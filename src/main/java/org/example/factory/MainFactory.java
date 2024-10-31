@@ -4,10 +4,12 @@ import org.example.Main;
 import org.example.controller.CustomController;
 import org.example.controller.HomeController;
 import org.example.controller.MainController;
+import org.example.service.ProfileChangeService;
 import org.example.view.CustomView;
 import org.example.view.HomeView;
 import org.example.view.host.HostMyPageView;
 import org.example.view.login.LogoutView;
+import org.example.view.profileChange.PasswordChangeView;
 import org.example.view.user.UserMyPageView;
 import org.example.controller.*;
 import org.example.file.BlackListFileManager;
@@ -52,6 +54,7 @@ public class MainFactory {
         controllers.add(loginController());
         controllers.add(userController());
         controllers.add(hostController());
+        controllers.add(profileChangeController());
         return controllers;
     }
 
@@ -77,6 +80,9 @@ public class MainFactory {
     }
     public HostController hostController(){
         return new HostController(HostList());
+    }
+    public ProfileChangeController profileChangeController(){
+        return new ProfileChangeController(ProfileChangeList());
     }
     /**
      * ====== VIEW -> LIST ======
@@ -138,6 +144,15 @@ public class MainFactory {
         return hostViewArray;
     }
 
+    public List<CustomView> ProfileChangeList(){
+        List<CustomView> profileChangeViewArray = new ArrayList<>();
+        //view 추가 시작
+        profileChangeViewArray.add(passwordChangeView());
+        //view 추가 종료
+
+        return profileChangeViewArray;
+    }
+
     /**
      * ===== SERVICE =====
      */
@@ -151,6 +166,10 @@ public class MainFactory {
 
     public LoginService loginService(){
         return new LoginService(userFileManager());
+    }
+
+    public ProfileChangeService profileChangeService(){
+        return new ProfileChangeService(userFileManager());
     }
 
 
@@ -205,6 +224,11 @@ public class MainFactory {
     }
     public HostMyPageView hostMyPageView() {
         return new HostMyPageView(validationService());//이후에 필요하면 parameter 추가
+    }
+    
+    //프로필 정보 변경 관련 뷰
+    public PasswordChangeView passwordChangeView(){
+        return new PasswordChangeView(validationService(), profileChangeService());
     }
 
 

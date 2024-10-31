@@ -1,5 +1,6 @@
 package org.example.view.user;
 
+import org.example.dto.LoginMember;
 import org.example.dto.Model;
 import org.example.service.validater.ValidationService;
 import org.example.view.CustomView;
@@ -18,10 +19,8 @@ public class UserMyPageView implements CustomView {
         Scanner sc = new Scanner(System.in);
 
         System.out.println("===== 마이페이지 =====");
-        System.out.println("이름 : 홍길동");//임시 코드
-//        System.out.println("이름 : "+LoginMember.getInstance().getName());
-        System.out.println("아이디 : hong123 "); //임시 코드
-//        System.out.println("비밀번호 : "+LoginMember.getInstance().getId());
+        System.out.println("이름 : "+ LoginMember.getInstance().getUserName());
+        System.out.println("아이디 : "+LoginMember.getInstance().getUserId());
         System.out.println("==================");
         System.out.println("1. 비밀번호 수정");
         System.out.println("2. 도서 대출 내역 보기");
@@ -42,7 +41,7 @@ public class UserMyPageView implements CustomView {
             }else{
                 //숫자 입력인 경우
                 if(validationResult.equals("1")){
-                    return new Model("/personalinfo/passwordchange",null);
+                    return new Model("/profilechange/passwordchange",null);
                 }else if(validationResult.equals("2")){
                     return new Model("/user/mypage/checkouthistory",null);
                 }else {
