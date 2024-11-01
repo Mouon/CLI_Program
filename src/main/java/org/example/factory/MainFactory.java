@@ -7,6 +7,7 @@ import org.example.service.CheckoutService;
 import org.example.service.ProfileChangeService;
 import org.example.view.CustomView;
 import org.example.view.HomeView;
+import org.example.view.host.HostManageBookView;
 import org.example.view.host.HostMyPageView;
 import org.example.view.login.LogoutView;
 import org.example.view.profileChange.PasswordChangeView;
@@ -141,6 +142,7 @@ public class MainFactory {
         // view 추가 시작
         hostViewArray.add(hostMenuView());
         hostViewArray.add(hostMyPageView());
+        hostViewArray.add(hostManageBookView());
         // view 추가 종료
 
         return hostViewArray;
@@ -233,6 +235,9 @@ public class MainFactory {
     }
     public HostMyPageView hostMyPageView() {
         return new HostMyPageView(validationService());//이후에 필요하면 parameter 추가
+    }
+    public HostManageBookView hostManageBookView(){
+        return new HostManageBookView(validationService());
     }
     
     //프로필 정보 변경 관련 뷰
