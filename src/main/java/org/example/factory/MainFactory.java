@@ -9,6 +9,7 @@ import org.example.service.book.BookManageServive;
 import org.example.view.CustomView;
 import org.example.view.HomeView;
 import org.example.view.host.HostAddBookView;
+import org.example.view.host.HostBookRemoveView;
 import org.example.view.host.HostManageBookView;
 import org.example.view.host.HostMyPageView;
 import org.example.view.login.LogoutView;
@@ -146,6 +147,7 @@ public class MainFactory {
         hostViewArray.add(hostMyPageView());
         hostViewArray.add(hostManageBookView());
         hostViewArray.add(hostAddBookView());
+        hostViewArray.add(hostBookRemoveView());
         // view 추가 종료
 
         return hostViewArray;
@@ -247,6 +249,9 @@ public class MainFactory {
     }
     public HostAddBookView hostAddBookView(){
         return new HostAddBookView(validationService(),bookManageService());
+    }
+    public HostBookRemoveView hostBookRemoveView(){
+        return new HostBookRemoveView(validationService(),bookManageService(),bookFileManager());
     }
     
     //프로필 정보 변경 관련 뷰
