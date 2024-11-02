@@ -184,7 +184,7 @@ public class MainFactory {
     }
 
     public BookManageServive bookManageService(){
-        return new BookManageServive();
+        return new BookManageServive(bookFileManager());
     }
 
     /**

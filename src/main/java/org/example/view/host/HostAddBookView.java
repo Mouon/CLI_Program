@@ -74,6 +74,9 @@ public class HostAddBookView implements CustomView {
             }
             index++;
         }
+
+        bookManageServive.addBook(dataList.get(0),dataList.get(1),dataList.get(2),dataList.get(3), Integer.parseInt(dataList.get(5)),dataList.get(4));
+
         return new Model("/host/managebook",null);
     }
 

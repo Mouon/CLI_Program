@@ -28,6 +28,8 @@ public class HostManageBookView implements CustomView {
             String input = sc.nextLine().trim();
             String ValidationResult = validationService.menuInputValidation(input);
 
+            //x没写
+
             if(ValidationResult.equals("1")){
                 return new Model("/host/managebook/add",null);
             }else if(ValidationResult.equals("2")){
