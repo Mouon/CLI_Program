@@ -5,8 +5,12 @@ import org.example.controller.HomeController;
 import org.example.controller.MainController;
 import org.example.service.CheckoutService;
 import org.example.service.ProfileChangeService;
+import org.example.service.book.BookManageServive;
 import org.example.view.CustomView;
 import org.example.view.HomeView;
+import org.example.view.host.HostAddBookView;
+import org.example.view.host.HostBookRemoveView;
+import org.example.view.host.HostManageBookView;
 import org.example.view.host.HostMyPageView;
 import org.example.view.login.LogoutView;
 import org.example.view.profileChange.PasswordChangeView;
@@ -141,6 +145,9 @@ public class MainFactory {
         // view 추가 시작
         hostViewArray.add(hostMenuView());
         hostViewArray.add(hostMyPageView());
+        hostViewArray.add(hostManageBookView());
+        hostViewArray.add(hostAddBookView());
+        hostViewArray.add(hostBookRemoveView());
         // view 추가 종료
 
         return hostViewArray;
@@ -178,6 +185,9 @@ public class MainFactory {
         return new CheckoutService(userFileManager(),checkoutFileManager(),bookFileManager());
     }
 
+    public BookManageServive bookManageService(){
+        return new BookManageServive(bookFileManager());
+    }
 
     /**
      * ====== VIEWS ======
@@ -233,6 +243,15 @@ public class MainFactory {
     }
     public HostMyPageView hostMyPageView() {
         return new HostMyPageView(validationService());//이후에 필요하면 parameter 추가
+    }
+    public HostManageBookView hostManageBookView(){
+        return new HostManageBookView(validationService());
+    }
+    public HostAddBookView hostAddBookView(){
+        return new HostAddBookView(validationService(),bookManageService());
+    }
+    public HostBookRemoveView hostBookRemoveView(){
+        return new HostBookRemoveView(validationService(),bookManageService(),bookFileManager());
     }
     
     //프로필 정보 변경 관련 뷰
