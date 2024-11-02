@@ -28,7 +28,7 @@ public class HostManageBookView implements CustomView {
             String input = sc.nextLine().trim();
             String ValidationResult = validationService.menuInputValidation(input);
 
-            //x没写
+
 
             if(ValidationResult.equals("1")){
                 return new Model("/host/managebook/add",null);
@@ -38,6 +38,8 @@ public class HostManageBookView implements CustomView {
                 return new Model("/host/managebook/checkstate",null);
             }else if(ValidationResult.equals("4")){
                 return new Model("/host/managebook/remove",null);
+            }else if(ValidationResult.equals("X")){
+                return new Model("/host",null);
             }else {
                 System.out.println("옳바르지 않는 입력입니다.");
             }

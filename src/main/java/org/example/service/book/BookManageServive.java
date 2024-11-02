@@ -16,6 +16,6 @@ public class BookManageServive {
         }
     }
     public void removeBook(Book book){
-
+            bookFileManager.removeBook(book);
     }
 }
