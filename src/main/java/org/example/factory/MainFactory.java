@@ -6,6 +6,7 @@ import org.example.controller.MainController;
 import org.example.service.CheckoutService;
 import org.example.service.ProfileChangeService;
 import org.example.service.book.BookManageServive;
+import org.example.service.book.BookReturnService;
 import org.example.service.host.HostShowListService;
 import org.example.service.host.HostCheckStateService;
 import org.example.view.CustomView;
@@ -13,6 +14,7 @@ import org.example.view.HomeView;
 import org.example.view.host.*;
 import org.example.view.login.LogoutView;
 import org.example.view.profileChange.PasswordChangeView;
+import org.example.view.user.UserBookReturnView;
 import org.example.view.user.UserBookSearchCheckoutView;
 import org.example.view.user.UserCheckoutView;
 import org.example.view.user.UserMyPageView;
@@ -137,6 +139,7 @@ public class MainFactory {
         userViewArray.add(userBookSearchCheckoutView());
         userViewArray.add(userMyPageView());
         userViewArray.add(userCheckoutView());
+        userViewArray.add(userBookReturnView());
         // view 추가 종료
 
         return userViewArray;
@@ -194,7 +197,7 @@ public class MainFactory {
 
     public HostShowListService hostShowListService() {return new HostShowListService(bookFileManager());}
     public HostCheckStateService hostCheckStateService(){ return new HostCheckStateService(bookFileManager()); }
-
+    public BookReturnService bookReturnService(){return new BookReturnService(checkoutFileManager(),blackListFileManager());}
     /**
      * ====== VIEWS ======
      */
@@ -243,6 +246,7 @@ public class MainFactory {
     public UserCheckoutView userCheckoutView(){
         return new UserCheckoutView(validationService(),checkoutService());
     }
+    public UserBookReturnView userBookReturnView() {return new UserBookReturnView(checkoutFileManager(),bookFileManager(),validationService(),bookReturnService());}
 
     //호스트 메뉴 관련 뷰
     public HostMenuView hostMenuView(){

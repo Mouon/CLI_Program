@@ -39,6 +39,7 @@ public class CheckoutFileManager {
                 checkoutList.add(new Checkout(result[0].trim(), Long.parseLong(result[1].trim()), LocalDate.parse(result[2].trim(),DATE_FORMATTER),
                         LocalDate.parse(result[3].trim(), DATE_FORMATTER),result[4].trim().equals("null") ? null : LocalDate.parse(result[4].trim(), DATE_FORMATTER)));
             }
+
             return checkoutList;
         } catch (FileNotFoundException e) {
             System.out.println("해당 파일을 찾을 수 없습니다.");
