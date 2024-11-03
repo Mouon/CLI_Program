@@ -94,7 +94,7 @@ public class BlackListFileManager {
             while (file.hasNext()) {
                 String str = file.nextLine();
                 String[] result = str.split("\t");
-                if(result[0].trim().equals(user.getUserId())&&result[2].trim().equals("null")){
+                if(result[0].trim().equals(user.getUserId())||result[2].trim().equals("null")){
                     LocalDate startDate = LocalDate.parse(result[1].trim(), DATE_FORMATTER);
                     LocalDate endDate = LocalDate.parse(result[2].trim(), DATE_FORMATTER);
                     if ((localDate.isEqual(startDate) || localDate.isAfter(startDate))
