@@ -10,6 +10,7 @@ import org.example.view.HomeView;
 import org.example.view.host.HostMyPageView;
 import org.example.view.login.LogoutView;
 import org.example.view.profileChange.PasswordChangeView;
+import org.example.view.user.UserBookSearchCheckoutView;
 import org.example.view.user.UserCheckoutView;
 import org.example.view.user.UserMyPageView;
 import org.example.controller.*;
@@ -130,6 +131,7 @@ public class MainFactory {
         List<CustomView> userViewArray = new ArrayList<>();
         // view 추가 시작
         userViewArray.add(userMenuView());
+        userViewArray.add(userBookSearchCheckoutView());
         userViewArray.add(userMyPageView());
         userViewArray.add(userCheckoutView());
         // view 추가 종료
@@ -220,6 +222,7 @@ public class MainFactory {
     public UserMenuView userMenuView(){
         return new UserMenuView(validationService()); // 여기에 무언가가 필요하다면 추가되어야함
     }
+    public UserBookSearchCheckoutView userBookSearchCheckoutView() { return new UserBookSearchCheckoutView(validationService(), bookFileManager(), blackListFileManager(), checkoutFileManager()); }
     public UserMyPageView userMyPageView() {
         return new UserMyPageView(validationService()); //이후에 필요하면 parameter 추가
     }
