@@ -38,6 +38,9 @@ public class HostLoginView implements CustomView {
                 System.out.println("올바르지 않은 형식입니다.");
                 System.out.print("아이디 >>>");
                 id = scan.nextLine().trim();
+                if(id.equals("X")||id.equals("x")){
+                    return new Model("/main", null);
+                }
             }
 
             System.out.print("비밀번호 >>>");
@@ -49,6 +52,9 @@ public class HostLoginView implements CustomView {
                 System.out.println("올바르지 않은 형식입니다.");
                 System.out.print("비밀번호 >>>");
                 password = scan.nextLine().trim();
+                if(password.equals("X")||password.equals("x")){
+                    return new Model("/main", null);
+                }
             }
 
             if(!loginService.userExists(id,password)){
