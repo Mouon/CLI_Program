@@ -6,12 +6,10 @@ import org.example.controller.MainController;
 import org.example.service.CheckoutService;
 import org.example.service.ProfileChangeService;
 import org.example.service.book.BookManageServive;
+import org.example.service.host.HostCheckStateService;
 import org.example.view.CustomView;
 import org.example.view.HomeView;
-import org.example.view.host.HostAddBookView;
-import org.example.view.host.HostBookRemoveView;
-import org.example.view.host.HostManageBookView;
-import org.example.view.host.HostMyPageView;
+import org.example.view.host.*;
 import org.example.view.login.LogoutView;
 import org.example.view.profileChange.PasswordChangeView;
 import org.example.view.user.UserCheckoutView;
@@ -148,6 +146,7 @@ public class MainFactory {
         hostViewArray.add(hostManageBookView());
         hostViewArray.add(hostAddBookView());
         hostViewArray.add(hostBookRemoveView());
+        hostViewArray.add(hostCheckStateView());
         // view 추가 종료
 
         return hostViewArray;
@@ -188,6 +187,8 @@ public class MainFactory {
     public BookManageServive bookManageService(){
         return new BookManageServive(bookFileManager());
     }
+
+    public HostCheckStateService hostCheckStateService(){ return new HostCheckStateService(bookFileManager()); }
 
     /**
      * ====== VIEWS ======
@@ -253,6 +254,7 @@ public class MainFactory {
     public HostBookRemoveView hostBookRemoveView(){
         return new HostBookRemoveView(validationService(),bookManageService(),bookFileManager());
     }
+    public HostCheckStateView hostCheckStateView(){ return new HostCheckStateView(validationService(), hostCheckStateService()); }
     
     //프로필 정보 변경 관련 뷰
     public PasswordChangeView passwordChangeView(){
