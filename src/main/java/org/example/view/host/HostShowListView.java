@@ -29,7 +29,6 @@ public class HostShowListView implements CustomView {
         int pageNumber = 0; //현재 페이지 번호
         int firstPage = 0; //첫 페이지
         int lastPage = (booklist.size() - 1) / bookPerPage; //마지막 페이지
-        System.out.println(firstPage + " " + lastPage);
         while(true){
             System.out.print("===== 도서 목록 =====\n" +
                     "제목 / 저자 / 출판사 / 출판연도 / ISBN\n\n");
