@@ -51,7 +51,6 @@ public class HostCheckStateView implements CustomView{
         int pageNumber = 0; //현재 페이지 번호
         int firstPage = 0; //첫 페이지
         int lastPage = (booklist.size() - 1) / bookPerPage; //마지막 페이지
-        System.out.println(firstPage + " " + lastPage);
         while(true){
             System.out.print("===== 도서 목록 =====\n" +
                     "도서명 / 저자 / 대출 중 여부 / ISBN\n\n");
