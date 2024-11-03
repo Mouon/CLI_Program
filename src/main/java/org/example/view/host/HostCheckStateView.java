@@ -54,16 +54,16 @@ public class HostCheckStateView implements CustomView{
         System.out.println(firstPage + " " + lastPage);
         while(true){
             System.out.print("===== 도서 목록 =====\n" +
-                    "ISBN / 도서명 / 저자 / 대출 중 여부\n\n");
+                    "도서명 / 저자 / 대출 중 여부 / ISBN\n\n");
             int firstNumber = pageNumber * bookPerPage + 1;
             int lastNumber = min(booklist.size(), (pageNumber + 1) * bookPerPage);
             for(int i=firstNumber;i<=lastNumber;i++) {
                 int index = i - 1;
                 System.out.println(i + ". " +
-                        booklist.get(index).getISBN() + " / " +
                         booklist.get(index).getBookName() + " / " +
                         booklist.get(index).getAuthorName() + " / " +
-                        booklist.get(index).getIsCheckout());
+                        booklist.get(index).getIsCheckout() + " / " +
+                        booklist.get(index).getISBN());
             }
             System.out.println("(" + (pageNumber + 1) + " 페이지 / " + (lastPage + 1) + " 페이지)");
             System.out.print("\n" +
