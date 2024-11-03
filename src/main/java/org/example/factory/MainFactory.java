@@ -5,7 +5,7 @@ import org.example.controller.HomeController;
 import org.example.controller.MainController;
 import org.example.service.CheckoutService;
 import org.example.service.ProfileChangeService;
-import org.example.service.book.BookManageServive;
+import org.example.service.book.BookManageService;
 import org.example.service.host.HostShowListService;
 import org.example.service.host.HostCheckStateService;
 import org.example.view.CustomView;
@@ -186,8 +186,8 @@ public class MainFactory {
         return new CheckoutService(userFileManager(),checkoutFileManager(),bookFileManager());
     }
 
-    public BookManageServive bookManageService(){
-        return new BookManageServive(bookFileManager());
+    public BookManageService bookManageService(){
+        return new BookManageService(bookFileManager());
     }
 
     public HostShowListService hostShowListService() {return new HostShowListService(bookFileManager());}

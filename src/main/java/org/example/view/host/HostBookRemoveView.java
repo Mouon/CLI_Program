@@ -3,7 +3,7 @@ package org.example.view.host;
 import org.example.domain.Book;
 import org.example.dto.Model;
 import org.example.file.BookFileManager;
-import org.example.service.book.BookManageServive;
+import org.example.service.book.BookManageService;
 import org.example.service.validater.ValidationService;
 import org.example.view.CustomView;
 
@@ -13,12 +13,12 @@ import java.util.Scanner;
 public class HostBookRemoveView implements CustomView {
 
     private ValidationService validationService;
-    private BookManageServive bookManageServive;
+    private BookManageService bookManageService;
     private BookFileManager bookFileManager;
 
-    public HostBookRemoveView(ValidationService validationService,BookManageServive bookManageServive, BookFileManager bookFileManager) {
+    public HostBookRemoveView(ValidationService validationService,BookManageService bookManageService, BookFileManager bookFileManager) {
         this.validationService = validationService;
-        this.bookManageServive = bookManageServive;
+        this.bookManageService = bookManageService;
         this.bookFileManager = bookFileManager;
     }
 
@@ -113,7 +113,7 @@ public class HostBookRemoveView implements CustomView {
                     yesno=sc.nextLine().trim();
                 }
                 if (validationService.ynInputValidation(yesno).equals("yes")) {
-                    bookManageServive.removeBook(booklist.get(Integer.parseInt(input)-1+page*10));
+                    bookManageService.removeBook(booklist.get(Integer.parseInt(input)-1+page*10));
                     System.out.println("삭제되었습니다");
                     return new Model("/host/managebook/remove",null);
                 }else if (validationService.ynInputValidation(yesno).equals("no")) {

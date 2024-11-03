@@ -1,7 +1,7 @@
 package org.example.view.host;
 
 import org.example.dto.Model;
-import org.example.service.book.BookManageServive;
+import org.example.service.book.BookManageService;
 import org.example.service.validater.ValidationService;
 import org.example.view.CustomView;
 
@@ -12,11 +12,11 @@ import java.util.Scanner;
 public class HostAddBookView implements CustomView {
 
     private ValidationService validationService;
-    private BookManageServive bookManageServive;
+    private BookManageService bookManageService;
 
-    public HostAddBookView(ValidationService validationService, BookManageServive bookManageServive) {
+    public HostAddBookView(ValidationService validationService, BookManageService bookManageService) {
         this.validationService = validationService;
-        this.bookManageServive = bookManageServive;
+        this.bookManageService = bookManageService;
     }
 
     @Override
@@ -75,7 +75,7 @@ public class HostAddBookView implements CustomView {
             index++;
         }
 
-        bookManageServive.addBook(dataList.get(0),dataList.get(1),dataList.get(2),dataList.get(3), Integer.parseInt(dataList.get(5)),dataList.get(4));
+        bookManageService.addBook(dataList.get(0),dataList.get(1),dataList.get(2),dataList.get(3), Integer.parseInt(dataList.get(5)),dataList.get(4));
 
         return new Model("/host/managebook",null);
     }
