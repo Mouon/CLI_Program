@@ -58,8 +58,9 @@ public class UserBookSearchCheckoutView implements CustomView {
 
     public Model printSearchedBook(String searchedBook, List<Book> searchedBookList) {   // 검색된 책 보여주는 화면
         System.out.println();
-        System.out.println("검색한 도서 : " + searchedBook);
-        System.out.println();
+        System.out.println("==== 검색한 도서 : " + searchedBook + " ====");
+        System.out.println("검색한 도서에 대해서는");
+        System.out.println("'제목 / 저자 / ISBN / 대출가능여부' 순으로 출력됩니다.");
         int idx = 1;
         for (Book book : searchedBookList) {
             System.out.println(idx + ". " + book.getBookName() + " / "+ book.getAuthorName() + " / " + book.getISBN() + " / " + (book.getIsCheckout().equals("n")?"대출가능":"대출불가"));
@@ -107,6 +108,7 @@ public class UserBookSearchCheckoutView implements CustomView {
                 System.out.print(">>> ");
                 continue;
             }
+
             if (yesOrNo.equals("no")) return new Model("/user", null);
 
             if (yesOrNo.equals("yes")) {
@@ -124,6 +126,11 @@ public class UserBookSearchCheckoutView implements CustomView {
                     return new Model("/user", null);
                 } else { // 대출 의사 yes이고 블랙리스트도 아닌 경우
                     // 대출처리
+                    List<Checkout> userCheckoutList = checkoutFileManager.loadCheckoutByUser(LoginMember.getInstance());
+                    if (userCheckoutList.size() >= 5) {
+                        System.out.println("더이상 대출할 수 없습니다.");
+                        return new Model("/user", null);
+                    }
                     Checkout newCheckout = new Checkout(LoginMember.getInstance().getUserId(), selectedBook.getBookId(), LoginMember.getLoginTime(), LoginMember.getLoginTime().plusWeeks(1), null);
                     selectedBook.setIsCheckout("y");
                     bookFileManager.updateBook(selectedBook);
