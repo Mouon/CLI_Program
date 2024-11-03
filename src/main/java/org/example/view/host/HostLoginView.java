@@ -1,20 +1,21 @@
-package org.example.view;
+package org.example.view.host;
 
 import org.example.domain.User;
 import org.example.dto.LoginMember;
 import org.example.dto.Model;
 import org.example.service.user.LoginService;
 import org.example.service.validater.ValidationService;
+import org.example.view.CustomView;
 
 import java.time.LocalDate;
 import java.util.Scanner;
 
-public class UserLoginView implements CustomView{
+public class HostLoginView implements CustomView {
 
     public ValidationService validationService;
     public LoginService loginService;
 
-    public UserLoginView(ValidationService validationService, LoginService loginService) {
+    public HostLoginView(ValidationService validationService, LoginService loginService) {
         this.validationService = validationService;
         this.loginService = loginService;
     }
@@ -56,14 +57,13 @@ public class UserLoginView implements CustomView{
             }else{
                 User user = loginService.findUser(id);
                 LoginMember.setUser(user, date); // 로그인 정보 넘겨주기
-                return new Model("/user", null);
+                return new Model("/host", null);
             }
         }
-
     }
 
     @Override
     public String getUri() {
-        return "/login/user";
+        return "/login/host";
     }
 }

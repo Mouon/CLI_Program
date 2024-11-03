@@ -1,18 +1,19 @@
-package org.example.view;
+package org.example.view.user;
 
 import org.example.domain.User;
 import org.example.dto.Model;
 import org.example.service.user.RegisterService;
 import org.example.service.validater.ValidationService;
+import org.example.view.CustomView;
 
 import java.util.Scanner;
 
-public class HostRegisterView implements CustomView{
+public class UserRegisterView implements CustomView {
 
     private ValidationService validationService;
     private RegisterService registerService;
 
-    public HostRegisterView(ValidationService validationService, RegisterService registerService) {
+    public UserRegisterView(ValidationService validationService, RegisterService registerService) {
         this.validationService = validationService;
         this.registerService = registerService;
     }
@@ -22,10 +23,10 @@ public class HostRegisterView implements CustomView{
         Scanner scan = new Scanner(System.in);
         String id, password, name;
         System.out.println("뒤로 가려면 x 를 입력하세요.");
-        while (true) {
+        while(true){
             System.out.print("아이디 >>>");
             id = scan.nextLine().trim();
-            if (id.equals("X") || id.equals("x")) {
+            if(id.equals("X")|| id.equals("x")){
                 return new Model("/main", null);
             }
             while (!validationService.idInputValidation(id)) {
@@ -41,7 +42,7 @@ public class HostRegisterView implements CustomView{
 
             System.out.print("비밀번호 >>>");
             password = scan.nextLine().trim();
-            if (password.equals("X") || password.equals("x")) {
+            if(password.equals("X")|| password.equals("x")){
                 return new Model("/main", null);
             }
             while (!validationService.pwInputValidation(password)) {
@@ -52,7 +53,7 @@ public class HostRegisterView implements CustomView{
 
             System.out.print("이름 >>>");
             name = scan.nextLine().trim();
-            if (name.equals("X") || name.equals("x")) {
+            if(name.equals("X")|| name.equals("x")){
                 return new Model("/main", null);
             }
             while (!validationService.nameValidation(name)) {
@@ -61,15 +62,16 @@ public class HostRegisterView implements CustomView{
                 name = scan.nextLine().trim();
             }
 
-            User user = new User("관리자", id, password, name);
-            registerService.hostRegister(user);
+            User user = new User("사용자", id, password, name);
+            registerService.userRegister(user);
+
             System.out.println("====== 회원가입 성공 ======");
-            return new Model("/main", null); //초기화면으로 돌아감
+            return new Model("/main", null);
         }
     }
 
     @Override
     public String getUri() {
-        return "/register/host";
+        return "/register/user";
     }
 }
