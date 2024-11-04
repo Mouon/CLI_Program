@@ -9,6 +9,7 @@ import org.example.service.CheckoutService;
 import org.example.service.ProfileChangeService;
 import org.example.service.SettingService;
 import org.example.service.book.BookManageService;
+import org.example.service.book.BookReturnService;
 import org.example.service.host.HostShowListService;
 import org.example.service.host.HostCheckStateService;
 import org.example.view.CustomView;
@@ -18,6 +19,10 @@ import org.example.view.login.LogoutView;
 import org.example.view.profileChange.PasswordChangeView;
 import org.example.view.user.*;
 import org.example.controller.*;
+import org.example.file.BlackListFileManager;
+import org.example.file.BookFileManager;
+import org.example.file.CheckoutFileManager;
+import org.example.file.UserFileManager;
 import org.example.service.user.LoginService;
 import org.example.service.user.RegisterService;
 import org.example.service.validater.ValidationService;
@@ -134,6 +139,7 @@ public class MainFactory {
         userViewArray.add(userBookSearchCheckoutView());
         userViewArray.add(userMyPageView());
         userViewArray.add(userCheckoutView());
+        userViewArray.add(userBookReturnView());
         // view 추가 종료
 
         return userViewArray;
@@ -238,13 +244,15 @@ public class MainFactory {
     public UserMenuView userMenuView(){
         return new UserMenuView(validationService()); // 여기에 무언가가 필요하다면 추가되어야함
     }
-    public UserBookSearchCheckoutView userBookSearchCheckoutView() { return new UserBookSearchCheckoutView(validationService(), bookFileManager(), blackListFileManager(), checkoutFileManager(),settingService()); }
+    public UserBookSearchCheckoutView userBookSearchCheckoutView() { return new UserBookSearchCheckoutView(validationService(), bookFileManager(), blackListFileManager(), checkoutFileManager()); }
     public UserMyPageView userMyPageView() {
         return new UserMyPageView(validationService()); //이후에 필요하면 parameter 추가
     }
     public UserCheckoutView userCheckoutView(){
         return new UserCheckoutView(validationService(),checkoutService());
     }
+
+    public UserBookReturnView userBookReturnView(){return new UserBookReturnView(checkoutFileManager(), bookFileManager(), validationService(), bookReturnService());}gi
 
     //호스트 메뉴 관련 뷰
     public HostMenuView hostMenuView(){
@@ -267,7 +275,7 @@ public class MainFactory {
     public HostChangeCheckoutDurationView hostChangeCheckoutDurationView(){
         return new HostChangeCheckoutDurationView(validationService(),settingService());
     }
-    
+
     //프로필 정보 변경 관련 뷰
     public PasswordChangeView passwordChangeView(){
         return new PasswordChangeView(validationService(), profileChangeService());
