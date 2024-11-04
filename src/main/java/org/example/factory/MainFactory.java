@@ -252,7 +252,7 @@ public class MainFactory {
         return new UserCheckoutView(validationService(),checkoutService());
     }
 
-    public UserBookReturnView userBookReturnView(){return new UserBookReturnView(checkoutFileManager(), bookFileManager(), validationService(), bookReturnService());}gi
+    public UserBookReturnView userBookReturnView(){return new UserBookReturnView(checkoutFileManager(), bookFileManager(), validationService(), bookReturnService());}
 
     //호스트 메뉴 관련 뷰
     public HostMenuView hostMenuView(){
