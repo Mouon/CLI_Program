@@ -25,13 +25,13 @@ public class LoginService {
     /**
      * 아이디, 비밀번호로 유저가 있는지 확인하기
      */
-    public boolean userExists(String id, String password){
+    public boolean userExists(String id, String password, String memberType){
         User loginUser = userFileManager.loadUserById(id);
         if(loginUser == null){
             return false; // 아이디 자체를 찾을 수 없는 경우
         }else {
-            if (loginUser.getPassword().equals(password)) {
-                return true; // 아이디, 비밀번호 전부 일치
+            if (loginUser.getPassword().equals(password) && loginUser.getUserType().equals(memberType)) {
+                return true; // 아이디, 비밀번호, 유저 타입(관리자) 전부 일치
             }else {
                 return false; // 아이디는 있는데, 비밀번호가 틀린경우
             }
