@@ -1,12 +1,13 @@
-package org.example.view;
+package org.example.view.user;
 
 import org.example.dto.Model;
 import org.example.service.validater.ValidationService;
+import org.example.view.CustomView;
 
 import java.time.LocalDate;
 import java.util.Scanner;
 
-public class UserDateView implements CustomView{
+public class UserDateView implements CustomView {
     public ValidationService validationService;
 
     public UserDateView(ValidationService validationService) {

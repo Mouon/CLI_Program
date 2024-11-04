@@ -165,8 +165,8 @@ public class ValidationService {
      */
     public String authorInputValidation(String input){
         input = input.trim().replaceAll("\\s+", " "); // 앞뒤 공백 제거 + 연속된 공백을 하나의 공백으로 변환
-        String asciiPattern = "^[\\x20-\\x7E]+$"; // 영문, 숫자, 특수기호 허용
-        if (!input.matches(asciiPattern)) {
+        String pattern = "^[\\x20-\\x7E가-힣ㄱ-ㅎㅏ-ㅣ]+$"; // 영문, 숫자, 특수기호, 한글(자음/모음 포함) 허용
+        if (!input.matches(pattern)) {
             return "false"; // 입력규칙에 맞지 않은 경우
         }
         return input;
@@ -177,8 +177,8 @@ public class ValidationService {
      */
     public String publisherInputValidation(String input){
         input = input.trim().replaceAll("\\s+", " "); // 앞뒤 공백 제거 + 연속된 공백을 하나의 공백으로 변환
-        String asciiPattern = "^[\\x20-\\x7E]+$"; // 영문, 숫자, 특수기호 허용
-        if (!input.matches(asciiPattern) || input.equals("x") || input.equals("X")) {
+        String pattern = "^[\\x20-\\x7E가-힣ㄱ-ㅎㅏ-ㅣ]+$"; // 영문, 숫자, 특수기호, 한글(자음/모음 포함) 허용
+        if (!input.matches(pattern) || input.equals("x") || input.equals("X")) {
             return "false"; // 입력규칙에 맞지 않거나, x 류의 글자가 들어온 경우 false 반환
         }
         return input;

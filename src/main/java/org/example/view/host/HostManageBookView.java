@@ -24,7 +24,7 @@ public class HostManageBookView implements CustomView {
         System.out.println("(뒤로 가려면 x키를 입력하세요)");
 
         while (true){
-            System.out.println(">>>");
+            System.out.print(">>>");
             String input = sc.nextLine().trim();
             String ValidationResult = validationService.menuInputValidation(input);
 

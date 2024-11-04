@@ -1,11 +1,12 @@
-package org.example.view;
+package org.example.view.user;
 
 import org.example.dto.Model;
 import org.example.service.validater.ValidationService;
+import org.example.view.CustomView;
 
 import java.util.Scanner;
 
-public class UserMenuView implements CustomView{
+public class UserMenuView implements CustomView {
     public ValidationService validationService;
 
     public UserMenuView(ValidationService validationService) {

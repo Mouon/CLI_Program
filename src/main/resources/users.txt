@@ -1,5 +1,5 @@
 사용자	user1234	password123!	건구스몽
-사용자	hello123	pass123!	건덕이
+사용자	hello123	pass1234!	건덕이
 관리자	host1234	password123!	관리자이름
 사용자	mhj	122321	건국스
 관리자	12345	12345pw!	관리자이름

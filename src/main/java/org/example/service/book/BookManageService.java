@@ -3,11 +3,11 @@ package org.example.service.book;
 import org.example.domain.Book;
 import org.example.file.BookFileManager;
 
-public class BookManageServive {
+public class BookManageService {
 
     public BookFileManager bookFileManager;
 
-    public BookManageServive(BookFileManager bookFileManager) {this.bookFileManager = bookFileManager;}
+    public BookManageService(BookFileManager bookFileManager) {this.bookFileManager = bookFileManager;}
 
     public void addBook(String bookName,String authorName,String publishingHouse,String publishingYear,int amount,String ISBN){
         while(amount>0) {
