@@ -85,7 +85,7 @@ public class UserBookSearchCheckoutView implements CustomView {
 
             if (userChoice.equals("false")) {
                 System.out.println("올바르지 않은 입력입니다. 다시 입력해주세요.");
-                System.out.println(">>> ");
+                System.out.print(">>> ");
                 continue;
             }
 
