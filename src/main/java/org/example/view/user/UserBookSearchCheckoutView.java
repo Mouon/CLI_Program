@@ -4,6 +4,7 @@ import org.example.domain.Checkout;
 import org.example.dto.LoginMember;
 import org.example.dto.Model;
 import org.example.file.CheckoutFileManager;
+import org.example.file.SettingFileManager;
 import org.example.service.SettingService;
 import org.example.service.validater.ValidationService;
 import org.example.view.CustomView;
@@ -82,10 +83,20 @@ public class UserBookSearchCheckoutView implements CustomView {
 
             if (userChoice.equals("X")) return searchBook();
 
+            if (userChoice.equals("false")) {
+                System.out.println("올바르지 않은 입력입니다. 다시 입력해주세요.");
+                System.out.println(">>> ");
+                continue;
+            }
+
             if (Integer.parseInt(userChoice) >= 1 && Integer.parseInt(userChoice) <= searchedBookList.size()) {
                 Book selectedBook = searchedBookList.get(Integer.parseInt(userChoice) - 1);
                 return selectBook(searchedBook, selectedBook);
-            } else System.out.println("올바르지 않은 입력입니다.");
+            } else {
+                System.out.println("올바르지 않은 입력입니다. 다시 입력해주세요.");
+                System.out.println(">>> ");
+            }
+
         }
 
     }

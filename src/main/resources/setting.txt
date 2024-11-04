@@ -1,1 +1,1 @@
-checkoutDuration	7
+checkoutDuration	15
