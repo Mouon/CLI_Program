@@ -55,7 +55,7 @@ public class UserBookReturnView implements CustomView {
             int i = 1;
             for (Checkout checkout : borrowList) {
                 Book book = bookFileManager.loadBookById(checkout.getBookId());
-                System.out.println(i + ". " + book.getBookName());
+                System.out.println(i + ". " + book.getBookName() + " " + book.getISBN());
                 i++;
             }
         }
