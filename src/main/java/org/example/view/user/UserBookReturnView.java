@@ -10,11 +10,11 @@ import org.example.service.book.BookReturnService;
 import org.example.service.validater.ValidationService;
 import org.example.view.CustomView;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
 public class UserBookReturnView implements CustomView {
-
     private CheckoutFileManager checkoutFileManager;
     private BookFileManager bookFileManager;
     private ValidationService validationService;
@@ -29,49 +29,56 @@ public class UserBookReturnView implements CustomView {
 
     @Override
     public Model begin(Model model) {
-
         Scanner scanner = new Scanner(System.in);
 
         System.out.println("=====도서 반납=====");
-
         String userName = LoginMember.getInstance().getUserName();
         System.out.println("'" + userName + "' 님의 도서 대출 목록입니다. ");
         System.out.println("반납하고자 하는 책을 선택해주세요.");
         System.out.println("(뒤로 가려면 x키를 입력하세요)");
 
-        // load
+        // load 이미 빌린 책 목록
         List<Checkout> checkoutList = checkoutFileManager.loadCheckoutByUser(LoginMember.getInstance());
-        if (checkoutList == null || checkoutList.isEmpty()) {
+        List<Checkout> borrowList=new ArrayList<>();
+        for (Checkout checkout : checkoutList) {
+            if (checkout.getReturnDate()==null){
+                borrowList.add(checkout);
+            }
+        }
+
+        // 이미 빌린 책 목록 출력
+        if (borrowList == null || borrowList.isEmpty()) {
             System.out.println("대출 중인 도서가 없습니다.");
+            return new Model("/user", null);
         } else {
             int i = 1;
-            for (Checkout checkout : checkoutList) {
+            for (Checkout checkout : borrowList) {
                 Book book = bookFileManager.loadBookById(checkout.getBookId());
                 System.out.println(i + ". " + book.getBookName());
                 i++;
             }
         }
 
-        String input="";
+        // 입력값저장, 2번 변경, 숫자나 x,y,n
+        String input=" ";
 
-
-        //input1
+        //input 화면1
         while (true) {
             System.out.print(">>>");
             input = scanner.nextLine().trim();
             if (validationService.menuInputValidation(input).equals("X")) {
-                return new Model("user/", "null");
+                return new Model("/user", null);
             } else if (validationService.numberInputValidation(input) != null) {
                 break;
             }
             System.out.println("올바르지 않은 입력입니다.");
-
         }
 
+        // 지금 선택하는 숫자(1,2,3), id로 책 정보 획득
         int index=Integer.parseInt(input);
-        Book book = bookFileManager.loadBookById(checkoutList.get(index - 1).getBookId());
+        Book book = bookFileManager.loadBookById(borrowList.get(index - 1).getBookId());
 
-        //input2
+        // input 화면2
         System.out.println("해당 도서를 반납하시겠습니까? [yes/no]");
         System.out.println("(뒤로 가려면 x키를 입력하세요)");
         while (true) {
@@ -88,13 +95,14 @@ public class UserBookReturnView implements CustomView {
             }
         }
 
-        //update
+        //update 도서의 대출 상태
         book.setIsCheckout("n");
         bookFileManager.updateBook(book);
+        System.out.println("반납되었습니다.");
 
         //time
-        Checkout checkout = checkoutList.get(index-1);
-        bookReturnService.recordReturnDate(checkout);
+        Checkout checkout = borrowList.get(index-1);
+        bookReturnService.recordReturnDate(checkout,LoginMember.getLoginTime());
 
         //blacklist
         bookReturnService.recordOverdate(checkout);
