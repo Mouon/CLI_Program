@@ -2,7 +2,6 @@ package org.example.service.book;
 
 import org.example.domain.BlackList;
 import org.example.domain.Checkout;
-import org.example.dto.LoginMember;
 import org.example.file.BlackListFileManager;
 import org.example.file.CheckoutFileManager;
 

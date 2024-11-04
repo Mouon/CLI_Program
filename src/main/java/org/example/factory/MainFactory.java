@@ -3,7 +3,6 @@ package org.example.factory;
 import org.example.controller.CustomController;
 import org.example.controller.HomeController;
 import org.example.controller.MainController;
-import org.example.domain.Setting;
 import org.example.file.*;
 import org.example.service.CheckoutService;
 import org.example.service.ProfileChangeService;
@@ -204,6 +203,10 @@ public class MainFactory {
         return new SettingService(settingFileManager());
     }
 
+    public BookReturnService bookReturnService(){
+        return new BookReturnService(checkoutFileManager(),blackListFileManager());
+    }
+
     /**
      * ====== VIEWS ======
      */
@@ -245,7 +248,8 @@ public class MainFactory {
     public UserMenuView userMenuView(){
         return new UserMenuView(validationService()); // 여기에 무언가가 필요하다면 추가되어야함
     }
-    public UserBookSearchCheckoutView userBookSearchCheckoutView() { return new UserBookSearchCheckoutView(validationService(), bookFileManager(), blackListFileManager(), checkoutFileManager()); }
+    public UserBookSearchCheckoutView userBookSearchCheckoutView() { return new UserBookSearchCheckoutView(validationService(), bookFileManager(), blackListFileManager(), checkoutFileManager(),settingService()); }
+
     public UserMyPageView userMyPageView() {
         return new UserMyPageView(validationService()); //이후에 필요하면 parameter 추가
     }
