@@ -4,6 +4,7 @@ import org.example.domain.Checkout;
 import org.example.dto.LoginMember;
 import org.example.dto.Model;
 import org.example.file.CheckoutFileManager;
+import org.example.service.SettingService;
 import org.example.service.validater.ValidationService;
 import org.example.view.CustomView;
 import org.example.domain.Book;
@@ -18,12 +19,14 @@ public class UserBookSearchCheckoutView implements CustomView {
     public BookFileManager bookFileManager;
     public BlackListFileManager blackListFileManager;
     public CheckoutFileManager checkoutFileManager;
+    public SettingService settingService;
     public Scanner sc = new Scanner(System.in);
-    public UserBookSearchCheckoutView(ValidationService validationService, BookFileManager bookFileManager, BlackListFileManager blackListFileManager, CheckoutFileManager checkoutFileManager) {
+    public UserBookSearchCheckoutView(ValidationService validationService, BookFileManager bookFileManager, BlackListFileManager blackListFileManager, CheckoutFileManager checkoutFileManager, SettingService settingService) {
         this.validationService = validationService;
         this.bookFileManager = bookFileManager;
         this.blackListFileManager = blackListFileManager;
         this.checkoutFileManager = checkoutFileManager;
+        this.settingService = settingService;
     }
 
     @Override
@@ -96,6 +99,7 @@ public class UserBookSearchCheckoutView implements CustomView {
 
         String input;
         String yesOrNo;
+        int checkoutDuration = settingService.getCheckoutDuration(); //setting에 저장된 반납기간 값
 
         while (true) {
             input = sc.nextLine();
@@ -131,7 +135,7 @@ public class UserBookSearchCheckoutView implements CustomView {
                         System.out.println("더이상 대출할 수 없습니다.");
                         return new Model("/user", null);
                     }
-                    Checkout newCheckout = new Checkout(LoginMember.getInstance().getUserId(), selectedBook.getBookId(), LoginMember.getLoginTime(), LoginMember.getLoginTime().plusWeeks(1), null);
+                    Checkout newCheckout = new Checkout(LoginMember.getInstance().getUserId(), selectedBook.getBookId(), LoginMember.getLoginTime(), LoginMember.getLoginTime().plusDays(checkoutDuration), null);
                     selectedBook.setIsCheckout("y");
                     bookFileManager.updateBook(selectedBook);
                     checkoutFileManager.addCheckout(newCheckout);

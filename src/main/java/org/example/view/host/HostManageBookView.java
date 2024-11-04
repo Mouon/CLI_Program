@@ -21,6 +21,7 @@ public class HostManageBookView implements CustomView {
         System.out.println("2.도서 목록 보기");
         System.out.println("3.도서 상태 확인");
         System.out.println("4.도서 삭제");
+        System.out.println("5.도서 반납 기간 변경");
         System.out.println("(뒤로 가려면 x키를 입력하세요)");
 
         while (true){
@@ -38,6 +39,8 @@ public class HostManageBookView implements CustomView {
                 return new Model("/host/managebook/checkstate",null);
             }else if(ValidationResult.equals("4")){
                 return new Model("/host/managebook/remove",null);
+            }else if(ValidationResult.equals("5")){
+                return new Model("/host/managebook/changecheckoutduration",null);
             }else if(ValidationResult.equals("X")){
                 return new Model("/host",null);
             }else {

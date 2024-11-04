@@ -3,8 +3,11 @@ package org.example.factory;
 import org.example.controller.CustomController;
 import org.example.controller.HomeController;
 import org.example.controller.MainController;
+import org.example.domain.Setting;
+import org.example.file.*;
 import org.example.service.CheckoutService;
 import org.example.service.ProfileChangeService;
+import org.example.service.SettingService;
 import org.example.service.book.BookManageService;
 import org.example.service.host.HostShowListService;
 import org.example.service.host.HostCheckStateService;
@@ -15,10 +18,6 @@ import org.example.view.login.LogoutView;
 import org.example.view.profileChange.PasswordChangeView;
 import org.example.view.user.*;
 import org.example.controller.*;
-import org.example.file.BlackListFileManager;
-import org.example.file.BookFileManager;
-import org.example.file.CheckoutFileManager;
-import org.example.file.UserFileManager;
 import org.example.service.user.LoginService;
 import org.example.service.user.RegisterService;
 import org.example.service.validater.ValidationService;
@@ -149,6 +148,7 @@ public class MainFactory {
         hostViewArray.add(hostBookRemoveView());
         hostViewArray.add(hostShowListView());
         hostViewArray.add(hostCheckStateView());
+        hostViewArray.add(hostChangeCheckoutDurationView());
         // view 추가 종료
 
         return hostViewArray;
@@ -193,6 +193,10 @@ public class MainFactory {
     public HostShowListService hostShowListService() {return new HostShowListService(bookFileManager());}
     public HostCheckStateService hostCheckStateService(){ return new HostCheckStateService(bookFileManager()); }
 
+    public SettingService settingService(){
+        return new SettingService(settingFileManager());
+    }
+
     /**
      * ====== VIEWS ======
      */
@@ -234,7 +238,7 @@ public class MainFactory {
     public UserMenuView userMenuView(){
         return new UserMenuView(validationService()); // 여기에 무언가가 필요하다면 추가되어야함
     }
-    public UserBookSearchCheckoutView userBookSearchCheckoutView() { return new UserBookSearchCheckoutView(validationService(), bookFileManager(), blackListFileManager(), checkoutFileManager()); }
+    public UserBookSearchCheckoutView userBookSearchCheckoutView() { return new UserBookSearchCheckoutView(validationService(), bookFileManager(), blackListFileManager(), checkoutFileManager(),settingService()); }
     public UserMyPageView userMyPageView() {
         return new UserMyPageView(validationService()); //이후에 필요하면 parameter 추가
     }
@@ -260,6 +264,9 @@ public class MainFactory {
     }
     public HostShowListView hostShowListView(){ return new HostShowListView(validationService(), hostShowListService());}
     public HostCheckStateView hostCheckStateView(){ return new HostCheckStateView(validationService(), hostCheckStateService()); }
+    public HostChangeCheckoutDurationView hostChangeCheckoutDurationView(){
+        return new HostChangeCheckoutDurationView(validationService(),settingService());
+    }
     
     //프로필 정보 변경 관련 뷰
     public PasswordChangeView passwordChangeView(){
@@ -301,6 +308,14 @@ public class MainFactory {
      */
     public BlackListFileManager blackListFileManager(){
         return new BlackListFileManager();
+    }
+
+    /**
+     * @description SettingFileManager 인스턴스를 생성하고 반환합니다.
+     * @return SettingFileManager 인스턴스
+     */
+    public SettingFileManager settingFileManager(){
+        return new SettingFileManager();
     }
 
 

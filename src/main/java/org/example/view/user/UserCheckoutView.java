@@ -24,8 +24,8 @@ public class UserCheckoutView implements CustomView {
 
         System.out.println("========= 도서 대출 내역 =========");
         System.out.println("'"+ LoginMember.getInstance().getUserName()+"' 님의 도서 대출 내역입니다.\n");
-        System.out.println("반납 완료 도서에 대해서는\n'제목/저자/대출일/반납예정일/반납일/연체여부'순으로 출력됩니다.\n");
-        System.out.println("대출 도서에 대해서는\n'제목/저자/대출일/반납예정일/대출중'순으로 출력됩니다.\n");
+        System.out.println("반납 완료 도서에 대해서는\n'제목/저자/ISBN/대출일/반납예정일/반납일/연체여부'순으로 출력됩니다.\n");
+        System.out.println("대출 도서에 대해서는\n'제목/저자/ISBN/대출일/반납예정일/대출중'순으로 출력됩니다.\n");
 
         List<String> checkoutList = checkoutService.getCheckoutHistory(LoginMember.getInstance());
         //불러온 checkout들을 출력
