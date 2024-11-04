@@ -189,11 +189,11 @@ public class ValidationService {
      */
     public String BookNameValidation(String input){
         input = input.trim().replaceAll("\\s+", " "); // 앞뒤 공백 제거 + 연속된 공백을 하나의 공백으로 변환
-        if(input.equals("x") || input.equals("X")){
-            return "false";
-        }else{
-            return input;
+        String pattern = "^[\\x20-\\x7E가-힣ㄱ-ㅎㅏ-ㅣ]+$"; // 영문, 숫자, 특수기호, 한글(자음/모음 포함) 허용
+        if (!input.matches(pattern)) {
+            return "false"; // 입력규칙에 맞지 않는 경우
         }
+        return input;
     }
 
 }
