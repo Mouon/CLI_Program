@@ -1,1 +1,1 @@
-checkoutDate	14
+checkoutDuration	7

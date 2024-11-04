@@ -14,9 +14,16 @@ public class SettingService {
     /**
      * 반납기간 변경하기
      * */
-    public void changeCheckoutDuration(String newDuration){
+    public void changeCheckoutDuration(int newDuration){
         Setting newSetting = settingFileManager.loadSettingByName("checkoutDuration");
-        newSetting.setValue(newDuration);
+        newSetting.setValue(Integer.toString(newDuration));
         settingFileManager.updateSetting(newSetting);
+    }
+
+    /**
+     * setting에 있는 반납기간 값 가져오기
+     */
+    public int getCheckoutDuration(){
+        return Integer.parseInt(settingFileManager.getValueBySettingName("checkoutDuration"));
     }
 }
