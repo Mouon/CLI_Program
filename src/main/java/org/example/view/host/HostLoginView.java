@@ -70,6 +70,6 @@ public class HostLoginView implements CustomView {
 
     @Override
     public String getUri() {
-        return "/login/host";
+        return "/login/hostdate/host";
     }
 }

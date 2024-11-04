@@ -27,7 +27,7 @@ public class UserDateView implements CustomView {
 
             LocalDate inputDate = validationService.dateInputValidation(input);
             if(inputDate != null){
-                return new Model("/login/user", inputDate);
+                return new Model("/login/userdate/user", inputDate);
             }else{
                 System.out.println("올바르지 않은 날짜 형식 입니다.");
             }

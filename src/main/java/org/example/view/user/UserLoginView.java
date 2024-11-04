@@ -71,6 +71,6 @@ public class UserLoginView implements CustomView {
 
     @Override
     public String getUri() {
-        return "/login/user";
+        return "/login/userdate/user";
     }
 }
