@@ -17,7 +17,7 @@ public class HostMenuView implements CustomView {
     public Model begin(Model model) {
         Scanner sc = new Scanner(System.in);
 
-        System.out.println("===== 사용자 메뉴 =====");
+        System.out.println("===== 관리자 메뉴 =====");
         System.out.println("1. 도서 관리");
         System.out.println("2. 마이페이지");
         System.out.println("3. 로그아웃");
