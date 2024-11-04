@@ -57,7 +57,7 @@ public class HostLoginView implements CustomView {
                 }
             }
 
-            if(!loginService.userExists(id,password)){
+            if(!loginService.userExists(id,password,"관리자")){
                 System.out.println("ID 또는 비밀번호를 다시 확인해주세요.");
                 continue;
             }else{
