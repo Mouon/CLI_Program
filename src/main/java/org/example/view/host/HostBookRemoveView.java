@@ -49,6 +49,9 @@ public class HostBookRemoveView implements CustomView {
             System.out.println("프로그램에 등록되지 않은 도서명입니다.");
             System.out.print(">>>");
             bookName=sc.nextLine().trim().replaceAll("\\s+"," ");
+            if (bookName.equals("x")||bookName.equals("X")) {
+                return new Model("/host/managebook",null);
+            }
             booklist= bookFileManager.loadBookListByName(bookName);
         }
 
