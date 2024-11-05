@@ -44,10 +44,15 @@ public class UserBookSearchCheckoutView implements CustomView {
 
         // 사용자 입력 받는 부분
         String input = sc.nextLine().trim();
-        String searchedBook = validationService.BookNameValidation(input);
 
         // 뒤로 가기 입력 시 사용자 메뉴 화면으로 이동
-        if (searchedBook.equals("false")) {
+        if (input.equals("x") || input.equals("X"))
+            return new Model("/user", null);
+
+        String searchedBook = validationService.BookNameValidation(input);
+
+        if (searchedBook == null) {
+            System.out.println("유효하지 않은 입력입니다.");
             return new Model("/user", null);
         }
 
