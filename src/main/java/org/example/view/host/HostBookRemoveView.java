@@ -29,16 +29,16 @@ public class HostBookRemoveView implements CustomView {
         System.out.println("(뒤로 가려면 x키를 입력하세요)");
         System.out.print(">>>");
 
-        String bookName = sc.nextLine().trim();
-        while(validationService.BookNameValidation(bookName).equals("false")) {
+        String bookName = sc.nextLine().trim().replaceAll("\\s+"," ");
 
-            if(bookName.equals("x")||bookName.equals("X")) {
-                return new Model("/host/managebook",null);
-            }
+        if(bookName.equals("x")||bookName.equals("X")) {
+            return new Model("/host/managebook",null);
+        }
 
+        while(validationService.BookNameValidation(bookName)==null) {
             System.out.println("올바르지 않은 입력입니다.");
             System.out.print(">>>");
-            bookName=sc.nextLine().trim();
+            bookName=sc.nextLine().trim().replaceAll("\\s+"," ");
         }
 
         int page=0;
@@ -48,24 +48,24 @@ public class HostBookRemoveView implements CustomView {
         while(booklist.isEmpty()) {
             System.out.println("프로그램에 등록되지 않은 도서명입니다.");
             System.out.print(">>>");
-            bookName=sc.nextLine().trim();
+            bookName=sc.nextLine().trim().replaceAll("\\s+"," ");
             booklist= bookFileManager.loadBookListByName(bookName);
         }
 
         while(true){
             System.out.println("===== 도서 삭제 목록 =====");
-            System.out.println("도서명 / 저자 /대출 중 여부");
+            System.out.println("도서명 / 저자 / ISBN /대출 중 여부");
 
             if (booklist.size()<=10){
                 int i=1;
                 for (Book book : booklist){
-                    System.out.println(i+". "+book.getBookName()+" / "+book.getAuthorName()+" / "+book.getIsCheckout());
+                    System.out.println(i+". "+book.getBookName()+" / "+book.getAuthorName()+" / "+book.getISBN()+" / "+book.getIsCheckout());
                     i++;
                 }
             }else {
                 for (int i=1;i<11;i++){
                     Book currntBook = booklist.get(i-1+page*10);
-                    System.out.println(i+". "+currntBook.getBookName()+" / "+currntBook.getAuthorName()+" / "+currntBook.getIsCheckout());
+                    System.out.println(i+". "+currntBook.getBookName()+" / "+currntBook.getAuthorName()+" / "+currntBook.getISBN()+" / "+currntBook.getIsCheckout());
                 }
             }
 
