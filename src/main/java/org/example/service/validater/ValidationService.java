@@ -196,4 +196,16 @@ public class ValidationService {
         return input;
     }
 
+    /**
+     * ISBN 입력 규칙
+     */
+    public String isbnInputValidation(String input){
+        input = input.trim().replaceAll("\\s+", " "); // 앞뒤 공백 제거 + 연속된 공백을 하나의 공백으로 변환
+        String pattern = "^[\\x20-\\x7E가-힣ㄱ-ㅎㅏ-ㅣ]+$"; // 영문, 숫자, 특수기호, 한글(자음/모음 포함) 허용
+        if (!input.matches(pattern) || input.equals("x") || input.equals("X")) {
+            return null; // 입력규칙에 맞지 않거나, x 류의 글자가 들어온 경우 false 반환
+        }
+        return input;
+    }
+
 }
