@@ -32,31 +32,37 @@ public class HostAddBookView implements CustomView {
             System.out.println("(뒤로 가려면 x를 입력하세요)");
             System.out.print(">>>");
 
-            dataList.set(index, sc.nextLine().trim());
+            dataList.set(index, sc.nextLine().trim().replaceAll("\\s+"," "));
+
+            String xJudge=dataList.get(index).trim().replaceAll("\\s+"," ");
             switch(index){//입력단계구분
                 case 0->{//도서명
-                    if (validationService.BookNameValidation(dataList.get(index)).equals("false")){
+                    if (validationService.BookNameValidation(dataList.get(index))==null){
+                        System.out.println("옳바르지 않는 입력입니다.");
+                        index--;//재입력
+                    }
+                    if (xJudge.equals("x")||xJudge.equals("X")){
                         return new Model("/host/managebook",null);
                     }
                 }
                 case 1->{//저자명
-                    if (dataList.get(index).equals("x")||dataList.get(index).equals("X")){
+                    if (xJudge.equals("x")||xJudge.equals("X")){
                         index=index-2;//이전 단계로 이동
-                    }else if (validationService.authorInputValidation(dataList.get(index)).equals("false")){
+                    }else if (validationService.authorInputValidation(dataList.get(index))==null){
                         System.out.println("옳바르지 않는 입력입니다.");
                         index--;//재입력
                     }
                 }
                 case 2->{//출판사
-                    if (dataList.get(index).equals("x")||dataList.get(index).equals("X")){
+                    if (xJudge.equals("x")||xJudge.equals("X")){
                         index=index-2;//이전 단계로 이동
-                    }else if (validationService.publisherInputValidation(dataList.get(index)).equals("false")){
+                    }else if (validationService.publisherInputValidation(dataList.get(index))==null){
                         System.out.println("옳바르지 않는 입력입니다.");
                         index--;//재입력
                     }
                 }
                 case 3,5->{//출판연도,수량
-                    if (dataList.get(index).equals("x")||dataList.get(index).equals("X")){
+                    if (xJudge.equals("x")||xJudge.equals("X")){
                         index=index-2;//이전 단계로 이동
                     } else if (validationService.numberInputValidation(dataList.get(index))==null) {
                         System.out.println("옳바르지 않는 입력입니다.");
@@ -64,9 +70,9 @@ public class HostAddBookView implements CustomView {
                     }
                 }
                 case 4->{//ISBN
-                    if (dataList.get(index).equals("x")||dataList.get(index).equals("X")){
+                    if (xJudge.equals("x")||xJudge.equals("X")){
                         index=index-2;//이전 단계로 이동
-                    } else if (validationService.authorInputValidation(dataList.get(index))==null) {//isbnValidation생기면 고칠예정
+                    } else if (validationService.isbnInputValidation(dataList.get(index))==null) {
                         System.out.println("옳바르지 않는 입력입니다.");
                         index--;//재입력
                     }
