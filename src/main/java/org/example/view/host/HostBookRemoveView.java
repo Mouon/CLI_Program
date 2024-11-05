@@ -30,12 +30,12 @@ public class HostBookRemoveView implements CustomView {
         System.out.print(">>>");
 
         String bookName = sc.nextLine().trim().replaceAll("\\s+"," ");
-        while(validationService.BookNameValidation(bookName).equals("false")) {
 
-            if(bookName.equals("x")||bookName.equals("X")) {
-                return new Model("/host/managebook",null);
-            }
+        if(bookName.equals("x")||bookName.equals("X")) {
+            return new Model("/host/managebook",null);
+        }
 
+        while(validationService.BookNameValidation(bookName)==null) {
             System.out.println("올바르지 않은 입력입니다.");
             System.out.print(">>>");
             bookName=sc.nextLine().trim().replaceAll("\\s+"," ");
