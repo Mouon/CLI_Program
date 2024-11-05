@@ -49,6 +49,13 @@ public class HostBookRemoveView implements CustomView {
             System.out.println("프로그램에 등록되지 않은 도서명입니다.");
             System.out.print(">>>");
             bookName=sc.nextLine().trim().replaceAll("\\s+"," ");
+
+            while(validationService.BookNameValidation(bookName)==null) {
+                System.out.println("올바르지 않은 입력입니다.");
+                System.out.print(">>>");
+                bookName=sc.nextLine().trim().replaceAll("\\s+"," ");
+            }
+
             if (bookName.equals("x")||bookName.equals("X")) {
                 return new Model("/host/managebook",null);
             }
@@ -59,16 +66,23 @@ public class HostBookRemoveView implements CustomView {
             System.out.println("===== 도서 삭제 목록 =====");
             System.out.println("도서명 / 저자 / ISBN /대출 중 여부");
 
+            int book_count=0;
+
             if (booklist.size()<=10){
                 int i=1;
                 for (Book book : booklist){
                     System.out.println(i+". "+book.getBookName()+" / "+book.getAuthorName()+" / "+book.getISBN()+" / "+book.getIsCheckout());
                     i++;
+                    book_count++;
                 }
             }else {
                 for (int i=1;i<11;i++){
+                    if(booklist.size()-page*10<i){
+                        break;
+                    }
                     Book currntBook = booklist.get(i-1+page*10);
                     System.out.println(i+". "+currntBook.getBookName()+" / "+currntBook.getAuthorName()+" / "+currntBook.getISBN()+" / "+currntBook.getIsCheckout());
+                    book_count++;
                 }
             }
 
@@ -88,16 +102,35 @@ public class HostBookRemoveView implements CustomView {
                 if(input.equals("x")||input.equals("X")) {
                     return new Model("/host/managebook/remove",null);
                 }
-                if(validationService.numberInputValidation(input)!=null) {break;}
+                if(validationService.numberInputValidation(input)!=null && validationService.numberInputValidation(input)>=1 && validationService.numberInputValidation(input)<=10) {
+
+                    if(book_count>Integer.parseInt(input)-1) {
+                        if (booklist.get(Integer.parseInt(input) - 1 + page * 10).getIsCheckout().equals("y")) {
+                            System.out.println("대출 중인 도서입니다");
+                            System.out.print(">>>");
+                            input = sc.nextLine().trim();
+                            continue;
+                        }else break;
+                    }
+
+                }
                 System.out.println("올바르지 않은 입력입니다.");
                 System.out.print(">>>");
                 input=sc.nextLine().trim();
             }
 
             if (validationService.abInputValidation(input).equals("A")) {
-                if(page==booklist.size()/10)
-                    System.out.println("다음 페이지가 없습니다.");
-                else page++;
+
+                if(booklist.size()%10==0) {
+                    if(page==booklist.size()/10-1) {
+                        System.out.println("다음 페이지가 없습니다.");
+                    }else page++;
+                }else {
+                    if(page==booklist.size()/10) {
+                        System.out.println("다음 페이지가 없습니다.");
+                    }else page++;
+                }
+
                 continue;
             }else if (validationService.abInputValidation(input).equals("B")) {
                 if(page==0)
@@ -107,6 +140,7 @@ public class HostBookRemoveView implements CustomView {
             }
 
             if (Integer.parseInt(input)>=1 && Integer.parseInt(input)<=10) {
+
                 System.out.println("정말로 삭제 하시겠습니까?[yes/no]");
                 System.out.print(">>>");
                 String yesno = sc.nextLine().trim();
