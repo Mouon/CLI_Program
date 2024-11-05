@@ -74,6 +74,9 @@ public class HostBookRemoveView implements CustomView {
                 }
             }else {
                 for (int i=1;i<11;i++){
+                    if(booklist.size()-page*10<i){
+                        break;
+                    }
                     Book currntBook = booklist.get(i-1+page*10);
                     System.out.println(i+". "+currntBook.getBookName()+" / "+currntBook.getAuthorName()+" / "+currntBook.getISBN()+" / "+currntBook.getIsCheckout());
                 }
@@ -102,9 +105,17 @@ public class HostBookRemoveView implements CustomView {
             }
 
             if (validationService.abInputValidation(input).equals("A")) {
-                if(page==booklist.size()/10)
-                    System.out.println("다음 페이지가 없습니다.");
-                else page++;
+
+                if(booklist.size()%10==0) {
+                    if(page==booklist.size()/10-1) {
+                        System.out.println("다음 페이지가 없습니다.");
+                    }else page++;
+                }else {
+                    if(page==booklist.size()/10) {
+                        System.out.println("다음 페이지가 없습니다.");
+                    }else page++;
+                }
+
                 continue;
             }else if (validationService.abInputValidation(input).equals("B")) {
                 if(page==0)
