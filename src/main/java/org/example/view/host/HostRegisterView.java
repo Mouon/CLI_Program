@@ -33,6 +33,9 @@ public class HostRegisterView implements CustomView {
                 System.out.println("올바르지 않은 입력입니다.");
                 System.out.print("아이디 >>>");
                 id = scan.nextLine().trim();
+                if(id.equals("X")||id.equals("x")){
+                    return new Model("/main", null);
+                }
             }
             //아이디에 중복되는 값이 있는지 확인
             if (registerService.UseridExists(id)) {
@@ -49,6 +52,9 @@ public class HostRegisterView implements CustomView {
                 System.out.println("올바르지 않은 입력입니다.");
                 System.out.print("비밀번호 >>>");
                 password = scan.nextLine().trim();
+                if(password.equals("X")||password.equals("x")){
+                    return new Model("/main", null);
+                }
             }
 
             System.out.print("이름 >>>");
@@ -60,6 +66,9 @@ public class HostRegisterView implements CustomView {
                 System.out.println("올바르지 않은 입력입니다.");
                 System.out.print("이름 >>>");
                 name = scan.nextLine().trim();
+                if(name.equals("X")||name.equals("x")){
+                    return new Model("/main", null);
+                }
             }
 
             User user = new User("관리자", id, password, name);
