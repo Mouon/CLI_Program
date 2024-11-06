@@ -157,6 +157,9 @@ public class ValidationService {
         if (!input.matches("^[가-힣]+$")) {
             return false; // 한글이 아닌게 있는지 확인
         }
+        if(input.length()<2){
+            return false;
+        }
         return true;
     }
 
