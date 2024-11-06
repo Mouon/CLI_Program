@@ -62,6 +62,8 @@ public class UserBookReturnView implements CustomView {
 
         // 입력값저장, 2번 변경, 숫자나 x,y,n
         String input=" ";
+        // 반납책의 번호를 선택할 때에 예외처리용
+        int BorrowListLength = borrowList.size();
 
         //input 화면1
         while (true) {
@@ -70,7 +72,9 @@ public class UserBookReturnView implements CustomView {
             if (validationService.menuInputValidation(input).equals("X")) {
                 return new Model("/user", null);
             } else if (validationService.numberInputValidation(input) != null) {
-                break;
+                if (Integer.parseInt(input) > 0 && Integer.parseInt(input) <= BorrowListLength){
+                    break;
+                }
             }
             System.out.println("올바르지 않은 입력입니다.");
         }
