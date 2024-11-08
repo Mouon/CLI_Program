@@ -102,7 +102,7 @@ public class UserBookSearchCheckoutView implements CustomView {
                 return selectBook(searchedBook, selectedBook);
             } else {
                 System.out.println("올바르지 않은 입력입니다. 다시 입력해주세요.");
-                System.out.println(">>> ");
+                System.out.print(">>> ");
             }
 
         }
