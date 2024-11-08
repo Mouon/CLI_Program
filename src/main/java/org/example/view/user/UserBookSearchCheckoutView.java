@@ -125,7 +125,7 @@ public class UserBookSearchCheckoutView implements CustomView {
         int checkoutDuration = settingService.getCheckoutDuration(); //setting에 저장된 반납기간 값
 
         while (true) {
-            input = sc.nextLine();
+            input = sc.nextLine().trim();
             if (input.equals("x") || input.equals("X")) return  printSearchedBook(searchedBook, bookFileManager.loadBookListByName(searchedBook));
 
             yesOrNo = validationService.ynInputValidation(input);
