@@ -90,7 +90,7 @@ public class UserBookReturnView implements CustomView {
             System.out.print(">>>");
             input = scanner.nextLine().trim();
             if (validationService.menuInputValidation(input).equals("X")) {
-                return new Model("/user", null);
+                return new Model("/user/bookreturn", null);
             } else if (validationService.ynInputValidation(input).equals("yes")) {
                 break;
             } else if (validationService.ynInputValidation(input).equals("no")) {
