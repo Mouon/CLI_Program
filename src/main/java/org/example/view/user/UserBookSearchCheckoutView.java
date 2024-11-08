@@ -5,6 +5,7 @@ import org.example.dto.LoginMember;
 import org.example.dto.Model;
 import org.example.file.CheckoutFileManager;
 import org.example.file.SettingFileManager;
+import org.example.service.CheckoutService;
 import org.example.service.SettingService;
 import org.example.service.validater.ValidationService;
 import org.example.view.CustomView;
@@ -21,14 +22,17 @@ public class UserBookSearchCheckoutView implements CustomView {
     public BlackListFileManager blackListFileManager;
     public CheckoutFileManager checkoutFileManager;
     public SettingService settingService;
+    public CheckoutService checkoutService;
     public Scanner sc = new Scanner(System.in);
-    public UserBookSearchCheckoutView(ValidationService validationService, BookFileManager bookFileManager, BlackListFileManager blackListFileManager, CheckoutFileManager checkoutFileManager, SettingService settingService) {
+    public UserBookSearchCheckoutView(ValidationService validationService, BookFileManager bookFileManager, BlackListFileManager blackListFileManager, CheckoutFileManager checkoutFileManager, SettingService settingService,CheckoutService checkoutService) {
         this.validationService = validationService;
         this.bookFileManager = bookFileManager;
         this.blackListFileManager = blackListFileManager;
         this.checkoutFileManager = checkoutFileManager;
         this.settingService = settingService;
+        this.checkoutService = checkoutService;
     }
+
 
     @Override
     public Model begin(Model model) {
@@ -149,7 +153,7 @@ public class UserBookSearchCheckoutView implements CustomView {
                     return new Model("/user", null);
                 } else { // 대출 의사 yes이고 블랙리스트도 아닌 경우
                     // 대출처리
-                    List<Checkout> userCheckoutList = checkoutFileManager.loadCheckoutByUser(LoginMember.getInstance());
+                    List<String> userCheckoutList = checkoutService.getCheckoutHistory(LoginMember.getInstance());
                     if (userCheckoutList.size() >= 5) {
                         System.out.println("더이상 대출할 수 없습니다.");
                         return new Model("/user", null);

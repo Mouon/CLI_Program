@@ -248,7 +248,7 @@ public class MainFactory {
     public UserMenuView userMenuView(){
         return new UserMenuView(validationService()); // 여기에 무언가가 필요하다면 추가되어야함
     }
-    public UserBookSearchCheckoutView userBookSearchCheckoutView() { return new UserBookSearchCheckoutView(validationService(), bookFileManager(), blackListFileManager(), checkoutFileManager(),settingService()); }
+    public UserBookSearchCheckoutView userBookSearchCheckoutView() { return new UserBookSearchCheckoutView(validationService(), bookFileManager(), blackListFileManager(), checkoutFileManager(),settingService(),checkoutService()); }
 
     public UserMyPageView userMyPageView() {
         return new UserMyPageView(validationService()); //이후에 필요하면 parameter 추가
