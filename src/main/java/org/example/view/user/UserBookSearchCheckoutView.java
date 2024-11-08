@@ -40,20 +40,23 @@ public class UserBookSearchCheckoutView implements CustomView {
         System.out.println("찾고자 하는 책의 제목을 입력해주세요.");
         System.out.println("(뒤로 가려면 x키를 입력하세요.)");
         System.out.println();
-        System.out.print(">>> ");
 
         // 사용자 입력 받는 부분
-        String input = sc.nextLine().trim();
+        String input, searchedBook;
+        while(true){
+            System.out.print(">>> ");
+            input = sc.nextLine().trim();
 
-        // 뒤로 가기 입력 시 사용자 메뉴 화면으로 이동
-        if (input.equals("x") || input.equals("X"))
-            return new Model("/user", null);
+            // 뒤로 가기 입력 시 사용자 메뉴 화면으로 이동
+            if (input.equals("x") || input.equals("X"))
+                return new Model("/user", null);
 
-        String searchedBook = validationService.BookNameValidation(input);
+            searchedBook = validationService.BookNameValidation(input);
 
-        if (searchedBook == null) {
-            System.out.println("유효하지 않은 입력입니다.");
-            return new Model("/user", null);
+            if (searchedBook == null) {
+                System.out.println("유효하지 않은 입력입니다.");
+            }
+            else break;
         }
 
         List<Book> searchedBookList = bookFileManager.loadBookListByName(searchedBook);
