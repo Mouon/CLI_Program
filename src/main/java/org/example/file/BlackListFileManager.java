@@ -94,24 +94,36 @@ public class BlackListFileManager {
             while (file.hasNext()) {
                 String str = file.nextLine();
                 String[] result = str.split("\t");
-                if(result[0].trim().equals(user.getUserId())||result[2].trim().equals("null")){
+
+                if (result[0].trim().equals(user.getUserId())) {
                     LocalDate startDate = LocalDate.parse(result[1].trim(), DATE_FORMATTER);
+
+                    // endDate가 null인 경우 처리
+                    if (result[2].trim().equals("null")) {
+                        if (localDate.isEqual(startDate) || localDate.isAfter(startDate)) {
+                            file.close();
+                            return true;
+                        }
+                        continue;
+                    }
+
                     LocalDate endDate = LocalDate.parse(result[2].trim(), DATE_FORMATTER);
+
+                    // 현재 날짜가 시작일과 종료일 사이에 있는지 확인
                     if ((localDate.isEqual(startDate) || localDate.isAfter(startDate))
                             && (localDate.isEqual(endDate) || localDate.isBefore(endDate))) {
+                        file.close();
                         return true;
-                    } else {
-                        return false;
                     }
                 }
             }
+            file.close();
             return false;
         } catch (FileNotFoundException e) {
             System.out.println("해당 파일을 찾을 수 없습니다.");
             throw new RuntimeException();
         }
     }
-
     /**
      * 새로운 블랙리스트 항목을 추가한다.
      *
