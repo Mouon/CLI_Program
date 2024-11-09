@@ -30,19 +30,18 @@ public class HostChangeCheckoutDurationView implements CustomView {
         while(true){
             System.out.print(">>> ");
             String input = sc.nextLine().trim();
-            int newCheckoutDuration = 0; //새로운 반납기간
 
-            if(validationService.numberInputValidation(input) != null){
-                if(validationService.menuInputValidation(input).equals("X")){
-                    //뒤로가기
-                    return new Model("/host/managebook", null);
-                }
-                //뒤로가기가 아니고 유효한 입력인 경우 변경할 반납기간 값으로 설정
-                newCheckoutDuration = validationService.numberInputValidation(input);
+            if(validationService.menuInputValidation(input).equals("X")){
+                //뒤로가기
+                System.out.println("뒤로가기 실행");
+                return new Model("/host/managebook", null);
             }
 
+            //뒤로가기가 아니고 유효한 입력인 경우 변경할 반납기간 값으로 설정
+            Integer newCheckoutDuration = validationService.numberInputValidation(input);
+
             //올바른 입력인 경우
-            if(newCheckoutDuration > 0){
+            if(newCheckoutDuration!= null && newCheckoutDuration > 0){
                 settingService.changeCheckoutDuration(newCheckoutDuration);
                 System.out.println("전체 반납 기간이 변경되었습니다.");
                 return new Model("/host/managebook", null);
