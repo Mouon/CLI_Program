@@ -201,14 +201,24 @@ public class ValidationService {
 
     /**
      * ISBN 입력 규칙
+     * 입력: 10자리 또는 13자리의 숫자만 허용 (공백 불가)
      */
-    public String isbnInputValidation(String input){
-        input = input.trim().replaceAll("\\s+", " "); // 앞뒤 공백 제거 + 연속된 공백을 하나의 공백으로 변환
-        String pattern = "^[\\x20-\\x7E가-힣ㄱ-ㅎㅏ-ㅣ]+$"; // 영문, 숫자, 특수기호, 한글(자음/모음 포함) 허용
+    public String isbnInputValidation(String input) {
+        // 앞뒤 공백 제거
+        input = input.trim();
+
+        // 숫자만 허용하는 패턴
+        String pattern = "^[0-9]+$";
+
         if (!input.matches(pattern) || input.equals("x") || input.equals("X")) {
-            return null; // 입력규칙에 맞지 않거나, x 류의 글자가 들어온 경우 false 반환
+            return null;
         }
+
+        // 10자리 또는 13자리 숫자인지 확인
+        if (input.length() != 10 && input.length() != 13) {
+            return null;
+        }
+
         return input;
     }
-
 }
