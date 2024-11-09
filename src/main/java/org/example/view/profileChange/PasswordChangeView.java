@@ -31,7 +31,11 @@ public class PasswordChangeView implements CustomView {
 
             if(stringValidationResult.equals("X")){
                 //뒤로가기 입력인 경우
-                return new Model("/user/mypage",null);
+                if(LoginMember.getInstance().getUserType().equals("사용자")){
+                    return new Model("/user/mypage",null);
+                }else{
+                    return new Model("/host/mypage",null);
+                }
             }
             //기존 비밀번호와 입력한 값이 일치하는지 확인
             if(LoginMember.getInstance().getPassword().equals(input)){

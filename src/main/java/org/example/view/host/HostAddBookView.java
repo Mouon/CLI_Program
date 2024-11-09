@@ -40,7 +40,7 @@ public class HostAddBookView implements CustomView {
             switch(index){//입력단계구분
                 case 0->{//도서명
                     if (validationService.BookNameValidation(dataList.get(index))==null){
-                        System.out.println("옳바르지 않는 입력입니다.");
+                        System.out.println("올바르지 않는 입력입니다.");
                         index--;//재입력
                     }
                     if (xJudge.equals("x")||xJudge.equals("X")){
@@ -51,7 +51,7 @@ public class HostAddBookView implements CustomView {
                     if (xJudge.equals("x")||xJudge.equals("X")){
                         index=index-2;//이전 단계로 이동
                     }else if (validationService.authorInputValidation(dataList.get(index))==null){
-                        System.out.println("옳바르지 않는 입력입니다.");
+                        System.out.println("올바르지 않는 입력입니다.");
                         index--;//재입력
                     }
                 }
@@ -59,7 +59,7 @@ public class HostAddBookView implements CustomView {
                     if (xJudge.equals("x")||xJudge.equals("X")){
                         index=index-2;//이전 단계로 이동
                     }else if (validationService.publisherInputValidation(dataList.get(index))==null){
-                        System.out.println("옳바르지 않는 입력입니다.");
+                        System.out.println("올바르지 않는 입력입니다.");
                         index--;//재입력
                     }
                 }
@@ -67,7 +67,7 @@ public class HostAddBookView implements CustomView {
                     if (xJudge.equals("x")||xJudge.equals("X")){
                         index=index-2;//이전 단계로 이동
                     } else if (validationService.numberInputValidation(dataList.get(index))==null || input.length()!=4) {
-                        System.out.println("옳바르지 않는 입력입니다.");
+                        System.out.println("올바르지 않는 입력입니다.");
                         index--;//재입력
                     }
                 }
@@ -75,7 +75,7 @@ public class HostAddBookView implements CustomView {
                     if (xJudge.equals("x")||xJudge.equals("X")){
                         index=index-2;//이전 단계로 이동
                     } else if (validationService.isbnInputValidation(dataList.get(index))==null) {
-                        System.out.println("옳바르지 않는 입력입니다.");
+                        System.out.println("올바르지 않는 입력입니다.");
                         index--;//재입력
                     }
                 }
@@ -83,7 +83,7 @@ public class HostAddBookView implements CustomView {
                     if (xJudge.equals("x")||xJudge.equals("X")){
                         index=index-2;//이전 단계로 이동
                     } else if (validationService.numberInputValidation(dataList.get(index))==null) {
-                        System.out.println("옳바르지 않는 입력입니다.");
+                        System.out.println("올바르지 않는 입력입니다.");
                         index--;//재입력
                     }
                 }
