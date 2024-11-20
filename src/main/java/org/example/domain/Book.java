@@ -17,6 +17,7 @@ public class Book {
     private String ISBN;
     private LocalDate enterDate;
     private LocalDate deleteDate;
+    private boolean isDelete;
     private AuthorBookFileManager authorBookFileManager;
     private AuthorFileManger authorFileManager;
     public Book(AuthorBookFileManager authorBookFileManager, AuthorFileManger authorFileManager) {
@@ -25,7 +26,7 @@ public class Book {
     }
 
     public Book(String bookName, String publishingHouse, String publishingYear,
-                String isCheckout, String ISBN, LocalDate enterDate, LocalDate deleteDate) {
+                String isCheckout, String ISBN, LocalDate enterDate, LocalDate deleteDate,boolean isDelete) {
         this.bookName = bookName;
         this.publishingHouse = publishingHouse;
         this.publishingYear = publishingYear;
@@ -46,7 +47,7 @@ public class Book {
     }
 
     public Book(Long bookId, String bookName, String publishingHouse, String publishingYear, String isCheckout, String ISBN,
-                LocalDate enterDate, LocalDate deleteDate) {
+                LocalDate enterDate, LocalDate deleteDate,boolean isDelete) {
         this.bookId = bookId;
         this.bookName = bookName;
         this.publishingHouse = publishingHouse;
@@ -55,6 +56,7 @@ public class Book {
         this.ISBN = ISBN;
         this.enterDate = enterDate;
         this.deleteDate = deleteDate;
+        this.isDelete = isDelete;
     }
 
     public LocalDate getEnterDate() {
@@ -120,6 +122,13 @@ public class Book {
         this.ISBN = ISBN;
     }
 
+    public boolean isDelete() {
+        return isDelete;
+    }
+
+    public void setDelete(boolean delete) {
+        isDelete = delete;
+    }
 
     public String getAuthorName() {
         if (this.bookId == null || authorBookFileManager == null || authorFileManager == null) {
@@ -150,6 +159,7 @@ public class Book {
         private String ISBN;
         private LocalDate enterDate;
         private LocalDate deleteDate;
+        private boolean isDelete;
         private AuthorBookFileManager authorBookFileManager;
         private AuthorFileManger authorFileManager;
         public Builder() {
@@ -186,6 +196,10 @@ public class Book {
             this.deleteDate = deleteDate;
             return this;
         }
+        public Builder isDelete(boolean isDelete) {
+            this.isDelete = isDelete;
+            return this;
+        }
         public Builder authorBookFileManager(AuthorBookFileManager authorBookFileManager) {
             this.authorBookFileManager = authorBookFileManager;
             return this;
@@ -195,7 +209,7 @@ public class Book {
             return this;
         }
         public Book build() {
-            Book book = new Book(bookId, bookName, publishingHouse, publishingYear, isCheckout, ISBN, enterDate, deleteDate);
+            Book book = new Book(bookId, bookName, publishingHouse, publishingYear, isCheckout, ISBN, enterDate, deleteDate,isDelete);
             book.authorBookFileManager = this.authorBookFileManager;
             book.authorFileManager = this.authorFileManager;
             return book;        }

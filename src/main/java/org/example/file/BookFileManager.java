@@ -35,6 +35,10 @@ public class BookFileManager {
         return date == null ? "null" : date.format(DATE_FORMATTER);
     }
 
+    private String formatIsDelete(boolean isDelete) {
+        return isDelete ? "true" : "false";
+    }
+
     /**
      * 전체 책 리스트를 로드한다.
      *
@@ -56,6 +60,7 @@ public class BookFileManager {
                         .ISBN(result[5].trim())
                         .enterDate(LocalDate.parse(result[6].trim(), DATE_FORMATTER))
                         .deleteDate(parseDeleteDate(result[7]))
+                        .isDelete(result[8].trim().equals("true") ? true : false)
                         .build();
 
                 bookList.add(book);
@@ -92,6 +97,7 @@ public class BookFileManager {
                             .deleteDate(parseDeleteDate(result[7]))
                             .authorBookFileManager(new AuthorBookFileManager())
                             .authorFileManager(new AuthorFileManger())
+                            .isDelete(result[8].trim().equals("true") ? true : false)
                             .build();
                     bookList.add(book);
                 }
@@ -125,6 +131,7 @@ public class BookFileManager {
                             .ISBN(result[5].trim())
                             .enterDate(LocalDate.parse(result[6].trim(), DATE_FORMATTER))
                             .deleteDate(parseDeleteDate(result[7]))
+                            .isDelete(result[8].trim().equals("true") ? true : false)
                             .build();
                     return book;
                 }
@@ -150,7 +157,7 @@ public class BookFileManager {
 
             String bookString =  bookId + "\t" + book.getBookName()  + "\t"
                     + book.getPublishingHouse()+"\t" + book.getPublishingYear()+"\t" + book.getIsCheckout() +
-                    "\t" + book.getISBN() + "\t" + book.getEnterDate()+ "\t" + "null";
+                    "\t" + book.getISBN() + "\t" + book.getEnterDate()+ "\t" + "null"+"\t" + "false";
 
             writer.write(bookString);
             writer.newLine();
@@ -186,7 +193,8 @@ public class BookFileManager {
                 for (Book book : bookList) {
                     String bookString =  book.getBookId() + "\t" + book.getBookName()  + "\t"
                             + book.getPublishingHouse()+"\t" + book.getPublishingYear()+"\t" + book.getIsCheckout() +
-                            "\t" + book.getISBN() + "\t" + book.getEnterDate()+ "\t" + formatDeleteDate(book.getDeleteDate());
+                            "\t" + book.getISBN() + "\t" + book.getEnterDate()+ "\t" + formatDeleteDate(book.getDeleteDate()) +
+                            "\t" + formatIsDelete(book.isDelete());
                     writer.write(bookString);
                     writer.newLine();
                 }
@@ -225,7 +233,8 @@ public class BookFileManager {
                 for (Book book : bookList) {
                     String bookString =  book.getBookId() + "\t" + book.getBookName()  + "\t"
                             + book.getPublishingHouse()+"\t" + book.getPublishingYear()+"\t" + book.getIsCheckout() +
-                            "\t" + book.getISBN() + "\t" + book.getEnterDate()+ "\t" + formatDeleteDate(book.getDeleteDate());
+                            "\t" + book.getISBN() + "\t" + book.getEnterDate()+ "\t" + formatDeleteDate(book.getDeleteDate())
+                            + "\t" + formatIsDelete(book.isDelete());
                     writer.write(bookString);
                     writer.newLine();
                 }
