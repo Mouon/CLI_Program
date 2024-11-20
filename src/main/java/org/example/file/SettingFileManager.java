@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Scanner;
 
 public class SettingFileManager {
+    public static final String FILE_PATH = "src/main/resources/setting.txt";
 
     /**
      * 전체 사용자 목록을 로드한다.
@@ -18,7 +19,7 @@ public class SettingFileManager {
     public List<Setting> loadSettingList() {
         List<Setting> settingList = new ArrayList<>();
         try {
-            Scanner file = new Scanner(new File("src/main/resources/setting.txt"));
+            Scanner file = new Scanner(new File(FILE_PATH));
             while (file.hasNext()) {
                 String str = file.nextLine();
                 String[] result = str.split("\t");
@@ -38,7 +39,7 @@ public class SettingFileManager {
      */
     public String getValueBySettingName(String settingName) {
         try {
-            Scanner file = new Scanner(new File("src/main/resources/setting.txt"));
+            Scanner file = new Scanner(new File(FILE_PATH));
             while (file.hasNext()) {
                 String str = file.nextLine();
                 String[] result = str.split("\t");
@@ -60,7 +61,7 @@ public class SettingFileManager {
      */
     public void save(Setting setting) {
         try {
-            BufferedWriter writer = new BufferedWriter(new FileWriter(new File("src/main/resources/setting.txt"), true));
+            BufferedWriter writer = new BufferedWriter(new FileWriter(new File(FILE_PATH), true));
 
             String settingString = setting.getSettingName() + "\t" + setting.getValue();
             writer.write(settingString);
@@ -93,7 +94,7 @@ public class SettingFileManager {
 
         if (isUpdated) {
             try {
-                BufferedWriter writer = new BufferedWriter(new FileWriter(new File("src/main/resources/setting.txt")));
+                BufferedWriter writer = new BufferedWriter(new FileWriter(new File(FILE_PATH)));
 
                 for (Setting setting : settingList) {
                     String settingString = setting.getSettingName() + "\t" + setting.getValue();
@@ -119,7 +120,7 @@ public class SettingFileManager {
      */
     public Setting loadSettingByName(String settingName) {
         try {
-            Scanner file = new Scanner(new File("src/main/resources/setting.txt"));
+            Scanner file = new Scanner(new File(FILE_PATH));
             while (file.hasNext()) {
                 String str = file.nextLine();
                 String[] result = str.split("\t");

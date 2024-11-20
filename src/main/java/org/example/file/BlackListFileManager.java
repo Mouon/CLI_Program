@@ -21,6 +21,7 @@ import java.util.Scanner;
  */
 public class BlackListFileManager {
     private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("yyyyMMdd");
+    public static final String FILE_PATH = "src/main/resources/blacklist.txt";
 
     public BlackListFileManager() {
     }
@@ -33,7 +34,7 @@ public class BlackListFileManager {
     public List<BlackList> loadAllBlackList() {
         List<BlackList> blackLists = new ArrayList<>();
         try {
-            Scanner file = new Scanner(new File("src/main/resources/blacklist.txt"));
+            Scanner file = new Scanner(new File(FILE_PATH));
             while (file.hasNext()) {
                 String str = file.nextLine();
                 String[] result = str.split("\t");
@@ -59,7 +60,7 @@ public class BlackListFileManager {
     public List<BlackList> loadBlackListByUserId(String userId) {
         try {
             List<BlackList> blackLists = new ArrayList<>();
-            Scanner file = new Scanner(new File("src/main/resources/blacklist.txt"));
+            Scanner file = new Scanner(new File(FILE_PATH));
             while (file.hasNext()) {
                 String str = file.nextLine();
                 String[] result = str.split("\t");
@@ -90,7 +91,7 @@ public class BlackListFileManager {
      */
     public boolean isBlackList(User user, LocalDate localDate) {
         try {
-            Scanner file = new Scanner(new File("src/main/resources/blacklist.txt"));
+            Scanner file = new Scanner(new File(FILE_PATH));
             while (file.hasNext()) {
                 String str = file.nextLine();
                 String[] result = str.split("\t");
@@ -132,7 +133,7 @@ public class BlackListFileManager {
 
     public void addBlackList(BlackList blackList) {
         try {
-            BufferedWriter writer = new BufferedWriter(new FileWriter(new File("src/main/resources/blacklist.txt"), true));
+            BufferedWriter writer = new BufferedWriter(new FileWriter(new File(FILE_PATH), true));
 
             String blackListString = blackList.getUserId() + "\t"
                     + blackList.getStartDate().format(DATE_FORMATTER)+ "\t"
@@ -167,7 +168,7 @@ public class BlackListFileManager {
 
         if (isUpdated) {
             try {
-                BufferedWriter writer = new BufferedWriter(new FileWriter(new File("src/main/resources/blacklist.txt")));
+                BufferedWriter writer = new BufferedWriter(new FileWriter(new File(FILE_PATH)));
 
                 for (BlackList blackList : blackLists) {
                     String blackListString = blackList.getUserId() + "\t"
@@ -212,7 +213,7 @@ public class BlackListFileManager {
 
         if (isUpdated) {
             try {
-                BufferedWriter writer = new BufferedWriter(new FileWriter(new File("src/main/resources/blacklist.txt")));
+                BufferedWriter writer = new BufferedWriter(new FileWriter(new File(FILE_PATH)));
 
                 for (BlackList blackList : blackLists) {
                     String blackListString = blackList.getUserId() + "\t"

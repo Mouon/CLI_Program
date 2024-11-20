@@ -19,6 +19,7 @@ import java.util.Scanner;
  */
 public class BookFileManager {
     private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("yyyyMMdd");
+    public static final String FILE_PATH = "src/main/resources/books.txt";
 
     public BookFileManager() {
     }
@@ -42,7 +43,7 @@ public class BookFileManager {
     public List<Book> loadBookList() {
         List<Book> bookList = new ArrayList<>();
         try {
-            Scanner file = new Scanner(new File("src/main/resources/books.txt"));
+            Scanner file = new Scanner(new File(FILE_PATH));
             while (file.hasNext()) {
                 String str = file.nextLine();
                 String[] result = str.split("\t");
@@ -75,7 +76,7 @@ public class BookFileManager {
     public List<Book> loadBookListByName(String bookName) {
         List<Book> bookList = new ArrayList<>();
         try {
-            Scanner file = new Scanner(new File("src/main/resources/books.txt"));
+            Scanner file = new Scanner(new File(FILE_PATH));
             while (file.hasNext()) {
                 String str = file.nextLine();
                 String[] result = str.split("\t");
@@ -110,7 +111,7 @@ public class BookFileManager {
      */
     public Book loadBookById(Long bookId) {
         try {
-            Scanner file = new Scanner(new File("src/main/resources/books.txt"));
+            Scanner file = new Scanner(new File(FILE_PATH));
             while (file.hasNext()) {
                 String str = file.nextLine();
                 String[] result = str.split("\t");
@@ -145,7 +146,7 @@ public class BookFileManager {
     public void addBook(Book book) {
         long bookId = getNextBookId();
         try {
-            BufferedWriter writer = new BufferedWriter(new FileWriter(new File("src/main/resources/books.txt"), true));
+            BufferedWriter writer = new BufferedWriter(new FileWriter(new File(FILE_PATH), true));
 
             String bookString =  bookId + "\t" + book.getBookName()  + "\t"
                     + book.getPublishingHouse()+"\t" + book.getPublishingYear()+"\t" + book.getIsCheckout() +
@@ -180,7 +181,7 @@ public class BookFileManager {
 
         if (isUpdated) {
             try {
-                BufferedWriter writer = new BufferedWriter(new FileWriter(new File("src/main/resources/books.txt")));
+                BufferedWriter writer = new BufferedWriter(new FileWriter(new File(FILE_PATH)));
 
                 for (Book book : bookList) {
                     String bookString =  book.getBookId() + "\t" + book.getBookName()  + "\t"
@@ -219,7 +220,7 @@ public class BookFileManager {
 
         if (isUpdated) {
             try {
-                BufferedWriter writer = new BufferedWriter(new FileWriter(new File("src/main/resources/books.txt")));
+                BufferedWriter writer = new BufferedWriter(new FileWriter(new File(FILE_PATH)));
 
                 for (Book book : bookList) {
                     String bookString =  book.getBookId() + "\t" + book.getBookName()  + "\t"
@@ -247,7 +248,7 @@ public class BookFileManager {
         long maxId = -1; // 기본적으로 -1로 초기화 (유효한 ID는 0 이상)
 
         try {
-            Scanner file = new Scanner(new File("src/main/resources/books.txt"));
+            Scanner file = new Scanner(new File(FILE_PATH));
             while (file.hasNext()) {
                 String str = file.nextLine();
                 String[] result = str.split("\t");

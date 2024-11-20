@@ -7,11 +7,11 @@ import java.util.List;
 import java.util.Scanner;
 
 public class AuthorBookFileManager {
-
+    public static final String FILE_PATH = "src/main/resources/author_book.txt";
     public List<AuthorBook> loadAuthorBookFileManagerList() {
         List<AuthorBook> authorBookList = new ArrayList<>();
         try {
-            Scanner file = new Scanner(new File("src/main/resources/author_book.txt"));
+            Scanner file = new Scanner(new File(FILE_PATH));
             while (file.hasNext()) {
                 String str = file.nextLine();
                 String[] result = str.split("\t");
@@ -32,7 +32,7 @@ public class AuthorBookFileManager {
     public List<AuthorBook> loadByAuthorId(Long authorId) {
         List<AuthorBook> authorBookList = new ArrayList<>();
         try {
-            Scanner file = new Scanner(new File("src/main/resources/author_book.txt"));
+            Scanner file = new Scanner(new File(FILE_PATH));
             while (file.hasNext()) {
                 String str = file.nextLine();
                 String[] result = str.split("\t");
@@ -54,7 +54,7 @@ public class AuthorBookFileManager {
     public List<AuthorBook> loadByBookId(Long bookId) {
         List<AuthorBook> authorBookList = new ArrayList<>();
         try {
-            Scanner file = new Scanner(new File("src/main/resources/author_book.txt"));
+            Scanner file = new Scanner(new File(FILE_PATH));
             while (file.hasNext()) {
                 String str = file.nextLine();
                 String[] result = str.split("\t");
@@ -75,7 +75,7 @@ public class AuthorBookFileManager {
 
     public void addAuthorBook(AuthorBook authorBook) {
         try {
-            BufferedWriter writer = new BufferedWriter(new FileWriter(new File("src/main/resources/author_book.txt"), true));
+            BufferedWriter writer = new BufferedWriter(new FileWriter(new File(FILE_PATH), true));
 
             String authorBookString =  authorBook.getAuthorId() + "\t" + authorBook.getBookId();
 

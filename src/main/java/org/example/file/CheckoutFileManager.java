@@ -20,6 +20,7 @@ import java.util.Scanner;
  */
 public class CheckoutFileManager {
     private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("yyyyMMdd");
+    public static final String FILE_PATH = "src/main/resources/checkout.txt";
 
     public CheckoutFileManager() {
     }
@@ -32,7 +33,7 @@ public class CheckoutFileManager {
     public List<Checkout> loadCheckoutList() {
         List<Checkout> checkoutList = new ArrayList<>();
         try {
-            Scanner file = new Scanner(new File("src/main/resources/checkout.txt"));
+            Scanner file = new Scanner(new File(FILE_PATH));
             while (file.hasNext()) {
                 String str = file.nextLine();
                 String[] result = str.split("\t");
@@ -62,7 +63,7 @@ public class CheckoutFileManager {
      */
     public Checkout loadCheckoutByBook(Book book) {
         try {
-            Scanner file = new Scanner(new File("src/main/resources/checkout.txt"));
+            Scanner file = new Scanner(new File( FILE_PATH));
             while (file.hasNext()) {
                 String str = file.nextLine();
                 String[] result = str.split("\t");
@@ -87,7 +88,7 @@ public class CheckoutFileManager {
     public List<Checkout> loadCheckoutByUser(User user) {
         List<Checkout> checkoutList = new ArrayList<>();
         try {
-            Scanner file = new Scanner(new File("src/main/resources/checkout.txt"));
+            Scanner file = new Scanner(new File( FILE_PATH));
             while (file.hasNext()) {
                 String str = file.nextLine();
                 String[] result = str.split("\t");
@@ -110,7 +111,7 @@ public class CheckoutFileManager {
      */
     public void addCheckout(Checkout checkout) {
         try {
-            BufferedWriter writer = new BufferedWriter(new FileWriter(new File("src/main/resources/checkout.txt"), true));
+            BufferedWriter writer = new BufferedWriter(new FileWriter(new File( FILE_PATH), true));
 
             String checkoutString = checkout.getUserId() + "\t" + checkout.getBookId() + "\t"
                     + checkout.getCheckoutDate().format(DATE_FORMATTER) + "\t"
@@ -157,7 +158,7 @@ public class CheckoutFileManager {
 
         if (isUpdated) {
             try {
-                BufferedWriter writer = new BufferedWriter(new FileWriter(new File("src/main/resources/checkout.txt")));
+                BufferedWriter writer = new BufferedWriter(new FileWriter(new File( FILE_PATH)));
 
                 for (Checkout checkout : checkoutList) {
                     String checkoutString = checkout.getUserId() + "\t" + checkout.getBookId() + "\t"

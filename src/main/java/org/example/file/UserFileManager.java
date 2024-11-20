@@ -15,6 +15,8 @@ import java.util.Scanner;
  * 사용자 정보는 파일 시스템에 저장되며, 이 클래스를 통해 관리됩니다.
  */
 public class UserFileManager {
+    public static final String FILE_PATH = "src/main/resources/users.txt";
+
     public UserFileManager() {
     }
 
@@ -26,7 +28,7 @@ public class UserFileManager {
     public List<User> loadUserList() {
         List<User> userList = new ArrayList<>();
         try {
-            Scanner file = new Scanner(new File("src/main/resources/users.txt"));
+            Scanner file = new Scanner(new File(FILE_PATH));
             while (file.hasNext()) {
                 String str = file.nextLine();
                 String[] result = str.split("\t");
@@ -57,7 +59,7 @@ public class UserFileManager {
      */
     public User loadUserById(String userId) {
         try {
-            Scanner file = new Scanner(new File("src/main/resources/users.txt"));
+            Scanner file = new Scanner(new File(FILE_PATH));
             while (file.hasNext()) {
                 String str = file.nextLine();
                 String[] result = str.split("\t");
@@ -83,7 +85,7 @@ public class UserFileManager {
      */
     public void join(User user) {
         try {
-            BufferedWriter writer = new BufferedWriter(new FileWriter(new File("src/main/resources/users.txt"), true));
+            BufferedWriter writer = new BufferedWriter(new FileWriter(new File(FILE_PATH), true));
 
             String userString = user.getUserType() + "\t" + user.getUserId() + "\t" + user.getPassword() + "\t" + user.getUserName();
             writer.write(userString);
@@ -120,7 +122,7 @@ public class UserFileManager {
 
         if (isUpdated) {
             try {
-                BufferedWriter writer = new BufferedWriter(new FileWriter(new File("src/main/resources/users.txt")));
+                BufferedWriter writer = new BufferedWriter(new FileWriter(new File(FILE_PATH)));
 
                 for (User user : userList) {
                     String userString = user.getUserType() + "\t" + user.getUserId() + "\t" + user.getPassword() + "\t" + user.getUserName();

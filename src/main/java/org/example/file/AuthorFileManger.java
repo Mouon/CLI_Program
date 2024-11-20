@@ -18,11 +18,12 @@ import java.util.Scanner;
  */
 public class AuthorFileManger {
     private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("yyyyMMdd");
+    public static final String FILE_PATH = "src/main/resources/author.txt";
 
     public List<Author> loadAuthorList() {
         List<Author> authorList = new ArrayList<>();
         try {
-            Scanner file = new Scanner(new File("src/main/resources/author.txt"));
+            Scanner file = new Scanner(new File(FILE_PATH));
             while (file.hasNext()) {
                 String str = file.nextLine();
                 String[] result = str.split("\t");
@@ -47,7 +48,7 @@ public class AuthorFileManger {
      * */
     public Author loadAuthorById(Long authorId) {
         try {
-            Scanner file = new Scanner(new File("src/main/resources/author.txt"));
+            Scanner file = new Scanner(new File(FILE_PATH));
             while (file.hasNext()) {
                 String str = file.nextLine();
                 String[] result = str.split("\t");
@@ -74,7 +75,7 @@ public class AuthorFileManger {
     public void addAuthor(Author author) {
         long authorId = getNextAuthorId();
         try {
-            BufferedWriter writer = new BufferedWriter(new FileWriter(new File("src/main/resources/author.txt"), true));
+            BufferedWriter writer = new BufferedWriter(new FileWriter(new File(FILE_PATH), true));
 
             String authorString =  authorId + "\t" + author.getAuthorName()  + "\t"
                     + author.getBirthDate()+"\t" + author.getISNI();
@@ -93,7 +94,7 @@ public class AuthorFileManger {
         long maxId = -1; // 기본적으로 -1로 초기화 (유효한 ID는 0 이상)
 
         try {
-            Scanner file = new Scanner(new File("src/main/resources/author.txt"));
+            Scanner file = new Scanner(new File(FILE_PATH));
             while (file.hasNext()) {
                 String str = file.nextLine();
                 String[] result = str.split("\t");
