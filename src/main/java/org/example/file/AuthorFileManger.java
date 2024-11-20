@@ -31,7 +31,6 @@ public class AuthorFileManger {
                         .authorId(Long.parseLong(result[0].trim()))
                         .authorName(result[1].trim())
                         .birthDate(LocalDate.parse(result[2].trim(), DATE_FORMATTER))
-                        .ISNI(result[3].trim())
                         .build();
 
                 authorList.add(author);
@@ -57,7 +56,6 @@ public class AuthorFileManger {
                             .authorId(Long.parseLong(result[0].trim()))
                             .authorName(result[1].trim())
                             .birthDate(LocalDate.parse(result[2].trim(), DATE_FORMATTER))
-                            .ISNI(result[3].trim())
                             .build();
                     return author;
                 }
@@ -78,7 +76,7 @@ public class AuthorFileManger {
             BufferedWriter writer = new BufferedWriter(new FileWriter(new File(FILE_PATH), true));
 
             String authorString =  authorId + "\t" + author.getAuthorName()  + "\t"
-                    + author.getBirthDate()+"\t" + author.getUID();
+                    + author.getBirthDate();
 
             writer.write(authorString);
             writer.newLine();
