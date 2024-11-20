@@ -331,5 +331,13 @@ public class MainFactory {
         return new SettingFileManager();
     }
 
+    public AuthorFileManger authorFileManager(){
+        return new AuthorFileManger();
+    }
+
+    public AuthorBookFileManager authorBookFileManager(){
+        return new AuthorBookFileManager();
+    }
+
 
 }

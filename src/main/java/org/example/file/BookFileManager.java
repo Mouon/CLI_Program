@@ -4,6 +4,8 @@ import org.example.domain.Book;
 import org.example.domain.User;
 
 import java.io.*;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -16,7 +18,20 @@ import java.util.Scanner;
  * 도서 정보는 파일 시스템에 저장되며, 이 클래스를 통해 관리됩니다.
  */
 public class BookFileManager {
+    private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("yyyyMMdd");
+
     public BookFileManager() {
+    }
+
+    private LocalDate parseDeleteDate(String dateStr) {
+        if (dateStr == null || dateStr.trim().equals("null")) {
+            return null; // 삭제일이 null인 경우 null 반환
+        }
+        return LocalDate.parse(dateStr.trim(), DATE_FORMATTER);
+    }
+
+    private String formatDeleteDate(LocalDate date) {
+        return date == null ? "null" : date.format(DATE_FORMATTER);
     }
 
     /**
@@ -31,8 +46,18 @@ public class BookFileManager {
             while (file.hasNext()) {
                 String str = file.nextLine();
                 String[] result = str.split("\t");
-                bookList.add(new Book(Long.parseLong(result[0].trim()), result[1].trim(), result[2].trim(),
-                        result[3].trim(),result[4].trim(),result[5].trim(),result[6].trim()));
+                Book book = new Book.Builder()
+                        .bookId(Long.parseLong(result[0].trim()))
+                        .bookName(result[1].trim())
+                        .publishingHouse(result[2].trim())
+                        .publishingYear(result[3].trim())
+                        .isCheckout(result[4].trim())
+                        .ISBN(result[5].trim())
+                        .enterDate(LocalDate.parse(result[6].trim(), DATE_FORMATTER))
+                        .deleteDate(parseDeleteDate(result[7]))
+                        .build();
+
+                bookList.add(book);
             }
             return bookList;
         } catch (FileNotFoundException e) {
@@ -55,8 +80,19 @@ public class BookFileManager {
                 String str = file.nextLine();
                 String[] result = str.split("\t");
                 if(result[1].trim().equals(bookName)){
-                    bookList.add(new Book(Long.parseLong(result[0].trim()), result[1].trim(), result[2].trim(),
-                            result[3].trim(),result[4].trim(),result[5].trim(),result[6].trim()));
+                    Book book = new Book.Builder()
+                            .bookId(Long.parseLong(result[0].trim()))
+                            .bookName(result[1].trim())
+                            .publishingHouse(result[2].trim())
+                            .publishingYear(result[3].trim())
+                            .isCheckout(result[4].trim())
+                            .ISBN(result[5].trim())
+                            .enterDate(LocalDate.parse(result[6].trim(), DATE_FORMATTER))
+                            .deleteDate(parseDeleteDate(result[7]))
+                            .authorBookFileManager(new AuthorBookFileManager())
+                            .authorFileManager(new AuthorFileManger())
+                            .build();
+                    bookList.add(book);
                 }
             }
             return bookList;
@@ -79,8 +115,17 @@ public class BookFileManager {
                 String str = file.nextLine();
                 String[] result = str.split("\t");
                 if(Long.parseLong(result[0].trim())==bookId){
-                    return new Book(Long.parseLong(result[0].trim()), result[1].trim(), result[2].trim(),
-                            result[3].trim(),result[4].trim(),result[5].trim(),result[6].trim());
+                    Book book = new Book.Builder()
+                            .bookId(Long.parseLong(result[0].trim()))
+                            .bookName(result[1].trim())
+                            .publishingHouse(result[2].trim())
+                            .publishingYear(result[3].trim())
+                            .isCheckout(result[4].trim())
+                            .ISBN(result[5].trim())
+                            .enterDate(LocalDate.parse(result[6].trim(), DATE_FORMATTER))
+                            .deleteDate(parseDeleteDate(result[7]))
+                            .build();
+                    return book;
                 }
             }
             return null;
@@ -94,15 +139,17 @@ public class BookFileManager {
      * 새로운 도서를 파일에 추가하는 메서드
      *
      * @param book 추가할 Book 객체
+     *
+     * 등록할땐 "deleteDate"는 문자열 "null"로 저장
      */
     public void addBook(Book book) {
         long bookId = getNextBookId();
         try {
             BufferedWriter writer = new BufferedWriter(new FileWriter(new File("src/main/resources/books.txt"), true));
 
-            String bookString =  bookId + "\t" + book.getBookName() + "\t" + book.getAuthorName() + "\t"
+            String bookString =  bookId + "\t" + book.getBookName()  + "\t"
                     + book.getPublishingHouse()+"\t" + book.getPublishingYear()+"\t" + book.getIsCheckout() +
-                    "\t" + book.getISBN();
+                    "\t" + book.getISBN() + "\t" + book.getEnterDate()+ "\t" + "null";
 
             writer.write(bookString);
             writer.newLine();
@@ -136,9 +183,9 @@ public class BookFileManager {
                 BufferedWriter writer = new BufferedWriter(new FileWriter(new File("src/main/resources/books.txt")));
 
                 for (Book book : bookList) {
-                    String bookString =  book.getBookId() + "\t" + book.getBookName() + "\t" + book.getAuthorName() + "\t"
+                    String bookString =  book.getBookId() + "\t" + book.getBookName()  + "\t"
                             + book.getPublishingHouse()+"\t" + book.getPublishingYear()+"\t" + book.getIsCheckout() +
-                            "\t" + book.getISBN();
+                            "\t" + book.getISBN() + "\t" + book.getEnterDate()+ "\t" + formatDeleteDate(book.getDeleteDate());
                     writer.write(bookString);
                     writer.newLine();
                 }
@@ -175,9 +222,9 @@ public class BookFileManager {
                 BufferedWriter writer = new BufferedWriter(new FileWriter(new File("src/main/resources/books.txt")));
 
                 for (Book book : bookList) {
-                    String bookString =  book.getBookId() + "\t" + book.getBookName() + "\t" + book.getAuthorName() + "\t"
+                    String bookString =  book.getBookId() + "\t" + book.getBookName()  + "\t"
                             + book.getPublishingHouse()+"\t" + book.getPublishingYear()+"\t" + book.getIsCheckout() +
-                            "\t" + book.getISBN();
+                            "\t" + book.getISBN() + "\t" + book.getEnterDate()+ "\t" + formatDeleteDate(book.getDeleteDate());
                     writer.write(bookString);
                     writer.newLine();
                 }

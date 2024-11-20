@@ -1,5 +1,7 @@
 package org.example.view.host;
 
+import org.example.domain.User;
+import org.example.dto.LoginMember;
 import org.example.dto.Model;
 import org.example.service.book.BookManageService;
 import org.example.service.validater.ValidationService;
@@ -24,8 +26,8 @@ public class HostAddBookView implements CustomView {
         Scanner sc = new Scanner(System.in);
         List<String> dataList= new ArrayList<>(List.of("_", "_", "_", "_", "_", "_"));
         int index=0;
-        List<String> dataName= List.of("도서명","저자명","출판사","출판연도","ISBN","수량");
-        //0:도서명 1:저자명 2:출판사 3:출판연도 4:ISBN 5:수량
+        List<String> dataName= List.of("도서명","출판사","출판연도","ISBN","수량");
+        //0:도서명 1:출판사 2:출판연도 3:ISBN 4:수량
         while(true){
             if (index==6) break;
             System.out.println(dataName.get(index)+"을/를 입력하세요");
@@ -47,15 +49,7 @@ public class HostAddBookView implements CustomView {
                         return new Model("/host/managebook",null);
                     }
                 }
-                case 1->{//저자명
-                    if (xJudge.equals("x")||xJudge.equals("X")){
-                        index=index-2;//이전 단계로 이동
-                    }else if (validationService.authorInputValidation(dataList.get(index))==null){
-                        System.out.println("올바르지 않는 입력입니다.");
-                        index--;//재입력
-                    }
-                }
-                case 2->{//출판사
+                case 1->{//출판사
                     if (xJudge.equals("x")||xJudge.equals("X")){
                         index=index-2;//이전 단계로 이동
                     }else if (validationService.publisherInputValidation(dataList.get(index))==null){
@@ -63,7 +57,7 @@ public class HostAddBookView implements CustomView {
                         index--;//재입력
                     }
                 }
-                case 3->{//출판연도
+                case 2->{//출판연도
                     if (xJudge.equals("x")||xJudge.equals("X")){
                         index=index-2;//이전 단계로 이동
                     } else if (validationService.numberInputValidation(dataList.get(index))==null || input.length()!=4) {
@@ -71,7 +65,7 @@ public class HostAddBookView implements CustomView {
                         index--;//재입력
                     }
                 }
-                case 4->{//ISBN
+                case 3->{//ISBN
                     if (xJudge.equals("x")||xJudge.equals("X")){
                         index=index-2;//이전 단계로 이동
                     } else if (validationService.isbnInputValidation(dataList.get(index))==null) {
@@ -79,7 +73,7 @@ public class HostAddBookView implements CustomView {
                         index--;//재입력
                     }
                 }
-                case 5->{//수량
+                case 4->{//수량
                     if (xJudge.equals("x")||xJudge.equals("X")){
                         index=index-2;//이전 단계로 이동
                     } else if (validationService.numberInputValidation(dataList.get(index))==null) {
@@ -91,7 +85,7 @@ public class HostAddBookView implements CustomView {
             index++;
         }
 
-        bookManageService.addBook(dataList.get(0),dataList.get(1),dataList.get(2),dataList.get(3), Integer.parseInt(dataList.get(5)),dataList.get(4));
+        bookManageService.addBook(dataList.get(0),dataList.get(1),dataList.get(2), Integer.parseInt(dataList.get(4)),dataList.get(3),LoginMember.getLoginTime());
 
         return new Model("/host/managebook",null);
     }
