@@ -1,6 +1,7 @@
 package org.example.view.host;
 
 import org.example.domain.Author;
+import org.example.domain.Book;
 import org.example.domain.User;
 import org.example.dto.LoginMember;
 import org.example.dto.Model;
@@ -79,7 +80,7 @@ public class HostAddBookView implements CustomView {
                         }
                         try{//저자생성
                             long authorId=Long.parseLong(divide[1]);
-                            authorFileManger.addAuthor(new Author(authorId,divide[0].trim(),LoginMember.getLoginTime()));
+                            targetAuthor=new Author(authorId,divide[0].trim(),LoginMember.getLoginTime());
                         }catch (NumberFormatException e){
                             System.out.println("#뒤에 따라오는 문자열은 숫자여야합니다.");
                             continue;
@@ -97,10 +98,13 @@ public class HostAddBookView implements CustomView {
                         if(authorMap.containsKey(input)){//존재확인
                             List<Author> matchedAuthorList=authorMap.get(input);
                             if(matchedAuthorList.size()==1){//1명
+                                System.out.println("저자 고유번호 / 저자명 / 생년월일");
+                                System.out.println(matchedAuthorList.get(0).getAuthorId()+" / "+matchedAuthorList.get(0).getAuthorName()+" / "+matchedAuthorList.get(0).getBirthDate());
+                                System.out.print("엔터입력:동일인물, 기타입력: 새로생성\n>>>");
                                 if(sc.nextLine().trim().isEmpty()){
                                     targetAuthor = matchedAuthorList.get(0);
                                 }
-                            }else {//1명이상
+                            }else {//2명이상
                                 System.out.println("저자 고유번호 / 저자명 / 생년월일");
                                 for(Author author:matchedAuthorList){
                                     System.out.println(author.getAuthorId()+" / "+author.getAuthorName()+" / "+author.getBirthDate());
@@ -123,11 +127,13 @@ public class HostAddBookView implements CustomView {
                                     authorIdInput = sc.nextLine().trim();
                                 }
                                 if (authorIdInput.equals("0")) { //새 저자 생성
-                                    authorFileManger.addAuthor(new Author(input, LoginMember.getLoginTime()));
+                                    targetAuthor=new Author(input,LoginMember.getLoginTime());
+
                                 }
                             }
                         }else{
-                            authorFileManger.addAuthor(new Author(input,LoginMember.getLoginTime()));
+                            targetAuthor=new Author(input,LoginMember.getLoginTime());
+
                         }
 
                     }
@@ -160,7 +166,8 @@ public class HostAddBookView implements CustomView {
             index++;
         }
 
-        bookManageService.addBook(dataList.get(1),dataList.get(2),dataList.get(3), Integer.parseInt(dataList.get(4)),dataList.get(0),LoginMember.getLoginTime());
+        authorFileManger.addAuthor(targetAuthor);
+        bookManageService.addBook(dataList.get(1),dataList.get(3),dataList.get(4), Integer.parseInt(dataList.get(5)),dataList.get(0),LoginMember.getLoginTime(),targetAuthor);
 
 
 

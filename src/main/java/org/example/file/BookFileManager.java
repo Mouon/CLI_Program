@@ -150,14 +150,14 @@ public class BookFileManager {
      *
      * 등록할땐 "deleteDate"는 문자열 "null"로 저장
      */
-    public void addBook(Book book) {
+    public long addBook(Book book) {
         long bookId = getNextBookId();
         try {
             BufferedWriter writer = new BufferedWriter(new FileWriter(new File(FILE_PATH), true));
 
             String bookString =  bookId + "\t" + book.getBookName()  + "\t"
                     + book.getPublishingHouse()+"\t" + book.getPublishingYear()+"\t" + book.getIsCheckout() +
-                    "\t" + book.getISBN() + "\t" + book.getEnterDate()+ "\t" + "null"+"\t" + "false";
+                    "\t" + book.getISBN() + "\t" + book.getEnterDate().format(DATE_FORMATTER)+ "\t" + "null"+"\t" + "false";
 
             writer.write(bookString);
             writer.newLine();
@@ -167,6 +167,7 @@ public class BookFileManager {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        return bookId;
     }
 
     /**
