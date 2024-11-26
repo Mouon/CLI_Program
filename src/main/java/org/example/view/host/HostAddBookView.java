@@ -1,8 +1,6 @@
 package org.example.view.host;
 
 import org.example.domain.Author;
-import org.example.domain.Book;
-import org.example.domain.User;
 import org.example.dto.LoginMember;
 import org.example.dto.Model;
 import org.example.service.book.BookManageService;
@@ -10,6 +8,8 @@ import org.example.service.validater.ValidationService;
 import org.example.view.CustomView;
 import org.example.file.AuthorFileManger;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 public class HostAddBookView implements CustomView {
@@ -122,12 +122,12 @@ public class HostAddBookView implements CustomView {
                                     targetAuthor=new Author(input,LoginMember.getLoginTime());
                                     authorGenerateFlag = true;
                                 }
-                            }else {//2명이상
+                            }else if(matchedAuthorList.size()>1){//2명이상
                                 System.out.println("저자 고유번호 / 저자명 / 생년월일");
                                 for(Author author:matchedAuthorList){
                                     System.out.println(author.getAuthorId()+" / "+author.getAuthorName()+" / "+author.getBirthDate());
                                 }
-                                System.out.print("고유번호를 입력하세요(0 입력시 새 저자로 저장)>>>");
+                                System.out.print("고유번호를 입력하세요(0 입력시 새 저자로 저장)\n>>>");
 
                                 String authorIdInput = sc.nextLine().trim();
                                 Label:
@@ -142,21 +142,40 @@ public class HostAddBookView implements CustomView {
                                     }
 
                                     System.out.println("해당 고유번호가 없습니다.");
-                                    System.out.print("고유번호를 입력하세요(0 입력시 새 저자로 저장)>>>");
+                                    System.out.print("고유번호를 입력하세요(0 입력시 새 저자로 저장)\n>>>");
                                     authorIdInput = sc.nextLine().trim();
                                 }
                                 if (authorIdInput.equals("0")) { //새 저자 생성
                                     targetAuthor=new Author(input,LoginMember.getLoginTime());
                                     authorGenerateFlag = true;
                                 }
+                            }else {
+                                targetAuthor=new Author(input,LoginMember.getLoginTime());
+                                authorGenerateFlag = true;
                             }
-
 
                         }else{
                             targetAuthor=new Author(input,LoginMember.getLoginTime());
                             authorGenerateFlag = true;
                         }
 
+                    }
+
+                    if(authorGenerateFlag){
+                        while(true){
+                            System.out.print("저자의 생년월일을 입력하세요\n>>>");
+                            String date = sc.nextLine().trim();
+                            if(validationService.dateInputValidation(date)!=null){
+                                targetAuthor.setBirthDate(validationService.dateInputValidation(date));
+                                break;
+                            }
+                            if(date.equals("x")||date.equals("X")){
+                                authorGenerateFlag = false;
+                                index--;
+                                break;
+                            }
+                            System.out.print("옳바르지 않는 입력 입니다.");
+                        }
                     }
                 }
                 case 3->{//출판사
@@ -190,6 +209,7 @@ public class HostAddBookView implements CustomView {
         if(authorGenerateFlag){
             authorFileManger.addAuthor(targetAuthor);
         }
+        System.out.println(targetAuthor.getAuthorId()+" / "+targetAuthor.getAuthorName()+" / "+targetAuthor.getBirthDate());
         bookManageService.addBook(dataList.get(1),dataList.get(3),dataList.get(4), Integer.parseInt(dataList.get(5)),dataList.get(0),LoginMember.getLoginTime(),targetAuthor);
 
 
