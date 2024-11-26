@@ -50,9 +50,20 @@ public class HostAddBookView implements CustomView {
                 case 0->{//ISBN
                     if (xJudge.equals("x")||xJudge.equals("X")){
                         return new Model("/host/managebook",null);
-                    } else if (validationService.isbnInputValidation(dataList.get(index))==null) {
+                    }else if (validationService.isbnInputValidation(dataList.get(index))==null) {
                         System.out.println("올바르지 않는 입력입니다.");
                         index--;//재입력
+                    }else if (input.equals("기존 isbn")){//isbn 이미존재한 경우, loadISBN()이나 loadBookByISBN()메소드 생기면 바꿀예정
+                        System.out.println("중복된 ISBN이 존재합니다. 같은 책을 추가하시겠습니까?(y/n)");
+                        String YN = sc.nextLine().trim().replaceAll("\\s+"," ");
+                        while(validationService.ynInputValidation(YN).equals("false")){
+                            if(YN.equals("y")){
+                                //addBook()
+                            }else {
+                                index--;
+                                break;
+                            }
+                        }
                     }
                 }
                 case 1->{//도서명
