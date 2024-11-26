@@ -33,6 +33,7 @@ public class HostAddBookView implements CustomView {
         //0:ISBN 1:도서명 2:저자 3:출판사 4:출판연도 5:수량
 
         Author targetAuthor = null;
+        boolean authorGenerateFlag = true;
         while(true){
             if (index==6) break;
             System.out.println(dataName.get(index)+"을/를 입력하세요");
@@ -101,8 +102,14 @@ public class HostAddBookView implements CustomView {
                                 System.out.println("저자 고유번호 / 저자명 / 생년월일");
                                 System.out.println(matchedAuthorList.get(0).getAuthorId()+" / "+matchedAuthorList.get(0).getAuthorName()+" / "+matchedAuthorList.get(0).getBirthDate());
                                 System.out.print("엔터입력:동일인물, 기타입력: 새로생성\n>>>");
+
+
                                 if(sc.nextLine().trim().isEmpty()){
                                     targetAuthor = matchedAuthorList.get(0);
+                                    authorGenerateFlag = false;
+                                }else {
+                                    targetAuthor=new Author(input,LoginMember.getLoginTime());
+                                    authorGenerateFlag = true;
                                 }
                             }else {//2명이상
                                 System.out.println("저자 고유번호 / 저자명 / 생년월일");
@@ -118,6 +125,7 @@ public class HostAddBookView implements CustomView {
                                     for(Author author:matchedAuthorList){
                                         if(author.getAuthorId()==Long.parseLong(authorIdInput)){
                                             targetAuthor = author;
+                                            authorGenerateFlag=false;
                                             break Label;
                                         }
                                     }
@@ -128,12 +136,14 @@ public class HostAddBookView implements CustomView {
                                 }
                                 if (authorIdInput.equals("0")) { //새 저자 생성
                                     targetAuthor=new Author(input,LoginMember.getLoginTime());
-
+                                    authorGenerateFlag = true;
                                 }
                             }
+
+
                         }else{
                             targetAuthor=new Author(input,LoginMember.getLoginTime());
-
+                            authorGenerateFlag = true;
                         }
 
                     }
@@ -166,7 +176,9 @@ public class HostAddBookView implements CustomView {
             index++;
         }
 
-        authorFileManger.addAuthor(targetAuthor);
+        if(authorGenerateFlag){
+            authorFileManger.addAuthor(targetAuthor);
+        }
         bookManageService.addBook(dataList.get(1),dataList.get(3),dataList.get(4), Integer.parseInt(dataList.get(5)),dataList.get(0),LoginMember.getLoginTime(),targetAuthor);
 
 
