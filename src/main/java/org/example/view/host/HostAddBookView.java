@@ -26,6 +26,8 @@ public class HostAddBookView implements CustomView {
     @Override
     public Model begin(Model model) {
         Scanner sc = new Scanner(System.in);
+        AuthorFileManger authorFileManger = new AuthorFileManger();
+
         List<String> dataList= new ArrayList<>(List.of("_", "_", "_", "_", "_", "_"));
         int index=0;
         List<String> dataName= List.of("ISBN","도서명","저자","출판사","출판연도","수량");
@@ -34,22 +36,8 @@ public class HostAddBookView implements CustomView {
             if (index==6) break;
             System.out.println(dataName.get(index)+"을/를 입력하세요");
             System.out.println("(뒤로 가려면 x를 입력하세요)");
-
-            if(index==2){//저자
-                System.out.print("저자 고유번호>>>");
-                String authorId = sc.nextLine().trim();
-
-                while(validationService.authorInputValidation(authorId)==null){//고유번호
-                    System.out.println("올바르지 않는 입력입니다.");
-                    System.out.print("저자 고유번호>>>");
-                    authorId = sc.nextLine().trim();
-                }
-
-                while(validationService.authorInputValidation(authorId)==null){}
-
-            }
-
             System.out.print(">>>");
+
 
             String input = sc.nextLine().trim().replaceAll("\\s+"," ");
 
@@ -72,6 +60,32 @@ public class HostAddBookView implements CustomView {
                     }
                     if (xJudge.equals("x")||xJudge.equals("X")){
                         index=index-2;//이전 단계로 이동
+                    }
+                }
+                case 2->{//저자
+                    if(validationService.authorInputValidation(dataList.get(index))==null){
+                        System.out.println("올바르지 않는 입력입니다.");
+                        index--;
+                    }
+
+                    if (xJudge.equals("x")||xJudge.equals("X")){
+                        index=index-2;
+                    }
+                    if(input.contains("#")){//입력에 #포함시
+                        String[] divide = input.split("#");
+                        if(divide.length!=2){
+                            System.out.println("올바르지 않는 입력형식입니다.");
+                            continue;
+                        }
+                        try{//저자생성
+                            long authorId=Long.parseLong(divide[1]);
+                            authorFileManger.addAuthor(new Author(authorId,divide[0],LoginMember.getLoginTime()));
+                        }catch (NumberFormatException e){
+                            System.out.println("#뒤에 따라오는 문자열은 숫자여야합니다.");
+                            continue;
+                        }
+                    }else {//입력시 #미포함
+                        authorFileManger.addAuthor(new Author(input,LoginMember.getLoginTime()));
                     }
                 }
                 case 3->{//출판사
@@ -103,7 +117,7 @@ public class HostAddBookView implements CustomView {
         }
 
         bookManageService.addBook(dataList.get(1),dataList.get(2),dataList.get(3), Integer.parseInt(dataList.get(4)),dataList.get(0),LoginMember.getLoginTime());
-        AuthorFileManger authorFileManger = new AuthorFileManger();
+
 //        authorFileManger.addAuthor(new Author("",birth));
 
         return new Model("/host/managebook",null);
