@@ -1,15 +1,17 @@
 package org.example.view.host;
 
 import org.example.domain.Author;
+import org.example.domain.AuthorBook;
+import org.example.domain.Book;
 import org.example.dto.LoginMember;
 import org.example.dto.Model;
+import org.example.file.AuthorBookFileManager;
 import org.example.service.book.BookManageService;
 import org.example.service.validater.ValidationService;
 import org.example.view.CustomView;
 import org.example.file.AuthorFileManger;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.*;
 import java.time.format.DateTimeFormatter;
@@ -36,7 +38,11 @@ public class HostAddBookView implements CustomView {
         //0:ISBN 1:도서명 2:저자 3:출판사 4:출판연도 5:수량
 
         Author targetAuthor = null;
+        Book targetBook = null;
         boolean authorGenerateFlag = true;
+        boolean newISBNFlag = true;
+
+        total:
         while(true){
             if (index==6) break;
             System.out.println(dataName.get(index)+"을/를 입력하세요");
@@ -51,22 +57,50 @@ public class HostAddBookView implements CustomView {
             String xJudge=dataList.get(index).trim().replaceAll("\\s+"," ");
             switch(index){//입력단계구분
                 case 0->{//ISBN
+
+                    Path path=Paths.get("src/main/resources/books.txt");
+                    try(BufferedReader br=Files.newBufferedReader(path)){
+                        while(true){//isbn중복여부 확인
+                            String line=br.readLine();
+                            if(line==null){
+                                break;
+                            }
+                            String[] divide=line.split("\t");
+                            if(input.equals(divide[5])){
+                                System.out.println("이미 존재한 ISBN 입니다.");
+                                System.out.println("ISBN / 도서명 / 출판사 / 출판연도");
+                                System.out.println(divide[5]+" / "+divide[1] +" / "+ divide[2] +" / "+divide[3]);
+
+                                System.out.println("같은 책을 추가하시겠습니까?(y/n)");
+                                String yn= sc.nextLine().trim();
+                                while(validationService.ynInputValidation(yn).equals("false")){
+                                    System.out.println("옳바르지 않는 입력입니다.");
+                                    yn= sc.nextLine().trim();
+                                }
+                                if(validationService.ynInputValidation(yn).equals("yes")){
+                                    targetBook=new Book(divide[1],divide[2],divide[3],divide[4],divide[5],validationService.dateInputValidation(divide[6]));
+                                    AuthorBookFileManager authorBookFileManager= new AuthorBookFileManager();
+
+                                    List<AuthorBook> authorBooks = authorBookFileManager.loadByBookId(Long.parseLong(divide[0]));
+                                    targetAuthor = authorFileManger.loadAuthorById(authorBooks.get(0).getAuthorId());
+                                    index=5;
+                                    authorGenerateFlag=false;
+                                    newISBNFlag=false;
+                                    continue total;
+                                }else {
+                                    continue total;
+                                }
+                            }
+                        }
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+
                     if (xJudge.equals("x")||xJudge.equals("X")){
                         return new Model("/host/managebook",null);
                     }else if (validationService.isbnInputValidation(dataList.get(index))==null) {
                         System.out.println("올바르지 않는 입력입니다.");
                         index--;//재입력
-                    }else if (input.equals("기존 isbn")){//isbn 이미존재한 경우, loadISBN()이나 loadBookByISBN()메소드 생기면 바꿀예정
-                        System.out.println("중복된 ISBN이 존재합니다. 같은 책을 추가하시겠습니까?(y/n)");
-                        String YN = sc.nextLine().trim().replaceAll("\\s+"," ");
-                        while(validationService.ynInputValidation(YN).equals("false")){
-                            if(YN.equals("y")){
-                                //addBook()
-                            }else {
-                                index--;
-                                break;
-                            }
-                        }
                     }
                 }
                 case 1->{//도서명
@@ -240,9 +274,13 @@ public class HostAddBookView implements CustomView {
                 throw new RuntimeException(e);
             }
         }
-        System.out.println(targetAuthor.getAuthorId()+" / "+targetAuthor.getAuthorName()+" / "+targetAuthor.getBirthDate());
-        bookManageService.addBook(dataList.get(1),dataList.get(3),dataList.get(4), Integer.parseInt(dataList.get(5)),dataList.get(0),LoginMember.getLoginTime(),targetAuthor);
+//        System.out.println(targetAuthor.getAuthorId()+" / "+targetAuthor.getAuthorName()+" / "+targetAuthor.getBirthDate());
 
+        if(newISBNFlag) {
+            bookManageService.addBook(dataList.get(1), dataList.get(3), dataList.get(4), Integer.parseInt(dataList.get(5)), dataList.get(0), LoginMember.getLoginTime(), targetAuthor);
+        }else {
+            bookManageService.addBook(targetBook.getBookName(),targetBook.getPublishingHouse(),targetBook.getPublishingYear(),Integer.parseInt(dataList.get(5)),targetBook.getISBN(),LoginMember.getLoginTime(),targetAuthor);
+        }
 
 
         return new Model("/host/managebook",null);
