@@ -8,7 +8,10 @@ import org.example.service.validater.ValidationService;
 import org.example.view.CustomView;
 import org.example.file.AuthorFileManger;
 
-import java.time.LocalDate;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.*;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
@@ -90,9 +93,23 @@ public class HostAddBookView implements CustomView {
                             System.out.println("올바르지 않는 입력형식입니다.");
                             continue;
                         }
-                        try{//저자생성
+                        try{//저자생성or기존저자 불러오기
                             long authorId=Long.parseLong(divide[1]);
+
+                            if(authorFileManger.loadAuthorById(authorId)!=null){
+                                if(authorFileManger.loadAuthorById(authorId).getAuthorName().trim().equals(divide[0])){
+                                    targetAuthor=authorFileManger.loadAuthorById(authorId);
+                                    index++;
+                                    continue;
+                                }else {
+                                    System.out.println("기존 저자id에 저장된 데이터와 다릅니다.");
+                                    continue;
+                                }
+                            }
+
                             targetAuthor=new Author(authorId,divide[0].trim(),LoginMember.getLoginTime());
+                            authorGenerateFlag=true;
+
                         }catch (NumberFormatException e){
                             System.out.println("#뒤에 따라오는 문자열은 숫자여야합니다.");
                             continue;
@@ -208,6 +225,20 @@ public class HostAddBookView implements CustomView {
 
         if(authorGenerateFlag){
             authorFileManger.addAuthor(targetAuthor);
+            Path path=Paths.get("src/main/resources/author.txt");
+            try(BufferedReader br=Files.newBufferedReader(path)){
+                String lastLine =null;
+                String line;
+                while((line=br.readLine())!=null){
+                    lastLine=line;
+                }
+                if(lastLine!=null){
+                    String[] res = lastLine.split("\t");
+                    targetAuthor.setAuthorId(Long.parseLong(res[0]));
+                }
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
         }
         System.out.println(targetAuthor.getAuthorId()+" / "+targetAuthor.getAuthorName()+" / "+targetAuthor.getBirthDate());
         bookManageService.addBook(dataList.get(1),dataList.get(3),dataList.get(4), Integer.parseInt(dataList.get(5)),dataList.get(0),LoginMember.getLoginTime(),targetAuthor);
