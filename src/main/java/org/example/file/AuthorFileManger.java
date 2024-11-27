@@ -76,7 +76,7 @@ public class AuthorFileManger {
             BufferedWriter writer = new BufferedWriter(new FileWriter(new File(FILE_PATH), true));
 
             String authorString =  authorId + "\t" + author.getAuthorName()  + "\t"
-                    + author.getBirthDate();
+                    + author.getBirthDate().format(DATE_FORMATTER);
 
             writer.write(authorString);
             writer.newLine();

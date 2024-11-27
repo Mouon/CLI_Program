@@ -193,7 +193,7 @@ public class MainFactory {
     }
 
     public BookManageService bookManageService(){
-        return new BookManageService(bookFileManager());
+        return new BookManageService(bookFileManager(),authorBookFileManager());
     }
 
     public HostShowListService hostShowListService() {return new HostShowListService(bookFileManager());}
