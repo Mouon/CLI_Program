@@ -3,6 +3,8 @@ package org.example.service;
 import org.example.domain.Setting;
 import org.example.file.SettingFileManager;
 
+import java.util.function.ToDoubleBiFunction;
+
 public class SettingService {
     public SettingFileManager settingFileManager;
 
@@ -21,9 +23,28 @@ public class SettingService {
     }
 
     /**
+     * 블랙리스트 기간 변경하기
+     */
+    public void changeBlacklistDuration(int newDuration){
+        Setting newSetting = settingFileManager.loadSettingByName("blacklistDuration");
+        newSetting.setValue(Integer.toString(newDuration));
+        settingFileManager.updateSetting(newSetting);
+    }
+
+    /**
+     * 최대 대출 권수 변경하기
+     */
+    public void changeMaxCheckout(int newMaxCheckout){
+        Setting newSetting = settingFileManager.loadSettingByName("maxCheckout");
+        newSetting.setValue(Integer.toString(newMaxCheckout));
+        settingFileManager.updateSetting(newSetting);
+    }
+
+    /**
      * setting에 있는 반납기간 값 가져오기
      */
     public int getCheckoutDuration(){
         return Integer.parseInt(settingFileManager.getValueBySettingName("checkoutDuration"));
     }
+
 }

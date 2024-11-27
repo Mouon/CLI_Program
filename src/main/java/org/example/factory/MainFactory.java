@@ -155,6 +155,8 @@ public class MainFactory {
         hostViewArray.add(hostShowListView());
         hostViewArray.add(hostCheckStateView());
         hostViewArray.add(hostChangeCheckoutDurationView());
+        hostViewArray.add(hostChangeBlacklistDurationView());
+        hostViewArray.add(hostChangeMaxCheckoutView());
         // view 추가 종료
 
         return hostViewArray;
@@ -279,6 +281,12 @@ public class MainFactory {
     public HostCheckStateView hostCheckStateView(){ return new HostCheckStateView(validationService(), hostCheckStateService()); }
     public HostChangeCheckoutDurationView hostChangeCheckoutDurationView(){
         return new HostChangeCheckoutDurationView(validationService(),settingService());
+    }
+    public HostChangeBlacklistDurationView hostChangeBlacklistDurationView(){
+        return new HostChangeBlacklistDurationView(validationService(),settingService());
+    }
+    public HostChangeMaxCheckoutView hostChangeMaxCheckoutView(){
+        return new HostChangeMaxCheckoutView(validationService(),settingService());
     }
 
     //프로필 정보 변경 관련 뷰
