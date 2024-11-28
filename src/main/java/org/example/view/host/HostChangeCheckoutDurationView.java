@@ -23,6 +23,7 @@ public class HostChangeCheckoutDurationView implements CustomView {
         System.out.println("===== 도서 반납 기간 변경 =====");
         System.out.println("현재 대출이 된 도서들에 대한 반납 기간은 변경되지 않습니다.");
         System.out.println("변경 이후의 대출들에 대한 반납 기간을 변경합니다.");
+        System.out.println("현재 반납 기간은 "+settingService.getCheckoutDuration()+"일 입니다.");
         System.out.println("==================\n");
         System.out.println("변경할 반납 기간(일)을 입력하세요.");
         System.out.println("(뒤로 돌아가려면 x키를 입력하세요.)");
