@@ -7,6 +7,7 @@ import org.example.file.*;
 import org.example.service.CheckoutService;
 import org.example.service.ProfileChangeService;
 import org.example.service.SettingService;
+import org.example.service.ShowBookDetailService;
 import org.example.service.book.BookManageService;
 import org.example.service.book.BookReturnService;
 import org.example.service.host.HostShowListService;
@@ -207,6 +208,10 @@ public class MainFactory {
         return new BookReturnService(checkoutFileManager(),blackListFileManager());
     }
 
+    public ShowBookDetailService showBookDetailService(){
+        return new ShowBookDetailService(bookFileManager(),authorBookFileManager(),authorFileManager(),checkoutFileManager());
+    }
+
     /**
      * ====== VIEWS ======
      */
@@ -275,7 +280,7 @@ public class MainFactory {
     public HostBookRemoveView hostBookRemoveView(){
         return new HostBookRemoveView(validationService(),bookManageService(),bookFileManager());
     }
-    public HostShowListView hostShowListView(){ return new HostShowListView(validationService(), hostShowListService());}
+    public HostShowListView hostShowListView(){ return new HostShowListView(validationService(), hostShowListService(), showBookDetailService());}
     public HostCheckStateView hostCheckStateView(){ return new HostCheckStateView(validationService(), hostCheckStateService()); }
     public HostChangeCheckoutDurationView hostChangeCheckoutDurationView(){
         return new HostChangeCheckoutDurationView(validationService(),settingService());
