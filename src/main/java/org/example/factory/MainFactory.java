@@ -157,6 +157,7 @@ public class MainFactory {
         hostViewArray.add(hostChangeCheckoutDurationView());
         hostViewArray.add(hostChangeBlacklistDurationView());
         hostViewArray.add(hostChangeMaxCheckoutView());
+        hostViewArray.add(hostManageSettingsView());
         // view 추가 종료
 
         return hostViewArray;
@@ -287,6 +288,9 @@ public class MainFactory {
     }
     public HostChangeMaxCheckoutView hostChangeMaxCheckoutView(){
         return new HostChangeMaxCheckoutView(validationService(),settingService());
+    }
+    public HostManageSettingsView hostManageSettingsView(){
+        return new HostManageSettingsView(validationService());
     }
 
     //프로필 정보 변경 관련 뷰

@@ -20,7 +20,8 @@ public class HostMenuView implements CustomView {
         System.out.println("===== 관리자 메뉴 =====");
         System.out.println("1. 도서 관리");
         System.out.println("2. 마이페이지");
-        System.out.println("3. 로그아웃");
+        System.out.println("3. 설정 변경");
+        System.out.println("4. 로그아웃");
 
         while(true){
             System.out.print(">>>");
@@ -32,6 +33,8 @@ public class HostMenuView implements CustomView {
             }else if (validationResult.equals("2")){
                 return new Model("/host/mypage",null);
             }else if (validationResult.equals("3")){
+                return new Model("/host/managesettings",null);
+            }else if (validationResult.equals("4")){
                 return new Model("/login/logout",null);
             }else{
                 System.out.println("올바르지 않은 입력입니다.");
