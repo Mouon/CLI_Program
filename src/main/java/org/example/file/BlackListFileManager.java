@@ -201,14 +201,16 @@ public class BlackListFileManager {
      * blackListFileManager.updateBlack(blackList);
      * System.out.println(blackList.getEndDate());
      */
-    public void updateBlack(BlackList updatedBlackList){
+    public void updateBlackList(BlackList updatedBlackList){
         List<BlackList> blackLists = loadAllBlackList();
         boolean isUpdated = false;
 
         for (int i = 0; i < blackLists.size(); i++) {
+            if(blackLists.get(i).getUserId().equals(updatedBlackList.getUserId())){
                 blackLists.set(i, updatedBlackList);
                 isUpdated = true;
                 break;
+            }
         }
 
         if (isUpdated) {

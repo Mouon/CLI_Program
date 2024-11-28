@@ -6,6 +6,8 @@ import org.example.dto.LoginMember;
 import org.example.file.BlackListFileManager;
 import org.example.file.SettingFileManager;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.function.ToDoubleBiFunction;
 
@@ -38,13 +40,23 @@ public class SettingService {
 
         //blacklist.txt에 있는 변경 시점 이후에 blacklist에 추가된 데이터들에 대하여 종료 기간 변경
         List<BlackList> allBlackList = blackListFileManager.loadAllBlackList();
+        List<BlackList> updatedBlackList = new ArrayList<>();
         int blackListDuration = getBlacklistDuration();
+
+        //변경할 blackList 찾으면
         for(BlackList blackList : allBlackList){
             //blacklist에 추가된 날짜가 현재 로그인 시간과 같거나 이후이면 기간 업데이트
             if(!blackList.getStartDate().isBefore(LoginMember.getLoginTime())){
-                //조건에 맞는 blacklist 데이터에 대하여 종료 기간을 blackListDuration으로 업데이트
-
+                LocalDate startDate = blackList.getStartDate();
+                //blacklist 종료일을 현재 시작일 + 블랙리스트 기간으로 설정
+                blackList.setEndDate(startDate.plusDays(blackListDuration));
+                updatedBlackList.add(blackList);
             }
+        }
+
+        //변경할 blackList 정보들 update
+        for(BlackList blackList : updatedBlackList){
+            blackListFileManager.updateBlackList(blackList);
         }
     }
 
