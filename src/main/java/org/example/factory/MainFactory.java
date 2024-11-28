@@ -204,7 +204,7 @@ public class MainFactory {
     public HostCheckStateService hostCheckStateService(){ return new HostCheckStateService(bookFileManager()); }
 
     public SettingService settingService(){
-        return new SettingService(settingFileManager());
+        return new SettingService(settingFileManager(), blackListFileManager());
     }
 
     public BookReturnService bookReturnService(){
