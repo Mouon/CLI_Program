@@ -7,6 +7,7 @@ import org.example.file.*;
 import org.example.service.CheckoutService;
 import org.example.service.ProfileChangeService;
 import org.example.service.SettingService;
+import org.example.service.ShowBookDetailService;
 import org.example.service.book.BookManageService;
 import org.example.service.book.BookReturnService;
 import org.example.service.host.HostShowListService;
@@ -196,7 +197,7 @@ public class MainFactory {
     }
 
     public BookManageService bookManageService(){
-        return new BookManageService(bookFileManager());
+        return new BookManageService(bookFileManager(),authorBookFileManager());
     }
 
     public HostShowListService hostShowListService() {return new HostShowListService(bookFileManager());}
@@ -208,6 +209,10 @@ public class MainFactory {
 
     public BookReturnService bookReturnService(){
         return new BookReturnService(checkoutFileManager(),blackListFileManager(),settingService());
+    }
+
+    public ShowBookDetailService showBookDetailService(){
+        return new ShowBookDetailService(bookFileManager(),authorBookFileManager(),authorFileManager(),checkoutFileManager());
     }
 
     /**
@@ -278,8 +283,8 @@ public class MainFactory {
     public HostBookRemoveView hostBookRemoveView(){
         return new HostBookRemoveView(validationService(),bookManageService(),bookFileManager());
     }
-    public HostShowListView hostShowListView(){ return new HostShowListView(validationService(), hostShowListService());}
-    public HostCheckStateView hostCheckStateView(){ return new HostCheckStateView(validationService(), hostCheckStateService()); }
+    public HostShowListView hostShowListView(){ return new HostShowListView(validationService(), hostShowListService(), showBookDetailService());}
+    public HostCheckStateView hostCheckStateView(){ return new HostCheckStateView(validationService(), hostCheckStateService(), showBookDetailService()); }
     public HostChangeCheckoutDurationView hostChangeCheckoutDurationView(){
         return new HostChangeCheckoutDurationView(validationService(),settingService());
     }
