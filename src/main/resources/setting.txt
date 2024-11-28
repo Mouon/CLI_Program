@@ -1,1 +1,3 @@
-checkoutDuration	15
+checkoutDuration	7
+blacklistDuration	14
+maxCheckout	5

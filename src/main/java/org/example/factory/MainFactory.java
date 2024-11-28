@@ -156,6 +156,9 @@ public class MainFactory {
         hostViewArray.add(hostShowListView());
         hostViewArray.add(hostCheckStateView());
         hostViewArray.add(hostChangeCheckoutDurationView());
+        hostViewArray.add(hostChangeBlacklistDurationView());
+        hostViewArray.add(hostChangeMaxCheckoutView());
+        hostViewArray.add(hostManageSettingsView());
         // view 추가 종료
 
         return hostViewArray;
@@ -201,11 +204,11 @@ public class MainFactory {
     public HostCheckStateService hostCheckStateService(){ return new HostCheckStateService(bookFileManager()); }
 
     public SettingService settingService(){
-        return new SettingService(settingFileManager());
+        return new SettingService(settingFileManager(), blackListFileManager());
     }
 
     public BookReturnService bookReturnService(){
-        return new BookReturnService(checkoutFileManager(),blackListFileManager());
+        return new BookReturnService(checkoutFileManager(),blackListFileManager(),settingService());
     }
 
     public ShowBookDetailService showBookDetailService(){
@@ -284,6 +287,15 @@ public class MainFactory {
     public HostCheckStateView hostCheckStateView(){ return new HostCheckStateView(validationService(), hostCheckStateService(), showBookDetailService()); }
     public HostChangeCheckoutDurationView hostChangeCheckoutDurationView(){
         return new HostChangeCheckoutDurationView(validationService(),settingService());
+    }
+    public HostChangeBlacklistDurationView hostChangeBlacklistDurationView(){
+        return new HostChangeBlacklistDurationView(validationService(),settingService());
+    }
+    public HostChangeMaxCheckoutView hostChangeMaxCheckoutView(){
+        return new HostChangeMaxCheckoutView(validationService(),settingService());
+    }
+    public HostManageSettingsView hostManageSettingsView(){
+        return new HostManageSettingsView(validationService());
     }
 
     //프로필 정보 변경 관련 뷰

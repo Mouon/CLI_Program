@@ -135,6 +135,8 @@ public class BookFileManager {
                             .enterDate(LocalDate.parse(result[6].trim(), DATE_FORMATTER))
                             .deleteDate(parseDeleteDate(result[7]))
                             .isDelete(result[8].trim().equals("true") ? true : false)
+                            .authorBookFileManager(new AuthorBookFileManager())
+                            .authorFileManager(new AuthorFileManger())
                             .build();
                     return book;
                 }
