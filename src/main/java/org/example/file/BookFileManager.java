@@ -183,7 +183,8 @@ public class BookFileManager {
 
         for (int i = 0; i < bookList.size(); i++) {
             if (bookList.get(i).getBookId().equals(removedBook.getBookId())) {
-                bookList.remove(i);
+                removedBook.setDelete(true);
+                bookList.set(i, removedBook);
                 isUpdated = true;
                 break;
             }
@@ -196,8 +197,8 @@ public class BookFileManager {
                 for (Book book : bookList) {
                     String bookString =  book.getBookId() + "\t" + book.getBookName()  + "\t"
                             + book.getPublishingHouse()+"\t" + book.getPublishingYear()+"\t" + book.getIsCheckout() +
-                            "\t" + book.getISBN() + "\t" + book.getEnterDate()+ "\t" + formatDeleteDate(book.getDeleteDate()) +
-                            "\t" + formatIsDelete(book.isDelete());
+                            "\t" + book.getISBN() + "\t" + book.getEnterDate().format(DATE_FORMATTER) + "\t" + formatDeleteDate(book.getDeleteDate())
+                            + "\t" + formatIsDelete(book.isDelete());
                     writer.write(bookString);
                     writer.newLine();
                 }
@@ -208,7 +209,6 @@ public class BookFileManager {
                 e.printStackTrace();
             }
         } else {
-            System.out.println("해당 책 찾을 수 없습니다.");
         }
     }
 
@@ -236,7 +236,7 @@ public class BookFileManager {
                 for (Book book : bookList) {
                     String bookString =  book.getBookId() + "\t" + book.getBookName()  + "\t"
                             + book.getPublishingHouse()+"\t" + book.getPublishingYear()+"\t" + book.getIsCheckout() +
-                            "\t" + book.getISBN() + "\t" + book.getEnterDate()+ "\t" + formatDeleteDate(book.getDeleteDate())
+                            "\t" + book.getISBN() + "\t" + book.getEnterDate().format(DATE_FORMATTER) + "\t" + formatDeleteDate(book.getDeleteDate())
                             + "\t" + formatIsDelete(book.isDelete());
                     writer.write(bookString);
                     writer.newLine();
