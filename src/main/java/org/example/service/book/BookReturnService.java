@@ -4,16 +4,19 @@ import org.example.domain.BlackList;
 import org.example.domain.Checkout;
 import org.example.file.BlackListFileManager;
 import org.example.file.CheckoutFileManager;
+import org.example.service.SettingService;
 
 import java.time.LocalDate;
 
 public class BookReturnService {
     private CheckoutFileManager checkoutFileManager;
     private BlackListFileManager blackListFileManager;
+    public SettingService settingService;
 
-    public BookReturnService(CheckoutFileManager checkoutFileManager, BlackListFileManager blackListFileManager) {
+    public BookReturnService(CheckoutFileManager checkoutFileManager, BlackListFileManager blackListFileManager, SettingService settingService) {
         this.checkoutFileManager = checkoutFileManager;
         this.blackListFileManager = blackListFileManager;
+        this.settingService = settingService;
     }
 
     // 대출 기록 반납일에 기록
@@ -24,6 +27,7 @@ public class BookReturnService {
 
     // 대출된 도서의 연체일을 기록한다
     public void recordOverdate (Checkout checkout){
+        int blacklistDuration = settingService.getBlacklistDuration(); //setting에서 불러온 blacklist 기간
         LocalDate dueDate = checkout.getDueDate();  //expected return book date
         LocalDate returnDate = checkout.getReturnDate();  //return book date now
 
@@ -32,7 +36,7 @@ public class BookReturnService {
             checkout.setReturnDate(returnDate);
             checkoutFileManager.updateCheckout(checkout);
         } else {
-            blackListFileManager.addBlackList(new BlackList(checkout.getUserId(), checkout.getReturnDate(), checkout.getReturnDate().plusDays(7)));
+            blackListFileManager.addBlackList(new BlackList(checkout.getUserId(), checkout.getReturnDate(), checkout.getReturnDate().plusDays(blacklistDuration)));
         }
     }
 }

@@ -123,6 +123,7 @@ public class UserBookSearchCheckoutView implements CustomView {
         String input;
         String yesOrNo;
         int checkoutDuration = settingService.getCheckoutDuration(); //setting에 저장된 반납기간 값
+        int maxCheckout = settingService.getMaxCheckout(); //setting에 저장된 최대 대출 권수 값
 
         while (true) {
             input = sc.nextLine().trim();
@@ -154,7 +155,7 @@ public class UserBookSearchCheckoutView implements CustomView {
                 } else { // 대출 의사 yes이고 블랙리스트도 아닌 경우
                     // 대출처리
                     List<String> userCheckoutList = checkoutService.getCheckoutHistory(LoginMember.getInstance());
-                    if (userCheckoutList.size() >= 5) {
+                    if (userCheckoutList.size() >= maxCheckout) {
                         System.out.println("더이상 대출할 수 없습니다.");
                         return new Model("/user", null);
                     }

@@ -207,7 +207,7 @@ public class MainFactory {
     }
 
     public BookReturnService bookReturnService(){
-        return new BookReturnService(checkoutFileManager(),blackListFileManager());
+        return new BookReturnService(checkoutFileManager(),blackListFileManager(),settingService());
     }
 
     /**

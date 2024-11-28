@@ -27,6 +27,7 @@ public class SettingService {
      */
     public void changeBlacklistDuration(int newDuration){
         Setting newSetting = settingFileManager.loadSettingByName("blacklistDuration");
+        System.out.println("loaded setting val : "+newSetting.getValue());
         newSetting.setValue(Integer.toString(newDuration));
         settingFileManager.updateSetting(newSetting);
     }
@@ -45,6 +46,20 @@ public class SettingService {
      */
     public int getCheckoutDuration(){
         return Integer.parseInt(settingFileManager.getValueBySettingName("checkoutDuration"));
+    }
+
+    /**
+     * setting에 있는 블랙리스트 기간 가져오기
+     */
+    public int getBlacklistDuration(){
+        return Integer.parseInt(settingFileManager.getValueBySettingName("blacklistDuration"));
+    }
+
+    /**
+     * setting에 있는 최대 대출 권수 가져오기
+     */
+    public int getMaxCheckout(){
+        return Integer.parseInt(settingFileManager.getValueBySettingName("maxCheckout"));
     }
 
 }

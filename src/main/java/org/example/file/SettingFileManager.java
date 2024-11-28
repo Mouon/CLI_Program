@@ -123,8 +123,10 @@ public class SettingFileManager {
             Scanner file = new Scanner(new File(FILE_PATH));
             while (file.hasNext()) {
                 String str = file.nextLine();
+                System.out.println("str : "+str);
                 String[] result = str.split("\t");
                 if(result[0].trim().equals(settingName)){
+                    System.out.println("in return");
                     return new Setting(result[0].trim(), result[1].trim());
                 }
             }
