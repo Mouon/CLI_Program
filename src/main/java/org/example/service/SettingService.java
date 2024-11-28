@@ -33,7 +33,6 @@ public class SettingService {
      */
     public void changeBlacklistDuration(int newDuration){
         Setting newSetting = settingFileManager.loadSettingByName("blacklistDuration");
-        System.out.println("loaded setting val : "+newSetting.getValue());
         newSetting.setValue(Integer.toString(newDuration));
         settingFileManager.updateSetting(newSetting);
 

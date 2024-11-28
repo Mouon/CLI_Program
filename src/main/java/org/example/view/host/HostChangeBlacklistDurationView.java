@@ -39,7 +39,6 @@ public class HostChangeBlacklistDurationView implements CustomView {
 
             //뒤로가기가 아니고 유효한 입력인 경우 변경할 반납기간 값으로 설정
             Integer newBlacklistDuration = validationService.numberInputValidation(input);
-            System.out.println("newBlacklistDuration: " + newBlacklistDuration);
 
             //올바른 입력인 경우
             if(newBlacklistDuration!= null && newBlacklistDuration > 0){
