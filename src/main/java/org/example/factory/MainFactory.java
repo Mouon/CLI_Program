@@ -281,7 +281,7 @@ public class MainFactory {
         return new HostBookRemoveView(validationService(),bookManageService(),bookFileManager());
     }
     public HostShowListView hostShowListView(){ return new HostShowListView(validationService(), hostShowListService(), showBookDetailService());}
-    public HostCheckStateView hostCheckStateView(){ return new HostCheckStateView(validationService(), hostCheckStateService()); }
+    public HostCheckStateView hostCheckStateView(){ return new HostCheckStateView(validationService(), hostCheckStateService(), showBookDetailService()); }
     public HostChangeCheckoutDurationView hostChangeCheckoutDurationView(){
         return new HostChangeCheckoutDurationView(validationService(),settingService());
     }
