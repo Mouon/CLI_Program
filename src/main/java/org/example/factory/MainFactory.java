@@ -141,6 +141,7 @@ public class MainFactory {
         userViewArray.add(userMyPageView());
         userViewArray.add(userCheckoutView());
         userViewArray.add(userBookReturnView());
+        userViewArray.add(userCheckStateView());
         // view 추가 종료
 
         return userViewArray;
@@ -266,6 +267,10 @@ public class MainFactory {
     }
 
     public UserBookReturnView userBookReturnView(){return new UserBookReturnView(checkoutFileManager(), bookFileManager(), validationService(), bookReturnService());}
+
+    public UserCheckStateView userCheckStateView(){
+        return new UserCheckStateView(validationService(),hostCheckStateService(),showBookDetailService());
+    }
 
     //호스트 메뉴 관련 뷰
     public HostMenuView hostMenuView(){
