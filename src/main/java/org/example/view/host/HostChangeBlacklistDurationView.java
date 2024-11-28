@@ -44,7 +44,7 @@ public class HostChangeBlacklistDurationView implements CustomView {
             //올바른 입력인 경우
             if(newBlacklistDuration!= null && newBlacklistDuration > 0){
                 settingService.changeBlacklistDuration(newBlacklistDuration);
-                System.out.println("블랙리스트 기간이 변경되었습니다.");
+                System.out.println("블랙리스트 기간이 "+newBlacklistDuration+"일로 변경되었습니다.");
                 return new Model("/host/managesettings", null);
             }else{
                 System.out.println("올바르지 않은 입력입니다.");

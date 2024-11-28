@@ -43,7 +43,7 @@ public class HostChangeCheckoutDurationView implements CustomView {
             //올바른 입력인 경우
             if(newCheckoutDuration!= null && newCheckoutDuration > 0){
                 settingService.changeCheckoutDuration(newCheckoutDuration);
-                System.out.println("전체 반납 기간이 변경되었습니다.");
+                System.out.println("전체 반납 기간이 "+newCheckoutDuration+"일로 변경되었습니다.");
                 return new Model("/host/managebook", null);
             }else{
                 System.out.println("올바르지 않은 입력입니다.");

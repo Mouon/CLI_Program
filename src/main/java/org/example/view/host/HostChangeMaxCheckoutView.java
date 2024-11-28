@@ -41,7 +41,7 @@ public class HostChangeMaxCheckoutView implements CustomView {
             //올바른 입력인 경우
             if(newMaxCheckout!= null && newMaxCheckout > 0){
                 settingService.changeMaxCheckout(newMaxCheckout);
-                System.out.println("최대 대출 권수가 변경되었습니다.");
+                System.out.println("최대 대출 권수가 "+newMaxCheckout+"권으로 변경되었습니다.");
                 return new Model("/host/managesettings", null);
             }else{
                 System.out.println("올바르지 않은 입력입니다.");
