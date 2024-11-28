@@ -2,6 +2,7 @@ package org.example.file;
 
 import org.example.domain.Book;
 import org.example.domain.User;
+import org.example.dto.LoginMember;
 
 import java.io.*;
 import java.time.LocalDate;
@@ -184,6 +185,7 @@ public class BookFileManager {
         for (int i = 0; i < bookList.size(); i++) {
             if (bookList.get(i).getBookId().equals(removedBook.getBookId())) {
                 removedBook.setDelete(true);
+                removedBook.setDeleteDate(LoginMember.getLoginTime());
                 bookList.set(i, removedBook);
                 isUpdated = true;
                 break;

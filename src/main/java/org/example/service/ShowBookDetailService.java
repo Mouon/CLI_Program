@@ -29,12 +29,17 @@ public class ShowBookDetailService {
         System.out.println("출판사 : " + currentBook.getPublishingHouse());
         System.out.println("ISBN : " + currentBook.getISBN());
         System.out.println("대출 중 여부(y/n) : " + currentBook.getIsCheckout());
-        System.out.println("등록일 : " + currentBook.getEnterDate());
-        if(currentBook.getDeleteDate() == null){
-            System.out.println("등록 중인 도서입니다.");
+        System.out.println("입고일 : " + currentBook.getEnterDate());
+        if(currentBook.isDelete()){
+            if(currentBook.getDeleteDate() == null){
+                System.out.println("삭제된 도서입니다.");
+            }
+            else{
+                System.out.println("삭제일 : " + currentBook.getDeleteDate());
+            }
         }
         else{
-            System.out.println("삭제일 : " + currentBook.getDeleteDate());
+            System.out.println("입고 중인 도서입니다.");
         }
 
         System.out.println("\n====저자 목록====");
