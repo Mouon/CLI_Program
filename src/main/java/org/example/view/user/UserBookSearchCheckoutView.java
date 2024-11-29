@@ -13,7 +13,9 @@ import org.example.domain.Book;
 import org.example.file.BookFileManager;
 import org.example.file.BlackListFileManager;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 
 public class UserBookSearchCheckoutView implements CustomView {
@@ -77,9 +79,15 @@ public class UserBookSearchCheckoutView implements CustomView {
         System.out.println("==== 검색한 도서 : " + searchedBook + " ====");
         System.out.println("검색한 도서에 대해서는");
         System.out.println("'제목 / 저자 / ISBN / 대출가능여부' 순으로 출력됩니다.");
+
+        // 표시 번호와 실제 Book ID를 매핑
+        Map<Integer, Long> displayToBookId = new HashMap<>();
         int idx = 1;
         for (Book book : searchedBookList) {
-            System.out.println(idx + ". " + book.getBookName() + " / "+ book.getAuthorName() + " / " + book.getISBN() + " / " + (book.getIsCheckout().equals("n")?"대출가능":"대출불가"));
+            displayToBookId.put(idx, book.getBookId());  // 표시 번호와 실제 ID 매핑 저장
+            System.out.println(idx + ". " + book.getBookName() + " / "+ book.getAuthorName() +
+                    " / " + book.getISBN() + " / " +
+                    (book.getIsCheckout().equals("n")?"대출가능":"대출불가"));
             idx++;
         }
         System.out.println();
@@ -102,7 +110,8 @@ public class UserBookSearchCheckoutView implements CustomView {
             }
 
             if (Integer.parseInt(userChoice) >= 1 && Integer.parseInt(userChoice) <= searchedBookList.size()) {
-                Book selectedBook = searchedBookList.get(Integer.parseInt(userChoice) - 1);
+                Long actualBookId = displayToBookId.get(Integer.parseInt(userChoice));
+                Book selectedBook = bookFileManager.loadBookById(actualBookId);
                 return selectBook(searchedBook, selectedBook);
             } else {
                 System.out.println("올바르지 않은 입력입니다. 다시 입력해주세요.");
@@ -123,6 +132,7 @@ public class UserBookSearchCheckoutView implements CustomView {
         String input;
         String yesOrNo;
         int checkoutDuration = settingService.getCheckoutDuration(); //setting에 저장된 반납기간 값
+        int maxCheckout = settingService.getMaxCheckout(); //setting에 저장된 최대 대출 권수 값
 
         while (true) {
             input = sc.nextLine().trim();
@@ -154,7 +164,7 @@ public class UserBookSearchCheckoutView implements CustomView {
                 } else { // 대출 의사 yes이고 블랙리스트도 아닌 경우
                     // 대출처리
                     List<String> userCheckoutList = checkoutService.getCheckoutHistory(LoginMember.getInstance());
-                    if (userCheckoutList.size() >= 5) {
+                    if (userCheckoutList.size() >= maxCheckout) {
                         System.out.println("더이상 대출할 수 없습니다.");
                         return new Model("/user", null);
                     }

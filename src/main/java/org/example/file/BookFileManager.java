@@ -2,6 +2,7 @@ package org.example.file;
 
 import org.example.domain.Book;
 import org.example.domain.User;
+import org.example.dto.LoginMember;
 
 import java.io.*;
 import java.time.LocalDate;
@@ -61,6 +62,8 @@ public class BookFileManager {
                         .enterDate(LocalDate.parse(result[6].trim(), DATE_FORMATTER))
                         .deleteDate(parseDeleteDate(result[7]))
                         .isDelete(result[8].trim().equals("true") ? true : false)
+                        .authorBookFileManager(new AuthorBookFileManager())
+                        .authorFileManager(new AuthorFileManger())
                         .build();
 
                 bookList.add(book);
@@ -132,6 +135,8 @@ public class BookFileManager {
                             .enterDate(LocalDate.parse(result[6].trim(), DATE_FORMATTER))
                             .deleteDate(parseDeleteDate(result[7]))
                             .isDelete(result[8].trim().equals("true") ? true : false)
+                            .authorBookFileManager(new AuthorBookFileManager())
+                            .authorFileManager(new AuthorFileManger())
                             .build();
                     return book;
                 }
@@ -181,7 +186,9 @@ public class BookFileManager {
 
         for (int i = 0; i < bookList.size(); i++) {
             if (bookList.get(i).getBookId().equals(removedBook.getBookId())) {
-                bookList.remove(i);
+                removedBook.setDelete(true);
+                removedBook.setDeleteDate(LoginMember.getLoginTime());
+                bookList.set(i, removedBook);
                 isUpdated = true;
                 break;
             }
@@ -194,8 +201,8 @@ public class BookFileManager {
                 for (Book book : bookList) {
                     String bookString =  book.getBookId() + "\t" + book.getBookName()  + "\t"
                             + book.getPublishingHouse()+"\t" + book.getPublishingYear()+"\t" + book.getIsCheckout() +
-                            "\t" + book.getISBN() + "\t" + book.getEnterDate()+ "\t" + formatDeleteDate(book.getDeleteDate()) +
-                            "\t" + formatIsDelete(book.isDelete());
+                            "\t" + book.getISBN() + "\t" + book.getEnterDate().format(DATE_FORMATTER) + "\t" + formatDeleteDate(book.getDeleteDate())
+                            + "\t" + formatIsDelete(book.isDelete());
                     writer.write(bookString);
                     writer.newLine();
                 }
@@ -206,7 +213,6 @@ public class BookFileManager {
                 e.printStackTrace();
             }
         } else {
-            System.out.println("해당 책 찾을 수 없습니다.");
         }
     }
 
@@ -234,7 +240,7 @@ public class BookFileManager {
                 for (Book book : bookList) {
                     String bookString =  book.getBookId() + "\t" + book.getBookName()  + "\t"
                             + book.getPublishingHouse()+"\t" + book.getPublishingYear()+"\t" + book.getIsCheckout() +
-                            "\t" + book.getISBN() + "\t" + book.getEnterDate()+ "\t" + formatDeleteDate(book.getDeleteDate())
+                            "\t" + book.getISBN() + "\t" + book.getEnterDate().format(DATE_FORMATTER) + "\t" + formatDeleteDate(book.getDeleteDate())
                             + "\t" + formatIsDelete(book.isDelete());
                     writer.write(bookString);
                     writer.newLine();
