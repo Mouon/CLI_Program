@@ -21,6 +21,7 @@ public class HostChangeMaxCheckoutView implements CustomView {
         Scanner sc = new Scanner(System.in);
         System.out.println("===== 대출 가능 권수 변경 =====");
         System.out.println("가능한 최대 대출 권수를 변경합니다.");
+        System.out.println("현재 최대 대출 권수 는 "+settingService.getMaxCheckout()+"권 입니다.");
         System.out.println("==================\n");
         System.out.println("변경할 최대 권수를 입력하세요.");
         System.out.println("(뒤로 돌아가려면 x키를 입력하세요.)");
