@@ -131,7 +131,7 @@ public class HostAddBookView implements CustomView {
                             long authorId=Long.parseLong(divide[1]);
 
                             if(authorFileManger.loadAuthorById(authorId)!=null){
-                                if(authorFileManger.loadAuthorById(authorId).getAuthorName().trim().equals(divide[0])){
+                                if(authorFileManger.loadAuthorById(authorId).getAuthorName().equals(divide[0].trim())){
                                     targetAuthor=authorFileManger.loadAuthorById(authorId);
                                     index++;
                                     continue;
@@ -247,7 +247,12 @@ public class HostAddBookView implements CustomView {
                 }
                 case 5->{//수량
                     if (xJudge.equals("x")||xJudge.equals("X")){
-                        index=index-2;//이전 단계로 이동
+                        if(newISBNFlag){
+                            index=index-2;//이전 단계로 이동
+                        }else {
+                            index=0; //ISBN에서 직접 넘어오면 뒤로가기 때 돌아가기
+                            continue ;
+                        }
                     } else if (validationService.numberInputValidation(dataList.get(index))==null) {
                         System.out.println("올바르지 않는 입력입니다.");
                         index--;//재입력
