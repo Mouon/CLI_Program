@@ -14,7 +14,6 @@ import org.example.file.AuthorFileManger;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.nio.file.*;
-import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 public class HostAddBookView implements CustomView {
@@ -37,7 +36,9 @@ public class HostAddBookView implements CustomView {
         List<String> dataName= List.of("ISBN","도서명","저자","출판사","출판연도","수량");
         //0:ISBN 1:도서명 2:저자 3:출판사 4:출판연도 5:수량
 
+        List<Author> authorsToSave = new ArrayList<>();
         Author targetAuthor = null;
+
         Book targetBook = null;
         boolean authorGenerateFlag = true;
         boolean newISBNFlag = true;
@@ -82,7 +83,12 @@ public class HostAddBookView implements CustomView {
                                     AuthorBookFileManager authorBookFileManager= new AuthorBookFileManager();
 
                                     List<AuthorBook> authorBooks = authorBookFileManager.loadByBookId(Long.parseLong(divide[0]));
-                                    targetAuthor = authorFileManger.loadAuthorById(authorBooks.get(0).getAuthorId());
+
+//                                    targetAuthor = authorFileManger.loadAuthorById(authorBooks.get(0).getAuthorId());
+                                    for(AuthorBook authorBook:authorBooks){
+                                        authorsToSave.add(authorFileManger.loadAuthorById(authorBook.getAuthorId()));
+                                    }
+
                                     index=5;
                                     authorGenerateFlag=false;
                                     newISBNFlag=false;
@@ -119,6 +125,8 @@ public class HostAddBookView implements CustomView {
                     }
 
                     if (xJudge.equals("x")||xJudge.equals("X")){
+                        authorsToSave.clear();
+                        authorGenerateFlag=false;
                         index=index-2;
                     }
                     if(input.contains("#")){//입력에 #포함시
@@ -133,8 +141,23 @@ public class HostAddBookView implements CustomView {
                             if(authorFileManger.loadAuthorById(authorId)!=null){
                                 if(authorFileManger.loadAuthorById(authorId).getAuthorName().equals(divide[0].trim())){
                                     targetAuthor=authorFileManger.loadAuthorById(authorId);
-                                    index++;
-                                    continue;
+
+                                    authorsToSave.add(targetAuthor);
+
+                                    System.out.println("저자를 더 입력하겠습니까?(y/n)");
+                                    String yn= sc.nextLine().trim();
+                                    while(validationService.ynInputValidation(yn).equals("false")){
+                                        System.out.println("옳바르지 않는 입력입니다.");
+                                        yn= sc.nextLine().trim();
+                                    }
+
+                                    if(yn.equals("yes")){
+                                        continue;
+                                    }else {
+                                        index++;
+                                        continue;
+                                    }
+
                                 }else {
                                     System.out.println("기존 저자id에 저장된 데이터와 다릅니다.");
                                     continue;
@@ -228,9 +251,26 @@ public class HostAddBookView implements CustomView {
                             System.out.print("옳바르지 않는 입력 입니다.");
                         }
                     }
+
+                    authorsToSave.add(targetAuthor);
+
+                    System.out.println("저자를 더 입력하겠습니까?(y/n)");
+                    String yn= sc.nextLine().trim();
+                    while(validationService.ynInputValidation(yn).equals("false")){
+                        System.out.println("옳바르지 않는 입력입니다.");
+                        yn= sc.nextLine().trim();
+                    }
+
+                    if(validationService.ynInputValidation(yn).equals("yes")){
+                        continue;
+                    }
+
                 }
                 case 3->{//출판사
                     if (xJudge.equals("x")||xJudge.equals("X")){
+
+                        authorsToSave.clear();//저자리스트 비우기
+
                         index=index-2;//이전 단계로 이동
                     }else if (validationService.publisherInputValidation(dataList.get(index))==null){
                         System.out.println("올바르지 않는 입력입니다.");
@@ -251,6 +291,7 @@ public class HostAddBookView implements CustomView {
                             index=index-2;//이전 단계로 이동
                         }else {
                             index=0; //ISBN에서 직접 넘어오면 뒤로가기 때 돌아가기
+                            authorsToSave.clear();
                             continue ;
                         }
                     } else if (validationService.numberInputValidation(dataList.get(index))==null) {
@@ -263,28 +304,30 @@ public class HostAddBookView implements CustomView {
         }
 
         if(authorGenerateFlag){
-            authorFileManger.addAuthor(targetAuthor);
-            Path path=Paths.get("src/main/resources/author.txt");
-            try(BufferedReader br=Files.newBufferedReader(path)){
-                String lastLine =null;
-                String line;
-                while((line=br.readLine())!=null){
-                    lastLine=line;
+            for (Author author : authorsToSave) {
+                authorFileManger.addAuthor(author);
+                Path path=Paths.get("src/main/resources/author.txt");
+                try(BufferedReader br=Files.newBufferedReader(path)){
+                    String lastLine =null;
+                    String line;
+                    while((line=br.readLine())!=null){
+                        lastLine=line;
+                    }
+                    if(lastLine!=null){
+                        String[] res = lastLine.split("\t");
+                        author.setAuthorId(Long.parseLong(res[0]));
+                    }
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
                 }
-                if(lastLine!=null){
-                    String[] res = lastLine.split("\t");
-                    targetAuthor.setAuthorId(Long.parseLong(res[0]));
-                }
-            } catch (IOException e) {
-                throw new RuntimeException(e);
             }
         }
 //        System.out.println(targetAuthor.getAuthorId()+" / "+targetAuthor.getAuthorName()+" / "+targetAuthor.getBirthDate());
 
         if(newISBNFlag) {
-            bookManageService.addBook(dataList.get(1), dataList.get(3), dataList.get(4), Integer.parseInt(dataList.get(5)), dataList.get(0), LoginMember.getLoginTime(), targetAuthor);
+            bookManageService.addBook(dataList.get(1), dataList.get(3), dataList.get(4), Integer.parseInt(dataList.get(5)), dataList.get(0), LoginMember.getLoginTime(), authorsToSave);
         }else {
-            bookManageService.addBook(targetBook.getBookName(),targetBook.getPublishingHouse(),targetBook.getPublishingYear(),Integer.parseInt(dataList.get(5)),targetBook.getISBN(),LoginMember.getLoginTime(),targetAuthor);
+            bookManageService.addBook(targetBook.getBookName(),targetBook.getPublishingHouse(),targetBook.getPublishingYear(),Integer.parseInt(dataList.get(5)),targetBook.getISBN(),LoginMember.getLoginTime(),authorsToSave);
         }
 
 

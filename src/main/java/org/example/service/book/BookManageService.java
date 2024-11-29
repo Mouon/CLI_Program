@@ -7,6 +7,7 @@ import org.example.file.AuthorBookFileManager;
 import org.example.file.BookFileManager;
 
 import java.time.LocalDate;
+import java.util.List;
 
 public class BookManageService {
 
@@ -15,10 +16,13 @@ public class BookManageService {
 
     public BookManageService(BookFileManager bookFileManager,AuthorBookFileManager authorBookFileManager) {this.bookFileManager = bookFileManager;this.authorBookFileManager = authorBookFileManager;}
 
-    public void addBook(String bookName, String publishingHouse, String publishingYear, int amount, String ISBN, LocalDate enterDate, Author author) {
+    public void addBook(String bookName, String publishingHouse, String publishingYear, int amount, String ISBN, LocalDate enterDate, List<Author> authors) {
         while(amount>0) {
             long bookId = bookFileManager.addBook(new Book(bookName, publishingHouse, publishingYear, "n", ISBN , enterDate));
-            newAuthorBook(bookId, author);
+            for (Author author : authors) {
+                newAuthorBook(bookId, author);
+            }
+
             amount--;
         }
     }
