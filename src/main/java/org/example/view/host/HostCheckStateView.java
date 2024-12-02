@@ -33,6 +33,10 @@ public class HostCheckStateView implements CustomView{
         while(true){
             System.out.print(">>>");
             String input = scanner.nextLine().trim();
+            if (input.isEmpty()) {
+                System.out.println("옳바르지 않은 입력입니다.");
+                continue;
+            }
             if(input.equals("X") || input.equals("x")){
                 return new Model("/host/managebook", null);
             }
