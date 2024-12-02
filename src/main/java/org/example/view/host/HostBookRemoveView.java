@@ -45,6 +45,8 @@ public class HostBookRemoveView implements CustomView {
         String input;
         List<Book> booklist= bookFileManager.loadBookListByName(bookName);
 
+        booklist.removeIf(Book::isDelete);
+
         while(booklist.isEmpty()) {
             System.out.println("프로그램에 등록되지 않은 도서명입니다.");
             System.out.print(">>>");
