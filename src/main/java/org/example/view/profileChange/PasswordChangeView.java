@@ -37,61 +37,67 @@ public class PasswordChangeView implements CustomView {
                     return new Model("/host/mypage",null);
                 }
             }
-            //기존 비밀번호와 입력한 값이 일치하는지 확인
-            if(LoginMember.getInstance().getPassword().equals(input)){
-                String newPwInput;
-                String confirmPwInput;
-                while(true){
-                    System.out.println("새로운 비밀번호를 입력하세요.");
-                    System.out.println("(뒤로 가려면 x키를 입력하세요)");
-                    System.out.print(">>>");
-                    //2단계 입력
-                    newPwInput = sc.nextLine().trim();
-                    String stringValidationResult2 = validationService.menuInputValidation(newPwInput);
-                    boolean pwValidationResult2 = validationService.pwInputValidation(newPwInput);
+            //입력규칙에 부합하지 않는 경우
+            if(pwValidationResult){
+                //기존 비밀번호와 입력한 값이 일치하는지 확인
+                if(LoginMember.getInstance().getPassword().equals(input)){
+                    String newPwInput;
+                    String confirmPwInput;
+                    while(true){
+                        System.out.println("새로운 비밀번호를 입력하세요.");
+                        System.out.println("(뒤로 가려면 x키를 입력하세요)");
+                        System.out.print(">>>");
+                        //2단계 입력
+                        newPwInput = sc.nextLine().trim();
+                        String stringValidationResult2 = validationService.menuInputValidation(newPwInput);
+                        boolean pwValidationResult2 = validationService.pwInputValidation(newPwInput);
 
-                    if(stringValidationResult2.equals("X")){
-                        break;
-                    }
-                    if(pwValidationResult2){
-                        while(true){
-                            System.out.println("새로운 비밀번호를 다시 한번 입력하세요.");
-                            System.out.println("(뒤로 가려면 x키를 입력하세요)");
-                            System.out.print(">>>");
-                            //3단계 입력
-                            confirmPwInput = sc.nextLine().trim();
-                            String stringValidationResult3 = validationService.menuInputValidation(confirmPwInput);
-                            boolean pwValidationResult3 = validationService.pwInputValidation(confirmPwInput);
+                        if(stringValidationResult2.equals("X")){
+                            break;
+                        }
+                        if(pwValidationResult2){
+                            while(true){
+                                System.out.println("새로운 비밀번호를 다시 한번 입력하세요.");
+                                System.out.println("(뒤로 가려면 x키를 입력하세요)");
+                                System.out.print(">>>");
+                                //3단계 입력
+                                confirmPwInput = sc.nextLine().trim();
+                                String stringValidationResult3 = validationService.menuInputValidation(confirmPwInput);
+                                boolean pwValidationResult3 = validationService.pwInputValidation(confirmPwInput);
 
-                            if(stringValidationResult3.equals("X")){
-                                break;
-                            }
-                            if(pwValidationResult3){
-                                if(confirmPwInput.equals(newPwInput)){
-                                    //비밀번호 재설정
-                                    profileChangeService.changePassword(confirmPwInput);
-                                    //완료 메세지
-                                    System.out.println("비밀번호가 수정되었습니다.");
-                                    //userType에 따라 해당 mypage로 이동
-                                    if(LoginMember.getInstance().getUserType().equals("사용자")){
-                                        return new Model("/user/mypage",null);
+                                if(stringValidationResult3.equals("X")){
+                                    break;
+                                }
+                                if(pwValidationResult3){
+                                    if(confirmPwInput.equals(newPwInput)){
+                                        //비밀번호 재설정
+                                        profileChangeService.changePassword(confirmPwInput);
+                                        //완료 메세지
+                                        System.out.println("비밀번호가 수정되었습니다.");
+                                        //userType에 따라 해당 mypage로 이동
+                                        if(LoginMember.getInstance().getUserType().equals("사용자")){
+                                            return new Model("/user/mypage",null);
+                                        }else{
+                                            return new Model("/host/mypage",null);
+                                        }
                                     }else{
-                                        return new Model("/host/mypage",null);
+                                        System.out.println("2단계 비밀번호와 일치하지 않습니다.");
                                     }
                                 }else{
-                                    System.out.println("2단계 비밀번호와 일치하지 않습니다.");
+                                    System.out.println("올바르지 않은 입력입니다.");
                                 }
-                            }else{
-                                System.out.println("올바르지 않은 입력입니다.");
                             }
+                        }else{
+                            System.out.println("올바르지 않은 입력입니다.");
                         }
-                    }else{
-                        System.out.println("올바르지 않은 입력입니다.");
                     }
+                }else{
+                    //1단계 입력 오류처리
+                    System.out.println("기존 비밀번호와 일치하지 않습니다.");
                 }
+
             }else{
-                //1단계 입력 오류처리
-                System.out.println("기존 비밀번호와 일치하지 않습니다.");
+                System.out.println("올바르지 않은 입력입니다.");
             }
         }
     }

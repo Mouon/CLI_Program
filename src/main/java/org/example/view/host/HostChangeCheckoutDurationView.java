@@ -34,7 +34,6 @@ public class HostChangeCheckoutDurationView implements CustomView {
 
             if(validationService.menuInputValidation(input).equals("X")){
                 //뒤로가기
-                System.out.println("뒤로가기 실행");
                 return new Model("/host/managebook", null);
             }
 
