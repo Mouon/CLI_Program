@@ -20,6 +20,7 @@ public class HostManageSettingsView implements CustomView {
         System.out.println("===== 설정 변경 메뉴 =====");
         System.out.println("1. 블랙리스트 기간 변경");
         System.out.println("2. 도서 대출 가능 권수 변경");
+        System.out.println("(뒤로 가려면 x키를 입력하세요)");
 
         while(true){
             System.out.print(">>>");
