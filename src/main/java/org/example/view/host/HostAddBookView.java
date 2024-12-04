@@ -122,7 +122,7 @@ public class HostAddBookView implements CustomView {
                     if(validationService.authorInputValidation(dataList.get(index))==null){
                         System.out.println("올바르지 않는 입력입니다.");
                         index--;
-                        System.out.println(index);
+                        //System.out.println(index);
                         authorGenerateFlag=false;
                     }
 
@@ -251,19 +251,20 @@ public class HostAddBookView implements CustomView {
                         }
                     }
 
-                    if(index==2){
+                    if(index==2) {
                         authorsToSave.add(targetAuthor);
-                    }
 
-                    System.out.println("저자를 더 입력하겠습니까?(y/n)");
-                    String yn= sc.nextLine().trim();
-                    while(validationService.ynInputValidation(yn).equals("false")){
-                        System.out.println("옳바르지 않는 입력입니다.");
-                        yn= sc.nextLine().trim();
-                    }
 
-                    if(validationService.ynInputValidation(yn).equals("yes")){
-                        index=1;//뒤에 index++존재해서
+                        System.out.println("저자를 더 입력하겠습니까?(y/n)");
+                        String yn = sc.nextLine().trim();
+                        while (validationService.ynInputValidation(yn).equals("false")) {
+                            System.out.println("옳바르지 않는 입력입니다.");
+                            yn = sc.nextLine().trim();
+                        }
+
+                        if (validationService.ynInputValidation(yn).equals("yes")) {
+                            index = 1;//뒤에 index++존재해서
+                        }
                     }
 
                 }
