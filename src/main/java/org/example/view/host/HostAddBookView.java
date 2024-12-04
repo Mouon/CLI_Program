@@ -122,6 +122,8 @@ public class HostAddBookView implements CustomView {
                     if(validationService.authorInputValidation(dataList.get(index))==null){
                         System.out.println("올바르지 않는 입력입니다.");
                         index--;
+                        System.out.println(index);
+                        authorGenerateFlag=false;
                     }
 
                     if (xJudge.equals("x")||xJudge.equals("X")){
@@ -151,7 +153,7 @@ public class HostAddBookView implements CustomView {
                                         yn= sc.nextLine().trim();
                                     }
 
-                                    if(yn.equals("yes")){
+                                    if(validationService.ynInputValidation(yn).equals("yes")){
                                         continue;
                                     }else {
                                         index++;
@@ -229,8 +231,10 @@ public class HostAddBookView implements CustomView {
                             }
 
                         }else{
-                            targetAuthor=new Author(input,LoginMember.getLoginTime());
-                            authorGenerateFlag = true;
+                            if(index==2) {
+                                targetAuthor = new Author(input, LoginMember.getLoginTime());
+                                authorGenerateFlag = true;
+                            }
                         }
 
                     }
@@ -243,16 +247,13 @@ public class HostAddBookView implements CustomView {
                                 targetAuthor.setBirthDate(validationService.dateInputValidation(date));
                                 break;
                             }
-                            if(date.equals("x")||date.equals("X")){
-                                authorGenerateFlag = false;
-                                index--;
-                                break;
-                            }
-                            System.out.print("옳바르지 않는 입력 입니다.");
+                            System.out.print("옳바르지 않는 입력 입니다.\n");
                         }
                     }
 
-                    authorsToSave.add(targetAuthor);
+                    if(index==2){
+                        authorsToSave.add(targetAuthor);
+                    }
 
                     System.out.println("저자를 더 입력하겠습니까?(y/n)");
                     String yn= sc.nextLine().trim();
@@ -262,7 +263,7 @@ public class HostAddBookView implements CustomView {
                     }
 
                     if(validationService.ynInputValidation(yn).equals("yes")){
-                        continue;
+                        index=1;//뒤에 index++존재해서
                     }
 
                 }
